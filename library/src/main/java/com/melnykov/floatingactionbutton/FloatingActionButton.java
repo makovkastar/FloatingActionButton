@@ -8,21 +8,15 @@ import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
 import android.util.AttributeSet;
-import android.view.ViewTreeObserver;
 import android.widget.AbsListView;
 import android.widget.ImageButton;
 
 public class FloatingActionButton extends ImageButton {
 
-    private static final int STATE_ONSCREEN = 0;
-    private static final int STATE_OFFSCREEN = 1;
-
     private StateListDrawable mDrawable;
     private ObservableListView mListView;
 
     private int mScrollY;
-    private int mMinRawY;
-    private int mState = STATE_ONSCREEN;
 
     private ScrollSettleHandler mScrollSettleHandler = new ScrollSettleHandler();
 
@@ -59,13 +53,7 @@ public class FloatingActionButton extends ImageButton {
                 }
                 mScrollY = mListView.getComputedScrollY();
 
-                int translationY = 0;
-                if (scrollUp) {
-                    mState = STATE_OFFSCREEN;
-                    translationY = getTop();
-                } else {
-                    mState = STATE_ONSCREEN;
-                }
+                int translationY = scrollUp ? getTop() : 0;
                 mScrollSettleHandler.onScroll(translationY);
             }
         });
