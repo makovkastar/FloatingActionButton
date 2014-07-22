@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">FloatingActionBar</string>
-    <string name="hello_world">Hello world!</string>
-    
+    <string name="app_name">FloatingActionButton</string>
+
     <string-array name="planets">
         <item>Mercury</item>
         <item>Venus</item>
