@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="FloatingActionButton">
+        <attr name="pb_colorPressed" format="color"/>
+        <attr name="pb_colorNormal" format="color"/>
+    </declare-styleable>
+</resources>

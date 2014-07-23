@@ -2,8 +2,11 @@ package com.melnykov.floatingactionbutton;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.StateListDrawable;
+import android.graphics.drawable.shapes.OvalShape;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
@@ -22,21 +25,24 @@ public class FloatingActionButton extends ImageButton {
     private boolean isScrollComputed;
     private int mScrollY;
 
+    private int mColorNormal;
+    private int mColorPressed;
+
     private ScrollSettleHandler mScrollSettleHandler = new ScrollSettleHandler();
 
     public FloatingActionButton(Context context) {
         super(context);
-        init();
+        init(context, null);
     }
 
     public FloatingActionButton(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init();
+        init(context, attrs);
     }
 
     public FloatingActionButton(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        init();
+        init(context, attrs);
     }
 
     @Override
@@ -46,56 +52,35 @@ public class FloatingActionButton extends ImageButton {
         setMeasuredDimension(size, size);
     }
 
-    public void attachToListView(AbsListView listView) {
-        mListView = listView;
-        mListView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                computeListViewScrollY();
-            }
-        });
-        mListView.setOnScrollListener(new AbsListView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(AbsListView view, int scrollState) {
-            }
-
-            @Override
-            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                if (getListViewScrollY() == mScrollY) {
-                    return;
-                }
-
-                int translationY;
-                if (getListViewScrollY() > mScrollY) {
-                    // Scrolling up
-                    translationY = getTop();
-                } else {
-                    // Scrolling down
-                    translationY = 0;
-                }
-                mScrollY = getListViewScrollY();
-                mScrollSettleHandler.onScroll(translationY);
-            }
-        });
-    }
-
-    private void init() {
+    private void init(Context context, AttributeSet attributeSet) {
+        mColorNormal = getColor(android.R.color.holo_blue_dark);
+        mColorPressed = getColor(android.R.color.holo_blue_light);
+        if (attributeSet != null) {
+            initAttributes(context, attributeSet);
+        }
         mDrawable = new StateListDrawable();
-        mDrawable.addState(new int[]{android.R.attr.state_pressed}, createPressedDrawable());
-        mDrawable.addState(new int[] {}, createNormalDrawable());
+        mDrawable.addState(new int[] {android.R.attr.state_pressed}, createDrawable(mColorPressed));
+        mDrawable.addState(new int[] {}, createDrawable(mColorNormal));
         setBackgroundCompat(mDrawable);
     }
 
-    private Drawable createNormalDrawable() {
-        return getDrawable(R.drawable.fab);
+    private void initAttributes(Context context, AttributeSet attributeSet) {
+        TypedArray attr = getTypedArray(context, attributeSet, R.styleable.FloatingActionButton);
+        if (attr != null) {
+            try {
+                mColorNormal = attr.getColor(R.styleable.FloatingActionButton_pb_colorNormal, getColor(android.R.color.holo_blue_dark));
+                mColorPressed = attr.getColor(R.styleable.FloatingActionButton_pb_colorPressed, getColor(android.R.color.holo_blue_light));
+            } finally {
+                attr.recycle();
+            }
+        }
     }
 
-    private Drawable createPressedDrawable() {
-        return getDrawable(R.drawable.fab_pressed);
-    }
-
-    private Drawable getDrawable(int id) {
-        return getResources().getDrawable(id);
+    private Drawable createDrawable(int color) {
+        OvalShape ovalShape = new OvalShape();
+        ShapeDrawable shapeDrawable = new ShapeDrawable(ovalShape);
+        shapeDrawable.getPaint().setColor(color);
+        return shapeDrawable;
     }
 
     @SuppressWarnings("deprecation")
@@ -149,5 +134,46 @@ public class FloatingActionButton extends ImageButton {
         public void handleMessage(Message msg) {
             animate().setDuration(TRANSLATE_DURATION_MILLIS).translationY(mSettledScrollY);
         }
+    }
+
+    protected int getColor(int id) {
+        return getResources().getColor(id);
+    }
+
+    protected TypedArray getTypedArray(Context context, AttributeSet attributeSet, int[] attr) {
+        return context.obtainStyledAttributes(attributeSet, attr, 0, 0);
+    }
+
+    public void attachToListView(AbsListView listView) {
+        mListView = listView;
+        mListView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                computeListViewScrollY();
+            }
+        });
+        mListView.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                if (getListViewScrollY() == mScrollY) {
+                    return;
+                }
+
+                int translationY;
+                if (getListViewScrollY() > mScrollY) {
+                    // Scrolling up
+                    translationY = getTop();
+                } else {
+                    // Scrolling down
+                    translationY = 0;
+                }
+                mScrollY = getListViewScrollY();
+                mScrollSettleHandler.onScroll(translationY);
+            }
+        });
     }
 }
