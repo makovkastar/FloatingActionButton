@@ -8,7 +8,7 @@ Android [Google+] like floating action button which reacts on the list view scro
 
 ### Integration
 
-1) Clone this repo, copy to your Gradle project and reference it in your ``build.gradle``:
+1) Clone this repo, copy it to your Gradle project and add as a dependency to your ``build.gradle``:
 
 ```groovy
 dependencies {
