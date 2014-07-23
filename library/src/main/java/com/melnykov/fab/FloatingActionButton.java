@@ -7,9 +7,7 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.StateListDrawable;
 import android.graphics.drawable.shapes.OvalShape;
-import android.os.Build;
-import android.os.Handler;
-import android.os.Message;
+import android.os.*;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewTreeObserver;
@@ -51,6 +49,28 @@ public class FloatingActionButton extends ImageButton {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         int size = (int) getResources().getDimension(R.dimen.fab_size);
         setMeasuredDimension(size, size);
+    }
+
+    @Override
+    public Parcelable onSaveInstanceState() {
+        Parcelable superState = super.onSaveInstanceState();
+        SavedState savedState = new SavedState(superState);
+        savedState.mScrollY = mScrollY;
+        savedState.mTranslationY = getTranslationY();
+
+        return savedState;
+    }
+
+    @Override
+    public void onRestoreInstanceState(Parcelable state) {
+        if (state instanceof SavedState) {
+            SavedState savedState = (SavedState) state;
+            mScrollY = savedState.mScrollY;
+            setTranslationY(savedState.mTranslationY);
+            super.onRestoreInstanceState(savedState.getSuperState());
+        } else {
+            super.onRestoreInstanceState(state);
+        }
     }
 
     private void init(Context context, AttributeSet attributeSet) {
@@ -198,5 +218,45 @@ public class FloatingActionButton extends ImageButton {
                 mScrollSettleHandler.onScroll(translationY);
             }
         });
+    }
+
+    /**
+     * A {@link android.os.Parcelable} representing the {@link com.melnykov.fab.FloatingActionButton}'s
+     * state.
+     */
+    public static class SavedState extends BaseSavedState {
+
+        private int mScrollY;
+        private float mTranslationY;
+
+        public SavedState(Parcelable parcel) {
+            super(parcel);
+        }
+
+        private SavedState(Parcel in) {
+            super(in);
+            mScrollY = in.readInt();
+            mTranslationY = in.readFloat();
+        }
+
+        @Override
+        public void writeToParcel(Parcel out, int flags) {
+            super.writeToParcel(out, flags);
+            out.writeInt(mScrollY);
+            out.writeFloat(mTranslationY);
+        }
+
+        public static final Creator<SavedState> CREATOR = new Creator<SavedState>() {
+
+            @Override
+            public SavedState createFromParcel(Parcel in) {
+                return new SavedState(in);
+            }
+
+            @Override
+            public SavedState[] newArray(int size) {
+                return new SavedState[size];
+            }
+        };
     }
 }
