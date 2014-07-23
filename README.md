@@ -5,6 +5,7 @@ FloatingActionButton
 
 Android [Google+] like floating action button which reacts on the list view scrolling events. Becomes visible when the list view is scrolled up and invisible when scrolled down.
 
+![Demo](art/demo.gif)
 
 ### Integration
 
@@ -50,6 +51,7 @@ ListView listView = (ListView) findViewById(android.R.id.list);
 FloatingActionButton floatingActionButton = (FloatingActionButton) findViewById(R.id.button_floating_action);
 floatingActionButton.attachToListView(listView);
 ```
+``FloatingActionButton`` extends ``android.widget.ImageButton`` so it has all methods the latter has.
 
 4) Add the namespace ``xmlns:fab="http://schemas.android.com/apk/res-auto"`` to your layout file and set the normal and pressed colors via xml attributes:
 
@@ -60,6 +62,31 @@ fab:colorPressed="@android:color/holo_red_light"
 
 5) Set an icon for the ``FloatingActionButton`` using ``android:src`` xml attribute. Use drawables of size ``24dp`` as specified by the [guidlines]. Icons of desired size can be generated with [Android Asset Studio].
 
+====================
+
+```
+The MIT License (MIT)
+
+Copyright (c) 2014 Oleksandr Melnykov
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+```
 
 [Google+]:https://play.google.com/store/apps/details?id=com.google.android.apps.plus
 [guidlines]:http://www.google.com/design/spec/patterns/promoted-actions.html#promoted-actions-floating-action-button
