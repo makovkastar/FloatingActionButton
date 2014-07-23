@@ -51,6 +51,7 @@ ListView listView = (ListView) findViewById(android.R.id.list);
 FloatingActionButton floatingActionButton = (FloatingActionButton) findViewById(R.id.button_floating_action);
 floatingActionButton.attachToListView(listView);
 ```
+``FloatingActionButton`` extends ``android.widget.ImageButton`` so it has all methods the latter has.
 
 4) Add the namespace ``xmlns:fab="http://schemas.android.com/apk/res-auto"`` to your layout file and set the normal and pressed colors via xml attributes:
 
