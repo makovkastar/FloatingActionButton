@@ -12,7 +12,6 @@ import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.AbsListView;
 import android.widget.ImageButton;
-import android.widget.ListView;
 
 public class FloatingActionButton extends ImageButton {
 
@@ -38,6 +37,13 @@ public class FloatingActionButton extends ImageButton {
     public FloatingActionButton(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         init();
+    }
+
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        int size = (int) getResources().getDimension(R.dimen.floating_action_button);
+        setMeasuredDimension(size, size);
     }
 
     public void attachToListView(AbsListView listView) {
