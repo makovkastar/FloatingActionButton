@@ -15,6 +15,11 @@ import android.widget.AbsListView;
 import android.widget.ImageButton;
 import com.melnykov.floatingactionbutton.R;
 
+/**
+ * Android L-styled floating action button which reacts on the attached list view scrolling events.
+ * @author Oleksandr Melnykov
+ *
+ */
 public class FloatingActionButton extends ImageButton {
 
     private StateListDrawable mDrawable;
