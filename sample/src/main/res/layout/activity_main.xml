@@ -11,8 +11,8 @@
 
     <com.melnykov.floatingactionbutton.FloatingActionButton
             android:id="@+id/button_floating_action"
-            android:layout_width="@dimen/floating_button"
-            android:layout_height="@dimen/floating_button"
+            android:layout_width="@dimen/floating_action_button"
+            android:layout_height="@dimen/floating_action_button"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
             android:layout_margin="32dp"
