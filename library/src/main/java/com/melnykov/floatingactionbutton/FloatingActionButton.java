@@ -42,7 +42,7 @@ public class FloatingActionButton extends ImageButton {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        int size = (int) getResources().getDimension(R.dimen.floating_action_button);
+        int size = (int) getResources().getDimension(R.dimen.fab_size);
         setMeasuredDimension(size, size);
     }
 
@@ -87,11 +87,11 @@ public class FloatingActionButton extends ImageButton {
     }
 
     private Drawable createNormalDrawable() {
-        return getDrawable(R.drawable.floating_action_button);
+        return getDrawable(R.drawable.fab);
     }
 
     private Drawable createPressedDrawable() {
-        return getDrawable(R.drawable.floating_action_button_pressed);
+        return getDrawable(R.drawable.fab_pressed);
     }
 
     private Drawable getDrawable(int id) {
