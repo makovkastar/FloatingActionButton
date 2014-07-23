@@ -8,7 +8,16 @@ Android [Google+] like floating action button which reacts on the list view scro
 
 ### Integration
 
-1) Add the ``com.melnykov.fab.FloatingActionButton`` to your layout XML file. The button should be placed in the bottom right corner of the screen. The width and height of the floating action button are hardcoded to ``56dp`` as specified in the [guidlines].
+1) Clone this repo, copy to your Gradle project and reference it in your ``build.gradle``:
+
+```groovy
+dependencies {
+    ...
+    compile project(':FloatingActionButton:library')
+}
+```
+
+2) Add the ``com.melnykov.fab.FloatingActionButton`` to your layout XML file. The button should be placed in the bottom right corner of the screen. The width and height of the floating action button are hardcoded to ``56dp`` as specified in the [guidlines].
 
 ```xml
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -34,7 +43,7 @@ Android [Google+] like floating action button which reacts on the list view scro
 ```
 
 
-2) Attach the list view to the button in the Java code:
+3) Attach the list view to the button in the Java code:
 
 ```java
 ListView listView = (ListView) findViewById(android.R.id.list);
@@ -42,14 +51,14 @@ FloatingActionButton floatingActionButton = (FloatingActionButton) findViewById(
 floatingActionButton.attachToListView(listView);
 ```
 
-3) Add the namespace ``xmlns:fab="http://schemas.android.com/apk/res-auto"`` to your layout file and set the normal and pressed colors via xml attributes:
+4) Add the namespace ``xmlns:fab="http://schemas.android.com/apk/res-auto"`` to your layout file and set the normal and pressed colors via xml attributes:
 
 ```xml
 fab:colorNormal="@android:color/holo_red_dark"
 fab:colorPressed="@android:color/holo_red_light"
 ```
 
-4) Set an icon for the ``FloatingActionButton`` using ``android:src`` xml attribute. Use drawables of size ``24dp`` as specified by the [guidlines]. Icons of desired size can be generated with [Android Asset Studio].
+5) Set an icon for the ``FloatingActionButton`` using ``android:src`` xml attribute. Use drawables of size ``24dp`` as specified by the [guidlines]. Icons of desired size can be generated with [Android Asset Studio].
 
 
 [Google+]:https://play.google.com/store/apps/details?id=com.google.android.apps.plus
