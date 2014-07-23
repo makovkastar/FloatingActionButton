@@ -3,7 +3,7 @@ FloatingActionButton
 
 ### Description
 
-Android Google+ like floating action button which reacts on the list view scrolling events. Becomes visible when the list view is scrolled up and invisible when scrolled down.
+Android [Google+] like floating action button which reacts on the list view scrolling events. Becomes visible when the list view is scrolled up and invisible when scrolled down.
 
 
 ### Integration
@@ -52,6 +52,6 @@ fab:colorPressed="@android:color/holo_red_light"
 4) Set an icon for the ``FloatingActionButton`` using ``android:src`` xml attribute. Use drawables of size ``24dp`` as specified by the [guidlines]. Icons of desired size can be generated with [Android Asset Studio].
 
 
-
+[Google+]:https://play.google.com/store/apps/details?id=com.google.android.apps.plus
 [guidlines]:http://www.google.com/design/spec/patterns/promoted-actions.html#promoted-actions-floating-action-button
 [Android Asset Studio]:http://romannurik.github.io/AndroidAssetStudio/icons-generic.html
