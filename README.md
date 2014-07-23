@@ -56,7 +56,9 @@ floatingActionButton.setColorNormal();
 floatingActionButton.setColorPressed();
 ```
 
+4) Set an icon for the ``FloatingActionButton`` using ``android:src`` xml attribute. Use drawables of size ``24dp`` as specified by the [guidlines]. Icons of desired size can be generated with [Android Asset Studio].
 
 
 
 [guidlines]:http://www.google.com/design/spec/patterns/promoted-actions.html#promoted-actions-floating-action-button
+[Android Asset Studio]:http://romannurik.github.io/AndroidAssetStudio/icons-generic.html
