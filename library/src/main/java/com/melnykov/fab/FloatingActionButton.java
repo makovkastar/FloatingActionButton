@@ -88,6 +88,14 @@ public class FloatingActionButton extends ImageButton {
         return shapeDrawable;
     }
 
+    private TypedArray getTypedArray(Context context, AttributeSet attributeSet, int[] attr) {
+        return context.obtainStyledAttributes(attributeSet, attr, 0, 0);
+    }
+
+    private int getColor(int id) {
+        return getResources().getColor(id);
+    }
+
     @SuppressWarnings("deprecation")
     @SuppressLint("NewApi")
     private void setBackgroundCompat(Drawable drawable) {
@@ -139,14 +147,6 @@ public class FloatingActionButton extends ImageButton {
         public void handleMessage(Message msg) {
             animate().setDuration(TRANSLATE_DURATION_MILLIS).translationY(mSettledScrollY);
         }
-    }
-
-    protected int getColor(int id) {
-        return getResources().getColor(id);
-    }
-
-    protected TypedArray getTypedArray(Context context, AttributeSet attributeSet, int[] attr) {
-        return context.obtainStyledAttributes(attributeSet, attr, 0, 0);
     }
 
     public void setColorNormal(int color) {
