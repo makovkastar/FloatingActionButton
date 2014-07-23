@@ -4,7 +4,7 @@
              android:layout_height="match_parent"
              tools:context="com.melnykov.floatingactionbutton.sample.MainActivity">
 
-    <com.melnykov.floatingactionbutton.ObservableListView
+    <ListView
             android:id="@android:id/list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
