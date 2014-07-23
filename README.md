@@ -42,18 +42,11 @@ FloatingActionButton floatingActionButton = (FloatingActionButton) findViewById(
 floatingActionButton.attachToListView(listView);
 ```
 
-3) Set the normal and pressed colors via xml attributes or via Java code:
+3) Add the namespace ``xmlns:fab="http://schemas.android.com/apk/res-auto"`` to your layout file and set the normal and pressed colors via xml attributes:
 
 ```xml
 fab:colorNormal="@android:color/holo_red_dark"
 fab:colorPressed="@android:color/holo_red_light"
-```
-
-or
-
-```java
-floatingActionButton.setColorNormal();
-floatingActionButton.setColorPressed();
 ```
 
 4) Set an icon for the ``FloatingActionButton`` using ``android:src`` xml attribute. Use drawables of size ``24dp`` as specified by the [guidlines]. Icons of desired size can be generated with [Android Asset Studio].
