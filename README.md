@@ -8,9 +8,9 @@ Android Google+ like floating action button which reacts on the list view scroll
 
 ### Integration
 
-Add the ``com.melnykov.fab.FloatingActionButton`` to your layout XML file. The button should be placed in the bottom right corner of the screen. The width and height of the floating action button are hardcoded to ``56dp`` as specified in the [guidlines].
+1. Add the ``com.melnykov.fab.FloatingActionButton`` to your layout XML file. The button should be placed in the bottom right corner of the screen. The width and height of the floating action button are hardcoded to ``56dp`` as specified in the [guidlines].
 
-```
+```xml
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
              xmlns:fab="http://schemas.android.com/apk/res-auto"
              android:layout_width="match_parent"
@@ -31,6 +31,14 @@ Add the ``com.melnykov.fab.FloatingActionButton`` to your layout XML file. The b
             fab:colorNormal="@android:color/holo_red_dark"
             fab:colorPressed="@android:color/holo_red_light"/>
 </FrameLayout>
+```
+
+2. Attach the list view to the button in the Java code:
+
+```java
+ListView listView = (ListView) findViewById(android.R.id.list);
+FloatingActionButton floatingActionButton = (FloatingActionButton) findViewById(R.id.button_floating_action);
+floatingActionButton.attachToListView(listView);
 ```
 
 [guidlines]:http://www.google.com/design/spec/patterns/promoted-actions.html#promoted-actions-floating-action-button
