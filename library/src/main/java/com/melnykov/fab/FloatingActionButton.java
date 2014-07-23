@@ -1,4 +1,4 @@
-package com.melnykov.floatingactionbutton;
+package com.melnykov.fab;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.AbsListView;
 import android.widget.ImageButton;
+import com.melnykov.floatingactionbutton.R;
 
 public class FloatingActionButton extends ImageButton {
 
@@ -58,10 +59,7 @@ public class FloatingActionButton extends ImageButton {
         if (attributeSet != null) {
             initAttributes(context, attributeSet);
         }
-        mDrawable = new StateListDrawable();
-        mDrawable.addState(new int[] {android.R.attr.state_pressed}, createDrawable(mColorPressed));
-        mDrawable.addState(new int[] {}, createDrawable(mColorNormal));
-        setBackgroundCompat(mDrawable);
+        updateBackground();
     }
 
     private void initAttributes(Context context, AttributeSet attributeSet) {
@@ -74,6 +72,13 @@ public class FloatingActionButton extends ImageButton {
                 attr.recycle();
             }
         }
+    }
+
+    private void updateBackground() {
+        mDrawable = new StateListDrawable();
+        mDrawable.addState(new int[] {android.R.attr.state_pressed}, createDrawable(mColorPressed));
+        mDrawable.addState(new int[] {}, createDrawable(mColorNormal));
+        setBackgroundCompat(mDrawable);
     }
 
     private Drawable createDrawable(int color) {
@@ -142,6 +147,24 @@ public class FloatingActionButton extends ImageButton {
 
     protected TypedArray getTypedArray(Context context, AttributeSet attributeSet, int[] attr) {
         return context.obtainStyledAttributes(attributeSet, attr, 0, 0);
+    }
+
+    public void setColorNormal(int color) {
+        mColorNormal = color;
+        updateBackground();
+    }
+
+    public int getColorNormal() {
+        return mColorNormal;
+    }
+
+    public void setColorPressed(int color) {
+        mColorPressed = color;
+        updateBackground();
+    }
+
+    public int getColorPressed() {
+        return mColorPressed;
     }
 
     public void attachToListView(AbsListView listView) {

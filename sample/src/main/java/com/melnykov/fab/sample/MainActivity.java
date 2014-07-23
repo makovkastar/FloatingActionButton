@@ -1,11 +1,12 @@
-package com.melnykov.floatingactionbutton.sample;
+package com.melnykov.fab.sample;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
-import com.melnykov.floatingactionbutton.FloatingActionButton;
+import com.melnykov.fab.FloatingActionButton;
+import com.melnykov.floatingactionbutton.sample.R;
 
 
 public class MainActivity extends Activity {
