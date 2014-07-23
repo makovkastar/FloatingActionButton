@@ -56,7 +56,6 @@ public class FloatingActionButton extends ImageButton {
         Parcelable superState = super.onSaveInstanceState();
         SavedState savedState = new SavedState(superState);
         savedState.mScrollY = mScrollY;
-        savedState.mTranslationY = getTranslationY();
 
         return savedState;
     }
@@ -66,7 +65,6 @@ public class FloatingActionButton extends ImageButton {
         if (state instanceof SavedState) {
             SavedState savedState = (SavedState) state;
             mScrollY = savedState.mScrollY;
-            setTranslationY(savedState.mTranslationY);
             super.onRestoreInstanceState(savedState.getSuperState());
         } else {
             super.onRestoreInstanceState(state);
@@ -202,7 +200,7 @@ public class FloatingActionButton extends ImageButton {
 
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                if (getListViewScrollY() == mScrollY) {
+                if (!isScrollComputed || getListViewScrollY() == mScrollY) {
                     return;
                 }
 
@@ -227,7 +225,6 @@ public class FloatingActionButton extends ImageButton {
     public static class SavedState extends BaseSavedState {
 
         private int mScrollY;
-        private float mTranslationY;
 
         public SavedState(Parcelable parcel) {
             super(parcel);
@@ -236,14 +233,12 @@ public class FloatingActionButton extends ImageButton {
         private SavedState(Parcel in) {
             super(in);
             mScrollY = in.readInt();
-            mTranslationY = in.readFloat();
         }
 
         @Override
         public void writeToParcel(Parcel out, int flags) {
             super.writeToParcel(out, flags);
             out.writeInt(mScrollY);
-            out.writeFloat(mTranslationY);
         }
 
         public static final Creator<SavedState> CREATOR = new Creator<SavedState>() {
