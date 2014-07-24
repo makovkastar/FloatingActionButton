@@ -39,8 +39,7 @@ dependencies {
             android:layout_margin="32dp"
             android:src="@drawable/ic_action_content_new"
             fab:fab_colorNormal="@android:color/holo_red_dark"
-            fab:fab_colorPressed="@android:color/holo_red_light"
-            fab:fab_shadow="true"/>
+            fab:fab_colorPressed="@android:color/holo_red_light"/>
 </FrameLayout>
 ```
 
