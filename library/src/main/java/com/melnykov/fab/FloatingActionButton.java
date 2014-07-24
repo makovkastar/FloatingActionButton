@@ -96,9 +96,9 @@ public class FloatingActionButton extends ImageButton {
         TypedArray attr = getTypedArray(context, attributeSet, R.styleable.FloatingActionButton);
         if (attr != null) {
             try {
-                mColorNormal = attr.getColor(R.styleable.FloatingActionButton_colorNormal, getColor(android.R.color.holo_blue_dark));
-                mColorPressed = attr.getColor(R.styleable.FloatingActionButton_colorPressed, getColor(android.R.color.holo_blue_light));
-                mShadow = attr.getBoolean(R.styleable.FloatingActionButton_shadow, false);
+                mColorNormal = attr.getColor(R.styleable.FloatingActionButton_fab_colorNormal, getColor(android.R.color.holo_blue_dark));
+                mColorPressed = attr.getColor(R.styleable.FloatingActionButton_fab_colorPressed, getColor(android.R.color.holo_blue_light));
+                mShadow = attr.getBoolean(R.styleable.FloatingActionButton_fab_shadow, false);
             } finally {
                 attr.recycle();
             }
