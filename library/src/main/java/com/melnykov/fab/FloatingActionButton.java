@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.LayerDrawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.StateListDrawable;
 import android.graphics.drawable.shapes.OvalShape;
@@ -52,8 +53,9 @@ public class FloatingActionButton extends ImageButton {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        int size = (int) getResources().getDimension(R.dimen.fab_size);
-        setMeasuredDimension(size, size);
+        int size = getDimension(R.dimen.fab_size);
+        int shadowSize = getDimension(R.dimen.fab_shadow_size);
+        setMeasuredDimension(size + shadowSize * 2, size + shadowSize * 2);
     }
 
     @Override
@@ -105,10 +107,16 @@ public class FloatingActionButton extends ImageButton {
     }
 
     private Drawable createDrawable(int color) {
+
         OvalShape ovalShape = new OvalShape();
         ShapeDrawable shapeDrawable = new ShapeDrawable(ovalShape);
         shapeDrawable.getPaint().setColor(color);
-        return shapeDrawable;
+
+        LayerDrawable layerDrawable = new LayerDrawable(new Drawable[] {getResources().getDrawable(R.drawable.shadow),
+                shapeDrawable});
+        int shadowSize = getDimension(R.dimen.fab_shadow_size);
+        layerDrawable.setLayerInset(1, shadowSize, shadowSize, shadowSize, shadowSize);
+        return layerDrawable;
     }
 
     private TypedArray getTypedArray(Context context, AttributeSet attributeSet, int[] attr) {
@@ -117,6 +125,10 @@ public class FloatingActionButton extends ImageButton {
 
     private int getColor(int id) {
         return getResources().getColor(id);
+    }
+
+    private int getDimension(int id) {
+        return getResources().getDimensionPixelSize(id);
     }
 
     @SuppressWarnings("deprecation")
