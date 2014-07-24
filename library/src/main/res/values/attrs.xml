@@ -3,5 +3,6 @@
     <declare-styleable name="FloatingActionButton">
         <attr name="colorPressed" format="color"/>
         <attr name="colorNormal" format="color"/>
+        <attr name="shadow" format="boolean"/>
     </declare-styleable>
 </resources>

@@ -32,6 +32,7 @@ public class FloatingActionButton extends ImageButton {
 
     private int mColorNormal;
     private int mColorPressed;
+    private boolean mShadow;
 
     private ScrollSettleHandler mScrollSettleHandler = new ScrollSettleHandler();
 
@@ -54,8 +55,11 @@ public class FloatingActionButton extends ImageButton {
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         int size = getDimension(R.dimen.fab_size);
-        int shadowSize = getDimension(R.dimen.fab_shadow_size);
-        setMeasuredDimension(size + shadowSize * 2, size + shadowSize * 2);
+        if (mShadow) {
+            int shadowSize = getDimension(R.dimen.fab_shadow_size);
+            size += shadowSize * 2;
+        }
+        setMeasuredDimension(size, size);
     }
 
     @Override
@@ -81,6 +85,7 @@ public class FloatingActionButton extends ImageButton {
     private void init(Context context, AttributeSet attributeSet) {
         mColorNormal = getColor(android.R.color.holo_blue_dark);
         mColorPressed = getColor(android.R.color.holo_blue_light);
+        mShadow = false;
         if (attributeSet != null) {
             initAttributes(context, attributeSet);
         }
@@ -93,6 +98,7 @@ public class FloatingActionButton extends ImageButton {
             try {
                 mColorNormal = attr.getColor(R.styleable.FloatingActionButton_colorNormal, getColor(android.R.color.holo_blue_dark));
                 mColorPressed = attr.getColor(R.styleable.FloatingActionButton_colorPressed, getColor(android.R.color.holo_blue_light));
+                mShadow = attr.getBoolean(R.styleable.FloatingActionButton_shadow, false);
             } finally {
                 attr.recycle();
             }
@@ -112,11 +118,15 @@ public class FloatingActionButton extends ImageButton {
         ShapeDrawable shapeDrawable = new ShapeDrawable(ovalShape);
         shapeDrawable.getPaint().setColor(color);
 
-        LayerDrawable layerDrawable = new LayerDrawable(new Drawable[] {getResources().getDrawable(R.drawable.shadow),
-                shapeDrawable});
-        int shadowSize = getDimension(R.dimen.fab_shadow_size);
-        layerDrawable.setLayerInset(1, shadowSize, shadowSize, shadowSize, shadowSize);
-        return layerDrawable;
+        if (mShadow) {
+            LayerDrawable layerDrawable = new LayerDrawable(new Drawable[] {getResources().getDrawable(R.drawable.shadow),
+                    shapeDrawable});
+            int shadowSize = getDimension(R.dimen.fab_shadow_size);
+            layerDrawable.setLayerInset(1, shadowSize, shadowSize, shadowSize, shadowSize);
+            return layerDrawable;
+        } else {
+            return shapeDrawable;
+        }
     }
 
     private TypedArray getTypedArray(Context context, AttributeSet attributeSet, int[] attr) {
