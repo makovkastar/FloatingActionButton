@@ -60,7 +60,7 @@ fab:fab_colorNormal="@android:color/holo_red_dark"
 fab:fab_colorPressed="@android:color/holo_red_light"
 ```
 
-You can also enable/disable a button shadow with ``fab:fab_shadow`` xml attribite (by default it's enabled):
+You can also enable/disable the button shadow with the ``fab:fab_shadow`` xml attribite (by default it's enabled):
 
 ```xml
 fab:fab_shadow="false"
