@@ -38,9 +38,9 @@ dependencies {
             android:layout_gravity="bottom|right"
             android:layout_margin="32dp"
             android:src="@drawable/ic_action_content_new"
-            fab:colorNormal="@android:color/holo_red_dark"
-            fab:colorPressed="@android:color/holo_red_light"
-            fab:shadow="true"/>
+            fab:fab_colorNormal="@android:color/holo_red_dark"
+            fab:fab_colorPressed="@android:color/holo_red_light"
+            fab:fab_shadow="true"/>
 </FrameLayout>
 ```
 
@@ -57,14 +57,14 @@ floatingActionButton.attachToListView(listView);
 **4)** Add the namespace ``xmlns:fab="http://schemas.android.com/apk/res-auto"`` to your layout file and set the normal and pressed colors via xml attributes:
 
 ```xml
-fab:colorNormal="@android:color/holo_red_dark"
-fab:colorPressed="@android:color/holo_red_light"
+fab:fab_colorNormal="@android:color/holo_red_dark"
+fab:fab_colorPressed="@android:color/holo_red_light"
 ```
 
 You can also enable/disable a button shadow with ``fab:shadow`` xml attribite (by default it's disabled):
 
 ```xml
-fab:shadow="true"
+fab:fab_shadow="true"
 ```
 
 **5)** Set an icon for the ``FloatingActionButton`` using ``android:src`` xml attribute. Use drawables of size **24dp** as specified by the [guidlines]. Icons of desired size can be generated with [Android Asset Studio].
