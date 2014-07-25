@@ -85,7 +85,7 @@ public class FloatingActionButton extends ImageButton {
     private void init(Context context, AttributeSet attributeSet) {
         mColorNormal = getColor(android.R.color.holo_blue_dark);
         mColorPressed = getColor(android.R.color.holo_blue_light);
-        mShadow = false;
+        mShadow = true;
         if (attributeSet != null) {
             initAttributes(context, attributeSet);
         }
@@ -98,7 +98,7 @@ public class FloatingActionButton extends ImageButton {
             try {
                 mColorNormal = attr.getColor(R.styleable.FloatingActionButton_fab_colorNormal, getColor(android.R.color.holo_blue_dark));
                 mColorPressed = attr.getColor(R.styleable.FloatingActionButton_fab_colorPressed, getColor(android.R.color.holo_blue_light));
-                mShadow = attr.getBoolean(R.styleable.FloatingActionButton_fab_shadow, false);
+                mShadow = attr.getBoolean(R.styleable.FloatingActionButton_fab_shadow, true);
             } finally {
                 attr.recycle();
             }

@@ -39,8 +39,7 @@ dependencies {
             android:layout_margin="32dp"
             android:src="@drawable/ic_action_content_new"
             fab:fab_colorNormal="@android:color/holo_red_dark"
-            fab:fab_colorPressed="@android:color/holo_red_light"
-            fab:fab_shadow="true"/>
+            fab:fab_colorPressed="@android:color/holo_red_light"/>
 </FrameLayout>
 ```
 
@@ -61,10 +60,10 @@ fab:fab_colorNormal="@android:color/holo_red_dark"
 fab:fab_colorPressed="@android:color/holo_red_light"
 ```
 
-You can also enable/disable a button shadow with ``fab:shadow`` xml attribite (by default it's disabled):
+You can also enable/disable the button shadow with the ``fab:fab_shadow`` xml attribite (by default it's enabled):
 
 ```xml
-fab:fab_shadow="true"
+fab:fab_shadow="false"
 ```
 
 **5)** Set an icon for the ``FloatingActionButton`` using ``android:src`` xml attribute. Use drawables of size **24dp** as specified by the [guidlines]. Icons of desired size can be generated with [Android Asset Studio].
