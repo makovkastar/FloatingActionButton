@@ -155,9 +155,7 @@ public class FloatingActionButton extends ImageButton {
         if (mListView.getAdapter() != null && mListView.getAdapter().getCount() > 0) {
             int height = 0;
             int itemCount = mListView.getAdapter().getCount();
-            if (mListViewItemOffsetY == null) {
-                mListViewItemOffsetY = new int[itemCount];
-            }
+            mListViewItemOffsetY = new int[itemCount];
             for (int i = 0; i < itemCount; ++i) {
                 View view = mListView.getAdapter().getView(i, null, mListView);
                 view.measure(
