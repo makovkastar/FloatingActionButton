@@ -17,7 +17,8 @@ import android.widget.ImageButton;
 import com.melnykov.floatingactionbutton.R;
 
 /**
- * Android L-styled floating action button which reacts on the attached list view scrolling events.
+ * Android Google+ like floating action button which reacts on the attached list view scrolling events.
+ *
  * @author Oleksandr Melnykov
  *
  */
@@ -113,7 +114,6 @@ public class FloatingActionButton extends ImageButton {
     }
 
     private Drawable createDrawable(int color) {
-
         OvalShape ovalShape = new OvalShape();
         ShapeDrawable shapeDrawable = new ShapeDrawable(ovalShape);
         shapeDrawable.getPaint().setColor(color);
@@ -197,8 +197,10 @@ public class FloatingActionButton extends ImageButton {
     }
 
     public void setColorNormal(int color) {
-        mColorNormal = color;
-        updateBackground();
+        if (color != mColorNormal) {
+            mColorNormal = color;
+            updateBackground();
+        }
     }
 
     public int getColorNormal() {
@@ -206,8 +208,21 @@ public class FloatingActionButton extends ImageButton {
     }
 
     public void setColorPressed(int color) {
-        mColorPressed = color;
-        updateBackground();
+        if (color != mColorPressed) {
+            mColorPressed = color;
+            updateBackground();
+        }
+    }
+
+    public void setShadow(boolean shadow) {
+        if (shadow != mShadow) {
+            mShadow = shadow;
+            updateBackground();
+        }
+    }
+
+    public boolean hasShadow() {
+        return mShadow;
     }
 
     public int getColorPressed() {

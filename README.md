@@ -60,15 +60,28 @@ fab:fab_colorNormal="@android:color/holo_red_dark"
 fab:fab_colorPressed="@android:color/holo_red_light"
 ```
 
-You can also enable/disable the button shadow with the ``fab:fab_shadow`` xml attribite (by default it's enabled):
+or in Java code:
+
+```java
+floatingActionButton.setColorNormal(getResources().getColor(android.R.color.holo_red_dark));
+floatingActionButton.setColorPressed(getResources().getColor(android.R.color.holo_red_light));
+```
+
+You can also enable/disable the button shadow with the ``fab:fab_shadow`` xml attribite (it's enabled by default):
 
 ```xml
 fab:fab_shadow="false"
 ```
 
+or in Java code:
+
+```java
+floatingActionButton.setShadow(false);
+```
+
 **5)** Set an icon for the ``FloatingActionButton`` using ``android:src`` xml attribute. Use drawables of size **24dp** as specified by the [guidlines]. Icons of desired size can be generated with [Android Asset Studio].
 
-====================
+### License
 
 ```
 The MIT License (MIT)
