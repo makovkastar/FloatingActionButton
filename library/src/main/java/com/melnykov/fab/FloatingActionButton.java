@@ -10,6 +10,7 @@ import android.graphics.drawable.StateListDrawable;
 import android.graphics.drawable.shapes.OvalShape;
 import android.os.*;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.AbsListView;
@@ -28,6 +29,7 @@ public class FloatingActionButton extends ImageButton {
     private AbsListView mListView;
 
     private int mScrollY;
+    private boolean mVisible;
 
     private int mColorNormal;
     private int mColorPressed;
@@ -82,6 +84,7 @@ public class FloatingActionButton extends ImageButton {
     }
 
     private void init(Context context, AttributeSet attributeSet) {
+        mVisible = true;
         mColorNormal = getColor(android.R.color.holo_blue_dark);
         mColorPressed = getColor(android.R.color.holo_blue_light);
         mShadow = true;
@@ -223,16 +226,16 @@ public class FloatingActionButton extends ImageButton {
                     return;
                 }
 
-                int translationY;
-                if (newScrollY > mScrollY) {
+                if (newScrollY > mScrollY && mVisible) {
                     // Scrolling up
-                    translationY = getTop();
-                } else {
+                    mVisible = false;
+                    mScrollSettleHandler.onScroll(getTop());
+                } else if (newScrollY < mScrollY && !mVisible) {
                     // Scrolling down
-                    translationY = 0;
+                    mVisible = true;
+                    mScrollSettleHandler.onScroll(0);
                 }
                 mScrollY = newScrollY;
-                mScrollSettleHandler.onScroll(translationY);
             }
         });
     }
