@@ -27,8 +27,6 @@ public class FloatingActionButton extends ImageButton {
     private StateListDrawable mDrawable;
     private AbsListView mListView;
 
-    private int mListViewItemOffsetY[];
-    private boolean isScrollComputed;
     private int mScrollY;
 
     private int mColorNormal;
@@ -151,26 +149,10 @@ public class FloatingActionButton extends ImageButton {
         }
     }
 
-    private void computeListViewScrollY() {
-        if (mListView.getAdapter() != null && mListView.getAdapter().getCount() > 0) {
-            int height = 0;
-            int itemCount = mListView.getAdapter().getCount();
-            mListViewItemOffsetY = new int[itemCount];
-            for (int i = 0; i < itemCount; ++i) {
-                View view = mListView.getAdapter().getView(i, null, mListView);
-                view.measure(
-                        MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED),
-                        MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED));
-                mListViewItemOffsetY[i] = height;
-                height += view.getMeasuredHeight();
-            }
-            isScrollComputed = true;
-        }
-    }
-
     private int getListViewScrollY() {
-        return  isScrollComputed ? mListViewItemOffsetY[mListView.getFirstVisiblePosition()] -
-                mListView.getChildAt(0).getTop() : 0;
+        View topChild = mListView.getChildAt(0);
+        return topChild == null ? 0 : mListView.getFirstVisiblePosition() * topChild.getHeight() -
+                topChild.getTop();
     }
 
     private class ScrollSettleHandler extends Handler {
@@ -229,12 +211,6 @@ public class FloatingActionButton extends ImageButton {
 
     public void attachToListView(AbsListView listView) {
         mListView = listView;
-        mListView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                computeListViewScrollY();
-            }
-        });
         mListView.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(AbsListView view, int scrollState) {
@@ -242,19 +218,20 @@ public class FloatingActionButton extends ImageButton {
 
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                if (!isScrollComputed || getListViewScrollY() == mScrollY) {
+                int newScrollY = getListViewScrollY();
+                if (newScrollY == mScrollY) {
                     return;
                 }
 
                 int translationY;
-                if (getListViewScrollY() > mScrollY) {
+                if (newScrollY > mScrollY) {
                     // Scrolling up
                     translationY = getTop();
                 } else {
                     // Scrolling down
                     translationY = 0;
                 }
-                mScrollY = getListViewScrollY();
+                mScrollY = newScrollY;
                 mScrollSettleHandler.onScroll(translationY);
             }
         });
