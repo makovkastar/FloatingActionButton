@@ -57,35 +57,35 @@ floatingActionButton.attachToListView(listView);
 
 + Set the button type (normal or mini) via the ``fab_type`` xml attribute (default is normal):
 
-```xml
-fab:fab_type="mini"
-```
-or
-```java
-floatingActionButton.setType(FloatingActionButton.TYPE_MINI);
-```
+    ```xml
+    fab:fab_type="mini"
+    ```
+    or
+    ```java
+    floatingActionButton.setType(FloatingActionButton.TYPE_MINI);
+    ```
 
 + Set the normal and pressed colors via the xml attributes:
 
-```xml
-fab:fab_colorNormal="@android:color/holo_red_dark"
-fab:fab_colorPressed="@android:color/holo_red_light"
-```
-or
-```java
-floatingActionButton.setColorNormal(getResources().getColor(android.R.color.holo_red_dark));
-floatingActionButton.setColorPressed(getResources().getColor(android.R.color.holo_red_light));
-```
+    ```xml
+    fab:fab_colorNormal="@android:color/holo_red_dark"
+    fab:fab_colorPressed="@android:color/holo_red_light"
+    ```
+    or
+    ```java
+    floatingActionButton.setColorNormal(getResources().getColor(android.R.color.holo_red_dark));
+    floatingActionButton.setColorPressed(getResources().getColor(android.R.color.holo_red_light));
+    ```
 
 + Enable/disable the button shadow with the ``fab_shadow`` xml attribite (it's enabled by default):
 
-```xml
-fab:fab_shadow="false"
-```
-or
-```java
-floatingActionButton.setShadow(false);
-```
+    ```xml
+    fab:fab_shadow="false"
+    ```
+    or
+    ```java
+    floatingActionButton.setShadow(false);
+    ```
 
 **5)** Set an icon for the ``FloatingActionButton`` using ``android:src`` xml attribute. Use drawables of size **24dp** as specified by the [guidlines]. Icons of desired size can be generated with [Android Asset Studio].
 
