@@ -6,7 +6,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import com.melnykov.fab.FloatingActionButton;
-import com.melnykov.floatingactionbutton.sample.R;
+import com.melnykov.fab.sample.R;
 
 
 public class MainActivity extends Activity {
