@@ -193,7 +193,6 @@ public class FloatingActionButton extends ImageButton {
             if (mSettledScrollY != scrollY) {
                 mSettledScrollY = scrollY;
                 removeMessages(0);
-                // Clear any pending messages and post delayed
                 sendEmptyMessage(0);
             }
         }
