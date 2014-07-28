@@ -96,8 +96,8 @@ public class FloatingActionButton extends ImageButton {
 
     private void init(Context context, AttributeSet attributeSet) {
         mVisible = true;
-        mColorNormal = getColor(R.color.holo_blue_dark);
-        mColorPressed = getColor(R.color.holo_blue_light);
+        mColorNormal = getColor(android.R.color.holo_blue_dark);
+        mColorPressed = getColor(android.R.color.holo_blue_light);
         mType = TYPE_NORMAL;
         mShadow = true;
         if (attributeSet != null) {
@@ -110,8 +110,10 @@ public class FloatingActionButton extends ImageButton {
         TypedArray attr = getTypedArray(context, attributeSet, R.styleable.FloatingActionButton);
         if (attr != null) {
             try {
-                mColorNormal = attr.getColor(R.styleable.FloatingActionButton_fab_colorNormal, getColor(R.color.holo_blue_dark));
-                mColorPressed = attr.getColor(R.styleable.FloatingActionButton_fab_colorPressed, getColor(R.color.holo_blue_light));
+                mColorNormal = attr.getColor(R.styleable.FloatingActionButton_fab_colorNormal,
+                        getColor(android.R.color.holo_blue_dark));
+                mColorPressed = attr.getColor(R.styleable.FloatingActionButton_fab_colorPressed,
+                        getColor(android.R.color.holo_blue_light));
                 mShadow = attr.getBoolean(R.styleable.FloatingActionButton_fab_shadow, true);
                 mType = attr.getInt(R.styleable.FloatingActionButton_type, TYPE_NORMAL);
             } finally {
