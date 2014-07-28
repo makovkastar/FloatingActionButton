@@ -240,6 +240,17 @@ public class FloatingActionButton extends ImageButton {
         return mShadow;
     }
 
+    public void setType(int type) {
+        if (type != mType) {
+            mType = type;
+            updateBackground();
+        }
+    }
+
+    public int getType() {
+        return mType;
+    }
+
     public void attachToListView(AbsListView listView) {
         mListView = listView;
         mListView.setOnScrollListener(new AbsListView.OnScrollListener() {
