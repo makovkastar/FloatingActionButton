@@ -197,6 +197,10 @@ public class FloatingActionButton extends ImageButton {
         }
     }
 
+    public int getColorPressed() {
+        return mColorPressed;
+    }
+
     public void setShadow(boolean shadow) {
         if (shadow != mShadow) {
             mShadow = shadow;
@@ -206,10 +210,6 @@ public class FloatingActionButton extends ImageButton {
 
     public boolean hasShadow() {
         return mShadow;
-    }
-
-    public int getColorPressed() {
-        return mColorPressed;
     }
 
     public void attachToListView(AbsListView listView) {
