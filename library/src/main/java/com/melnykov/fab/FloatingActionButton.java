@@ -185,7 +185,6 @@ public class FloatingActionButton extends ImageButton {
     }
 
     private class ScrollSettleHandler extends Handler {
-        private static final int SETTLE_DELAY_MILLIS = 100;
         private static final int TRANSLATE_DURATION_MILLIS = 200;
 
         private int mSettledScrollY;
@@ -195,7 +194,7 @@ public class FloatingActionButton extends ImageButton {
                 mSettledScrollY = scrollY;
                 removeMessages(0);
                 // Clear any pending messages and post delayed
-                sendEmptyMessageDelayed(0, SETTLE_DELAY_MILLIS);
+                sendEmptyMessage(0);
             }
         }
 
