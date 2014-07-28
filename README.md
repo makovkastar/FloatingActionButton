@@ -18,7 +18,7 @@ dependencies {
 }
 ```
 
-**2)** Add the ``com.melnykov.fab.FloatingActionButton`` to your layout XML file. The button should be placed in the bottom right corner of the screen. The width and height of the floating action button are hardcoded to **56dp** as specified in the [guidlines].
+**2)** Add the ``com.melnykov.fab.FloatingActionButton`` to your layout XML file. The button should be placed in the bottom right corner of the screen. The width and height of the floating action button are hardcoded to **56dp** for the normal and **40dp** for the mini button as specified in the [guidlines].
 
 ```xml
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -36,7 +36,7 @@ dependencies {
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|right"
-            android:layout_margin="32dp"
+            android:layout_margin="16dp"
             android:src="@drawable/ic_action_content_new"
             fab:fab_colorNormal="@android:color/holo_red_dark"
             fab:fab_colorPressed="@android:color/holo_red_light"/>
@@ -53,31 +53,39 @@ floatingActionButton.attachToListView(listView);
 ```
 ``FloatingActionButton`` extends ``android.widget.ImageButton`` so it has all methods the latter has.
 
-**4)** Add the namespace ``xmlns:fab="http://schemas.android.com/apk/res-auto"`` to your layout file and set the normal and pressed colors via xml attributes:
+**4)** Add the namespace ``xmlns:fab="http://schemas.android.com/apk/res-auto"`` to your layout file.
 
-```xml
-fab:fab_colorNormal="@android:color/holo_red_dark"
-fab:fab_colorPressed="@android:color/holo_red_light"
-```
++ Set the button type (normal or mini) via the ``fab_type`` xml attribute (default is normal):
 
-or in Java code:
+    ```xml
+    fab:fab_type="mini"
+    ```
+    or
+    ```java
+    floatingActionButton.setType(FloatingActionButton.TYPE_MINI);
+    ```
 
-```java
-floatingActionButton.setColorNormal(getResources().getColor(android.R.color.holo_red_dark));
-floatingActionButton.setColorPressed(getResources().getColor(android.R.color.holo_red_light));
-```
++ Set the normal and pressed colors via the xml attributes:
 
-You can also enable/disable the button shadow with the ``fab:fab_shadow`` xml attribite (it's enabled by default):
+    ```xml
+    fab:fab_colorNormal="@android:color/holo_red_dark"
+    fab:fab_colorPressed="@android:color/holo_red_light"
+    ```
+    or
+    ```java
+    floatingActionButton.setColorNormal(getResources().getColor(android.R.color.holo_red_dark));
+    floatingActionButton.setColorPressed(getResources().getColor(android.R.color.holo_red_light));
+    ```
 
-```xml
-fab:fab_shadow="false"
-```
++ Enable/disable the button shadow with the ``fab_shadow`` xml attribite (it's enabled by default):
 
-or in Java code:
-
-```java
-floatingActionButton.setShadow(false);
-```
+    ```xml
+    fab:fab_shadow="false"
+    ```
+    or
+    ```java
+    floatingActionButton.setShadow(false);
+    ```
 
 **5)** Set an icon for the ``FloatingActionButton`` using ``android:src`` xml attribute. Use drawables of size **24dp** as specified by the [guidlines]. Icons of desired size can be generated with [Android Asset Studio].
 
