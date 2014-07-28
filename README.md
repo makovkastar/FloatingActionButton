@@ -44,7 +44,7 @@ dependencies {
 ```
 
 
-**3)** Attach the list view to the button in the Java code:
+**3)** Attach the ``ListView`` or the ``GridView`` to the button in the Java code:
 
 ```java
 ListView listView = (ListView) findViewById(android.R.id.list);
