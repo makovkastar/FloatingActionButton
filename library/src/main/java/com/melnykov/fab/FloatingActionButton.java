@@ -8,22 +8,31 @@ import android.graphics.drawable.LayerDrawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.StateListDrawable;
 import android.graphics.drawable.shapes.OvalShape;
-import android.os.*;
+import android.os.Build;
+import android.os.Handler;
+import android.os.Message;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
-import android.view.ViewTreeObserver;
+import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.Interpolator;
 import android.widget.AbsListView;
 import android.widget.ImageButton;
+
 import com.melnykov.floatingactionbutton.R;
 
 /**
  * Android Google+ like floating action button which reacts on the attached list view scrolling events.
  *
  * @author Oleksandr Melnykov
- *
  */
 public class FloatingActionButton extends ImageButton {
+
+    public static final int TYPE_NORMAL = 0;
+    public static final int TYPE_MINI = 1;
+
+    private final Interpolator mInterpolator = new AccelerateDecelerateInterpolator();
 
     private StateListDrawable mDrawable;
     private AbsListView mListView;
@@ -34,6 +43,7 @@ public class FloatingActionButton extends ImageButton {
     private int mColorNormal;
     private int mColorPressed;
     private boolean mShadow;
+    private int mType;
 
     private ScrollSettleHandler mScrollSettleHandler = new ScrollSettleHandler();
 
@@ -55,7 +65,8 @@ public class FloatingActionButton extends ImageButton {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        int size = getDimension(R.dimen.fab_size);
+        int size = getDimension(
+                mType == TYPE_NORMAL ? R.dimen.fab_size_normal : R.dimen.fab_size_mini);
         if (mShadow) {
             int shadowSize = getDimension(R.dimen.fab_shadow_size);
             size += shadowSize * 2;
@@ -85,8 +96,9 @@ public class FloatingActionButton extends ImageButton {
 
     private void init(Context context, AttributeSet attributeSet) {
         mVisible = true;
-        mColorNormal = getColor(android.R.color.holo_blue_dark);
-        mColorPressed = getColor(android.R.color.holo_blue_light);
+        mColorNormal = getColor(R.color.holo_blue_dark);
+        mColorPressed = getColor(R.color.holo_blue_light);
+        mType = TYPE_NORMAL;
         mShadow = true;
         if (attributeSet != null) {
             initAttributes(context, attributeSet);
@@ -98,9 +110,10 @@ public class FloatingActionButton extends ImageButton {
         TypedArray attr = getTypedArray(context, attributeSet, R.styleable.FloatingActionButton);
         if (attr != null) {
             try {
-                mColorNormal = attr.getColor(R.styleable.FloatingActionButton_fab_colorNormal, getColor(android.R.color.holo_blue_dark));
-                mColorPressed = attr.getColor(R.styleable.FloatingActionButton_fab_colorPressed, getColor(android.R.color.holo_blue_light));
+                mColorNormal = attr.getColor(R.styleable.FloatingActionButton_fab_colorNormal, getColor(R.color.holo_blue_dark));
+                mColorPressed = attr.getColor(R.styleable.FloatingActionButton_fab_colorPressed, getColor(R.color.holo_blue_light));
                 mShadow = attr.getBoolean(R.styleable.FloatingActionButton_fab_shadow, true);
+                mType = attr.getInt(R.styleable.FloatingActionButton_type, TYPE_NORMAL);
             } finally {
                 attr.recycle();
             }
@@ -109,8 +122,8 @@ public class FloatingActionButton extends ImageButton {
 
     private void updateBackground() {
         mDrawable = new StateListDrawable();
-        mDrawable.addState(new int[] {android.R.attr.state_pressed}, createDrawable(mColorPressed));
-        mDrawable.addState(new int[] {}, createDrawable(mColorNormal));
+        mDrawable.addState(new int[]{android.R.attr.state_pressed}, createDrawable(mColorPressed));
+        mDrawable.addState(new int[]{}, createDrawable(mColorNormal));
         setBackgroundCompat(mDrawable);
     }
 
@@ -120,9 +133,11 @@ public class FloatingActionButton extends ImageButton {
         shapeDrawable.getPaint().setColor(color);
 
         if (mShadow) {
-            LayerDrawable layerDrawable = new LayerDrawable(new Drawable[] {getResources().getDrawable(R.drawable.shadow),
-                    shapeDrawable});
-            int shadowSize = getDimension(R.dimen.fab_shadow_size);
+            LayerDrawable layerDrawable = new LayerDrawable(
+                    new Drawable[]{getResources().getDrawable(R.drawable.shadow),
+                            shapeDrawable});
+            int shadowSize = getDimension(
+                    mType == TYPE_NORMAL ? R.dimen.fab_shadow_size : R.dimen.fab_mini_shadow_size);
             layerDrawable.setLayerInset(1, shadowSize, shadowSize, shadowSize, shadowSize);
             return layerDrawable;
         } else {
@@ -175,7 +190,10 @@ public class FloatingActionButton extends ImageButton {
 
         @Override
         public void handleMessage(Message msg) {
-            animate().setDuration(TRANSLATE_DURATION_MILLIS).translationY(mSettledScrollY);
+            animate()
+                    .setInterpolator(mInterpolator)
+                    .setDuration(TRANSLATE_DURATION_MILLIS)
+                    .translationY(mSettledScrollY);
         }
     }
 
