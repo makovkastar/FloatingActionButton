@@ -115,7 +115,7 @@ public class FloatingActionButton extends ImageButton {
                 mColorPressed = attr.getColor(R.styleable.FloatingActionButton_fab_colorPressed,
                         getColor(android.R.color.holo_blue_light));
                 mShadow = attr.getBoolean(R.styleable.FloatingActionButton_fab_shadow, true);
-                mType = attr.getInt(R.styleable.FloatingActionButton_type, TYPE_NORMAL);
+                mType = attr.getInt(R.styleable.FloatingActionButton_fab_type, TYPE_NORMAL);
             } finally {
                 attr.recycle();
             }
