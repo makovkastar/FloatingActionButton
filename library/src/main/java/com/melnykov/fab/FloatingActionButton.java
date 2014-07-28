@@ -15,6 +15,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.AttributeSet;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Interpolator;
 import android.widget.AbsListView;
@@ -32,8 +33,6 @@ public class FloatingActionButton extends ImageButton {
     public static final int TYPE_NORMAL = 0;
     public static final int TYPE_MINI = 1;
 
-    private final Interpolator mInterpolator = new AccelerateDecelerateInterpolator();
-
     private StateListDrawable mDrawable;
     private AbsListView mListView;
 
@@ -45,7 +44,8 @@ public class FloatingActionButton extends ImageButton {
     private boolean mShadow;
     private int mType;
 
-    private ScrollSettleHandler mScrollSettleHandler = new ScrollSettleHandler();
+    private final ScrollSettleHandler mScrollSettleHandler = new ScrollSettleHandler();
+    private final Interpolator mInterpolator = new AccelerateDecelerateInterpolator();
 
     public FloatingActionButton(Context context) {
         super(context);
@@ -175,9 +175,18 @@ public class FloatingActionButton extends ImageButton {
                 topChild.getTop();
     }
 
+    private int getMarginBottom() {
+        int marginBottom = 0;
+        final ViewGroup.LayoutParams layoutParams = getLayoutParams();
+        if (layoutParams instanceof ViewGroup.MarginLayoutParams) {
+            marginBottom = ((ViewGroup.MarginLayoutParams) layoutParams).bottomMargin;
+        }
+        return marginBottom;
+    }
+
     private class ScrollSettleHandler extends Handler {
         private static final int SETTLE_DELAY_MILLIS = 100;
-        private static final int TRANSLATE_DURATION_MILLIS = 500;
+        private static final int TRANSLATE_DURATION_MILLIS = 200;
 
         private int mSettledScrollY;
 
@@ -192,8 +201,7 @@ public class FloatingActionButton extends ImageButton {
 
         @Override
         public void handleMessage(Message msg) {
-            animate()
-                    .setInterpolator(mInterpolator)
+            animate().setInterpolator(mInterpolator)
                     .setDuration(TRANSLATE_DURATION_MILLIS)
                     .translationY(mSettledScrollY);
         }
@@ -249,7 +257,7 @@ public class FloatingActionButton extends ImageButton {
                 if (newScrollY > mScrollY && mVisible) {
                     // Scrolling up
                     mVisible = false;
-                    mScrollSettleHandler.onScroll(getTop());
+                    mScrollSettleHandler.onScroll(getHeight() + getMarginBottom());
                 } else if (newScrollY < mScrollY && !mVisible) {
                     // Scrolling down
                     mVisible = true;
