@@ -18,7 +18,7 @@ dependencies {
 }
 ```
 
-**2)** Add the ``com.melnykov.fab.FloatingActionButton`` to your layout XML file. The button should be placed in the bottom right corner of the screen. The width and height of the floating action button are hardcoded to **56dp** as specified in the [guidlines].
+**2)** Add the ``com.melnykov.fab.FloatingActionButton`` to your layout XML file. The button should be placed in the bottom right corner of the screen. The width and height of the floating action button are hardcoded to **56dp** for the normal and **40** for the mini button as specified in the [guidlines].
 
 ```xml
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -53,27 +53,40 @@ floatingActionButton.attachToListView(listView);
 ```
 ``FloatingActionButton`` extends ``android.widget.ImageButton`` so it has all methods the latter has.
 
-**4)** Add the namespace ``xmlns:fab="http://schemas.android.com/apk/res-auto"`` to your layout file and set the normal and pressed colors via xml attributes:
+**4)** Add the namespace ``xmlns:fab="http://schemas.android.com/apk/res-auto"`` to your layout file.
+
++ Set the button type (normal or mini) via the ``fab_type`` xml attribute (default is normal):
+
+```xml
+fab:fab_type="mini"
+```
+or
+
+```java
+floatingActionButton.setType(FloatingActionButton.TYPE_MINI);
+```
+
++ Set the normal and pressed colors via the xml attributes:
 
 ```xml
 fab:fab_colorNormal="@android:color/holo_red_dark"
 fab:fab_colorPressed="@android:color/holo_red_light"
 ```
 
-or in Java code:
+or
 
 ```java
 floatingActionButton.setColorNormal(getResources().getColor(android.R.color.holo_red_dark));
 floatingActionButton.setColorPressed(getResources().getColor(android.R.color.holo_red_light));
 ```
 
-You can also enable/disable the button shadow with the ``fab:fab_shadow`` xml attribite (it's enabled by default):
++ Enable/disable the button shadow with the ``fab_shadow`` xml attribite (it's enabled by default):
 
 ```xml
 fab:fab_shadow="false"
 ```
 
-or in Java code:
+or
 
 ```java
 floatingActionButton.setShadow(false);
