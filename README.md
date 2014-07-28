@@ -60,6 +60,7 @@ floatingActionButton.attachToListView(listView);
 ```xml
 fab:fab_type="mini"
 ```
+or
 ```java
 floatingActionButton.setType(FloatingActionButton.TYPE_MINI);
 ```
@@ -70,6 +71,7 @@ floatingActionButton.setType(FloatingActionButton.TYPE_MINI);
 fab:fab_colorNormal="@android:color/holo_red_dark"
 fab:fab_colorPressed="@android:color/holo_red_light"
 ```
+or
 ```java
 floatingActionButton.setColorNormal(getResources().getColor(android.R.color.holo_red_dark));
 floatingActionButton.setColorPressed(getResources().getColor(android.R.color.holo_red_light));
@@ -80,6 +82,7 @@ floatingActionButton.setColorPressed(getResources().getColor(android.R.color.hol
 ```xml
 fab:fab_shadow="false"
 ```
+or
 ```java
 floatingActionButton.setShadow(false);
 ```
