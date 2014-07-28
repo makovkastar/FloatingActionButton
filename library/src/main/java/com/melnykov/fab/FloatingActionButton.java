@@ -252,6 +252,9 @@ public class FloatingActionButton extends ImageButton {
     }
 
     public void attachToListView(AbsListView listView) {
+        if (listView == null) {
+            throw new NullPointerException("AbsListView cannot be null.");
+        }
         mListView = listView;
         mListView.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
