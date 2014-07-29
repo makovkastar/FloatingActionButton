@@ -192,7 +192,8 @@ public class FloatingActionButton extends ImageButton {
 
         @Override
         public void handleMessage(Message msg) {
-            animate()
+            com.nineoldandroids.view.ViewPropertyAnimator
+                    .animate(FloatingActionButton.this)
                     .setInterpolator(mInterpolator)
                     .setDuration(TRANSLATE_DURATION_MILLIS)
                     .translationY(mSettledScrollY);
