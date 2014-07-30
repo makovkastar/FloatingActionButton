@@ -8,6 +8,8 @@ import android.graphics.drawable.LayerDrawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.StateListDrawable;
 import android.graphics.drawable.shapes.OvalShape;
+import android.graphics.drawable.shapes.RectShape;
+import android.graphics.drawable.shapes.Shape;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
@@ -21,6 +23,7 @@ import android.view.animation.Interpolator;
 import android.widget.AbsListView;
 import android.widget.ImageButton;
 
+
 /**
  * Android Google+ like floating action button which reacts on the attached list view scrolling events.
  *
@@ -31,7 +34,6 @@ public class FloatingActionButton extends ImageButton {
     public static final int TYPE_NORMAL = 0;
     public static final int TYPE_MINI = 1;
 
-    private StateListDrawable mDrawable;
     private AbsListView mListView;
 
     private int mScrollY;
@@ -46,13 +48,11 @@ public class FloatingActionButton extends ImageButton {
     private final Interpolator mInterpolator = new AccelerateDecelerateInterpolator();
 
     public FloatingActionButton(Context context) {
-        super(context);
-        init(context, null);
+        this(context, null);
     }
 
     public FloatingActionButton(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        init(context, attrs);
+        this(context, attrs, 0);
     }
 
     public FloatingActionButton(Context context, AttributeSet attrs, int defStyle) {
@@ -121,15 +121,20 @@ public class FloatingActionButton extends ImageButton {
     }
 
     private void updateBackground() {
-        mDrawable = new StateListDrawable();
-        mDrawable.addState(new int[]{android.R.attr.state_pressed}, createDrawable(mColorPressed));
-        mDrawable.addState(new int[]{}, createDrawable(mColorNormal));
-        setBackgroundCompat(mDrawable);
+        StateListDrawable drawable = new StateListDrawable();
+        drawable.addState(new int[]{android.R.attr.state_pressed}, createDrawable(mColorPressed));
+        drawable.addState(new int[]{}, createDrawable(mColorNormal));
+        setBackgroundCompat(drawable);
     }
 
     private Drawable createDrawable(int color) {
-        OvalShape ovalShape = new OvalShape();
-        ShapeDrawable shapeDrawable = new ShapeDrawable(ovalShape);
+        Shape shape;
+        if (isInEditMode()) {
+            shape = new RectShape();
+        } else {
+            shape = new OvalShape();
+        }
+        ShapeDrawable shapeDrawable = new ShapeDrawable(shape);
         shapeDrawable.getPaint().setColor(color);
 
         if (mShadow) {
