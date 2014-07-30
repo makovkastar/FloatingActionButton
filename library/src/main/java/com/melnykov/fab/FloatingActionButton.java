@@ -45,7 +45,8 @@ public class FloatingActionButton extends ImageButton {
     }
 
     public FloatingActionButton(Context context, AttributeSet attrs) {
-        this(context, attrs, 0);
+        super(context, attrs);
+        init(context, attrs);
     }
 
     public FloatingActionButton(Context context, AttributeSet attrs, int defStyle) {
