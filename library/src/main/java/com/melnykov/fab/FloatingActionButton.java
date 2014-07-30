@@ -8,6 +8,8 @@ import android.graphics.drawable.LayerDrawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.StateListDrawable;
 import android.graphics.drawable.shapes.OvalShape;
+import android.graphics.drawable.shapes.RectShape;
+import android.graphics.drawable.shapes.Shape;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
@@ -34,7 +36,6 @@ public class FloatingActionButton extends ImageButton {
 
     private final Interpolator mInterpolator = new AccelerateDecelerateInterpolator();
 
-    private StateListDrawable mDrawable;
     private AbsListView mListView;
 
     private int mScrollY;
@@ -48,18 +49,28 @@ public class FloatingActionButton extends ImageButton {
     private ScrollSettleHandler mScrollSettleHandler = new ScrollSettleHandler();
 
     public FloatingActionButton(Context context) {
-        super(context);
-        init(context, null);
+        this(context, null);
     }
 
     public FloatingActionButton(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        init(context, attrs);
+        this(context, attrs, 0);
     }
 
     public FloatingActionButton(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        init(context, attrs);
+
+        TypedArray ta = context.getTheme().obtainStyledAttributes(
+                attrs, R.styleable.FloatingActionButton, 0, 0);
+        mVisible = true;
+        mColorNormal = ta.getColor(R.styleable.FloatingActionButton_fab_colorNormal,
+                getColor(R.color.holo_blue_dark));
+        mColorPressed = ta.getColor(R.styleable.FloatingActionButton_fab_colorPressed,
+                getColor(R.color.holo_blue_light));
+        mShadow = ta.getBoolean(R.styleable.FloatingActionButton_fab_shadow, true);
+        mType = ta.getInt(R.styleable.FloatingActionButton_type, TYPE_NORMAL);
+        ta.recycle();
+
+        updateBackground();
     }
 
     @Override
@@ -94,44 +105,21 @@ public class FloatingActionButton extends ImageButton {
         }
     }
 
-    private void init(Context context, AttributeSet attributeSet) {
-        mVisible = true;
-        mColorNormal = getColor(android.R.color.holo_blue_dark);
-        mColorPressed = getColor(android.R.color.holo_blue_light);
-        mType = TYPE_NORMAL;
-        mShadow = true;
-        if (attributeSet != null) {
-            initAttributes(context, attributeSet);
-        }
-        updateBackground();
-    }
-
-    private void initAttributes(Context context, AttributeSet attributeSet) {
-        TypedArray attr = getTypedArray(context, attributeSet, R.styleable.FloatingActionButton);
-        if (attr != null) {
-            try {
-                mColorNormal = attr.getColor(R.styleable.FloatingActionButton_fab_colorNormal,
-                        getColor(android.R.color.holo_blue_dark));
-                mColorPressed = attr.getColor(R.styleable.FloatingActionButton_fab_colorPressed,
-                        getColor(android.R.color.holo_blue_light));
-                mShadow = attr.getBoolean(R.styleable.FloatingActionButton_fab_shadow, true);
-                mType = attr.getInt(R.styleable.FloatingActionButton_type, TYPE_NORMAL);
-            } finally {
-                attr.recycle();
-            }
-        }
-    }
-
     private void updateBackground() {
-        mDrawable = new StateListDrawable();
-        mDrawable.addState(new int[]{android.R.attr.state_pressed}, createDrawable(mColorPressed));
-        mDrawable.addState(new int[]{}, createDrawable(mColorNormal));
-        setBackgroundCompat(mDrawable);
+        StateListDrawable drawable = new StateListDrawable();
+        drawable.addState(new int[]{android.R.attr.state_pressed}, createDrawable(mColorPressed));
+        drawable.addState(new int[]{}, createDrawable(mColorNormal));
+        setBackgroundCompat(drawable);
     }
 
     private Drawable createDrawable(int color) {
-        OvalShape ovalShape = new OvalShape();
-        ShapeDrawable shapeDrawable = new ShapeDrawable(ovalShape);
+        Shape shape;
+        if (isInEditMode()) {
+            shape = new RectShape();
+        } else {
+            shape = new OvalShape();
+        }
+        ShapeDrawable shapeDrawable = new ShapeDrawable(shape);
         shapeDrawable.getPaint().setColor(color);
 
         if (mShadow) {
@@ -145,10 +133,6 @@ public class FloatingActionButton extends ImageButton {
         } else {
             return shapeDrawable;
         }
-    }
-
-    private TypedArray getTypedArray(Context context, AttributeSet attributeSet, int[] attr) {
-        return context.obtainStyledAttributes(attributeSet, attr, 0, 0);
     }
 
     private int getColor(int id) {
