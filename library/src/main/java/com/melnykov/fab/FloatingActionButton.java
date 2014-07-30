@@ -8,13 +8,7 @@ import android.graphics.drawable.LayerDrawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.StateListDrawable;
 import android.graphics.drawable.shapes.OvalShape;
-import android.graphics.drawable.shapes.RectShape;
-import android.graphics.drawable.shapes.Shape;
-import android.os.Build;
-import android.os.Handler;
-import android.os.Message;
-import android.os.Parcel;
-import android.os.Parcelable;
+import android.os.*;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,7 +16,6 @@ import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Interpolator;
 import android.widget.AbsListView;
 import android.widget.ImageButton;
-
 
 /**
  * Android Google+ like floating action button which reacts on the attached list view scrolling events.
@@ -128,13 +121,8 @@ public class FloatingActionButton extends ImageButton {
     }
 
     private Drawable createDrawable(int color) {
-        Shape shape;
-        if (isInEditMode()) {
-            shape = new RectShape();
-        } else {
-            shape = new OvalShape();
-        }
-        ShapeDrawable shapeDrawable = new ShapeDrawable(shape);
+        OvalShape ovalShape = new OvalShape();
+        ShapeDrawable shapeDrawable = new ShapeDrawable(ovalShape);
         shapeDrawable.getPaint().setColor(color);
 
         if (mShadow) {
