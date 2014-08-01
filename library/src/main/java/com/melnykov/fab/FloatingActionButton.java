@@ -175,6 +175,7 @@ public class FloatingActionButton extends View {
     public void setColorNormal(int color) {
         if (color != mColorNormal) {
             mColorNormal = color;
+            mButtonPaint.setColor(mColorNormal);
             invalidate();
         }
     }
