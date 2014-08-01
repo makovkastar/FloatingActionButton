@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="FloatingActionButton">
+        <attr name="fab_drawable" format="integer"/>
         <attr name="fab_colorPressed" format="color"/>
         <attr name="fab_colorNormal" format="color"/>
         <attr name="fab_shadow" format="boolean"/>
-        <attr name="fab_type" format="enum">
-            <enum name="normal" value="0"/>
-            <enum name="mini" value="1"/>
-        </attr>
+        <attr name="fab_shadowRadius" format="float"/>
+        <attr name="fab_shadowDx" format="float"/>
+        <attr name="fab_shadowDy" format="float"/>
+        <attr name="fab_shadowColor" format="integer"/>
     </declare-styleable>
 </resources>
