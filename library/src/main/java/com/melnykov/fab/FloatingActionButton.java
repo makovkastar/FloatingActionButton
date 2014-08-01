@@ -8,7 +8,11 @@ import android.graphics.drawable.LayerDrawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.StateListDrawable;
 import android.graphics.drawable.shapes.OvalShape;
-import android.os.*;
+import android.os.Build;
+import android.os.Handler;
+import android.os.Message;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,32 +30,40 @@ public class FloatingActionButton extends ImageButton {
 
     public static final int TYPE_NORMAL = 0;
     public static final int TYPE_MINI = 1;
-
+    private final ScrollSettleHandler mScrollSettleHandler = new ScrollSettleHandler();
+    private final Interpolator mInterpolator = new AccelerateDecelerateInterpolator();
     private AbsListView mListView;
-
     private int mScrollY;
     private boolean mVisible;
-
     private int mColorNormal;
     private int mColorPressed;
     private boolean mShadow;
     private int mType;
-
-    private final ScrollSettleHandler mScrollSettleHandler = new ScrollSettleHandler();
-    private final Interpolator mInterpolator = new AccelerateDecelerateInterpolator();
 
     public FloatingActionButton(Context context) {
         this(context, null);
     }
 
     public FloatingActionButton(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        init(context, attrs);
+        this(context, attrs, 0);
     }
 
     public FloatingActionButton(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        init(context, attrs);
+
+        TypedArray a = context.getTheme().obtainStyledAttributes(
+                attrs, R.styleable.FloatingActionButton, 0, 0);
+
+        mVisible = true;
+        mColorNormal = a.getColor(R.styleable.FloatingActionButton_fab_colorNormal,
+                getColor(android.R.color.holo_blue_dark));
+        mColorPressed = a.getColor(R.styleable.FloatingActionButton_fab_colorPressed,
+                getColor(android.R.color.holo_blue_light));
+        mShadow = a.getBoolean(R.styleable.FloatingActionButton_fab_shadow, true);
+        mType = a.getInt(R.styleable.FloatingActionButton_fab_type, TYPE_NORMAL);
+        a.recycle();
+
+        updateBackground();
     }
 
     @Override
@@ -86,34 +98,6 @@ public class FloatingActionButton extends ImageButton {
         }
     }
 
-    private void init(Context context, AttributeSet attributeSet) {
-        mVisible = true;
-        mColorNormal = getColor(android.R.color.holo_blue_dark);
-        mColorPressed = getColor(android.R.color.holo_blue_light);
-        mType = TYPE_NORMAL;
-        mShadow = true;
-        if (attributeSet != null) {
-            initAttributes(context, attributeSet);
-        }
-        updateBackground();
-    }
-
-    private void initAttributes(Context context, AttributeSet attributeSet) {
-        TypedArray attr = getTypedArray(context, attributeSet, R.styleable.FloatingActionButton);
-        if (attr != null) {
-            try {
-                mColorNormal = attr.getColor(R.styleable.FloatingActionButton_fab_colorNormal,
-                        getColor(android.R.color.holo_blue_dark));
-                mColorPressed = attr.getColor(R.styleable.FloatingActionButton_fab_colorPressed,
-                        getColor(android.R.color.holo_blue_light));
-                mShadow = attr.getBoolean(R.styleable.FloatingActionButton_fab_shadow, true);
-                mType = attr.getInt(R.styleable.FloatingActionButton_fab_type, TYPE_NORMAL);
-            } finally {
-                attr.recycle();
-            }
-        }
-    }
-
     private void updateBackground() {
         StateListDrawable drawable = new StateListDrawable();
         drawable.addState(new int[]{android.R.attr.state_pressed}, createDrawable(mColorPressed));
@@ -137,10 +121,6 @@ public class FloatingActionButton extends ImageButton {
         } else {
             return shapeDrawable;
         }
-    }
-
-    private TypedArray getTypedArray(Context context, AttributeSet attributeSet, int[] attr) {
-        return context.obtainStyledAttributes(attributeSet, attr, 0, 0);
     }
 
     private int getColor(int id) {
@@ -176,25 +156,8 @@ public class FloatingActionButton extends ImageButton {
         return marginBottom;
     }
 
-    private class ScrollSettleHandler extends Handler {
-        private static final int TRANSLATE_DURATION_MILLIS = 200;
-
-        private int mSettledScrollY;
-
-        public void onScroll(int scrollY) {
-            if (mSettledScrollY != scrollY) {
-                mSettledScrollY = scrollY;
-                removeMessages(0);
-                sendEmptyMessage(0);
-            }
-        }
-
-        @Override
-        public void handleMessage(Message msg) {
-            animate().setInterpolator(mInterpolator)
-                    .setDuration(TRANSLATE_DURATION_MILLIS)
-                    .translationY(mSettledScrollY);
-        }
+    public int getColorNormal() {
+        return mColorNormal;
     }
 
     public void setColorNormal(int color) {
@@ -204,8 +167,8 @@ public class FloatingActionButton extends ImageButton {
         }
     }
 
-    public int getColorNormal() {
-        return mColorNormal;
+    public int getColorPressed() {
+        return mColorPressed;
     }
 
     public void setColorPressed(int color) {
@@ -213,10 +176,6 @@ public class FloatingActionButton extends ImageButton {
             mColorPressed = color;
             updateBackground();
         }
-    }
-
-    public int getColorPressed() {
-        return mColorPressed;
     }
 
     public void setShadow(boolean shadow) {
@@ -230,15 +189,15 @@ public class FloatingActionButton extends ImageButton {
         return mShadow;
     }
 
+    public int getType() {
+        return mType;
+    }
+
     public void setType(int type) {
         if (type != mType) {
             mType = type;
             updateBackground();
         }
-    }
-
-    public int getType() {
-        return mType;
     }
 
     public void attachToListView(AbsListView listView) {
@@ -278,6 +237,18 @@ public class FloatingActionButton extends ImageButton {
      */
     public static class SavedState extends BaseSavedState {
 
+        public static final Creator<SavedState> CREATOR = new Creator<SavedState>() {
+
+            @Override
+            public SavedState createFromParcel(Parcel in) {
+                return new SavedState(in);
+            }
+
+            @Override
+            public SavedState[] newArray(int size) {
+                return new SavedState[size];
+            }
+        };
         private int mScrollY;
 
         public SavedState(Parcelable parcel) {
@@ -294,18 +265,26 @@ public class FloatingActionButton extends ImageButton {
             super.writeToParcel(out, flags);
             out.writeInt(mScrollY);
         }
+    }
 
-        public static final Creator<SavedState> CREATOR = new Creator<SavedState>() {
+    private class ScrollSettleHandler extends Handler {
+        private static final int TRANSLATE_DURATION_MILLIS = 200;
 
-            @Override
-            public SavedState createFromParcel(Parcel in) {
-                return new SavedState(in);
+        private int mSettledScrollY;
+
+        public void onScroll(int scrollY) {
+            if (mSettledScrollY != scrollY) {
+                mSettledScrollY = scrollY;
+                removeMessages(0);
+                sendEmptyMessage(0);
             }
+        }
 
-            @Override
-            public SavedState[] newArray(int size) {
-                return new SavedState[size];
-            }
-        };
+        @Override
+        public void handleMessage(Message msg) {
+            animate().setInterpolator(mInterpolator)
+                    .setDuration(TRANSLATE_DURATION_MILLIS)
+                    .translationY(mSettledScrollY);
+        }
     }
 }
