@@ -3,9 +3,10 @@ package com.melkynov.fab.codesample;
 import android.app.ListActivity;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
 import android.widget.ListAdapter;
@@ -27,10 +28,12 @@ public class MainActivity extends ListActivity {
         Resources res = getResources();
         fab.setColorNormal(res.getColor(R.color.primary));
         fab.setColorPressed(res.getColor(R.color.primary_pressed));
-        fab.setImageDrawable(res.getDrawable(R.drawable.ic_action_content_new));
+        fab.setImageDrawable(R.drawable.ic_action_content_new);
 
-        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT);
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        int size = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 72.0f, displayMetrics);
+        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(size, size);
         params.gravity = Gravity.BOTTOM | Gravity.RIGHT;
 
         addContentView(fab, params);
