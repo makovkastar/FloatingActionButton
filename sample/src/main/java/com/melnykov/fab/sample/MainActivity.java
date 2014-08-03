@@ -1,13 +1,11 @@
 package com.melnykov.fab.sample;
 
-import android.app.Activity;
 import android.app.ListActivity;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
-import android.widget.ListView;
+
 import com.melnykov.fab.FloatingActionButton;
-import com.melnykov.fab.sample.R;
 
 
 public class MainActivity extends ListActivity {
