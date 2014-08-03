@@ -241,6 +241,20 @@ public class FloatingActionButton extends ImageButton {
         return mType;
     }
 
+    public void show() {
+        if (!mVisible) {
+            mVisible = true;
+            mScrollSettleHandler.onScroll(0);
+        }
+    }
+
+    public void hide() {
+        if (mVisible) {
+            mVisible = false;
+            mScrollSettleHandler.onScroll(getHeight() + getMarginBottom());
+        }
+    }
+
     public void attachToListView(AbsListView listView) {
         if (listView == null) {
             throw new NullPointerException("AbsListView cannot be null.");
@@ -258,14 +272,12 @@ public class FloatingActionButton extends ImageButton {
                     return;
                 }
 
-                if (newScrollY > mScrollY && mVisible) {
+                if (newScrollY > mScrollY) {
                     // Scrolling up
-                    mVisible = false;
-                    mScrollSettleHandler.onScroll(getHeight() + getMarginBottom());
-                } else if (newScrollY < mScrollY && !mVisible) {
+                    hide();
+                } else if (newScrollY < mScrollY) {
                     // Scrolling down
-                    mVisible = true;
-                    mScrollSettleHandler.onScroll(0);
+                    show();
                 }
                 mScrollY = newScrollY;
             }
