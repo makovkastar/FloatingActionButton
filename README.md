@@ -17,7 +17,7 @@ Android [Google+] like floating action button which reacts on the list view scro
 
 ```groovy
 dependencies {
-    compile 'com.melnykov:floatingactionbutton:1.0.0'
+    compile 'com.melnykov:floatingactionbutton:1.0.1'
 }
 ```
 
@@ -88,6 +88,13 @@ floatingActionButton.attachToListView(listView);
     or
     ```java
     floatingActionButton.setShadow(false);
+    ```
+    
++ Show/hide the button expliciltly:
+    
+    ```java
+    floatingActionButton.show();
+    floatingActionButton.hide();
     ```
 
 **5)** Set an icon for the ``FloatingActionButton`` using ``android:src`` xml attribute. Use drawables of size **24dp** as specified by the [guidlines]. Icons of desired size can be generated with [Android Asset Studio].
