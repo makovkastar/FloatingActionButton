@@ -9,6 +9,10 @@ import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.StateListDrawable;
 import android.graphics.drawable.shapes.OvalShape;
 import android.os.*;
+import android.support.annotation.ColorRes;
+import android.support.annotation.DimenRes;
+import android.support.annotation.IntDef;
+import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +28,8 @@ import android.widget.ImageButton;
  */
 public class FloatingActionButton extends ImageButton {
 
+    @IntDef({TYPE_NORMAL, TYPE_MINI})
+    public @interface TYPE{}
     public static final int TYPE_NORMAL = 0;
     public static final int TYPE_MINI = 1;
 
@@ -143,11 +149,11 @@ public class FloatingActionButton extends ImageButton {
         return context.obtainStyledAttributes(attributeSet, attr, 0, 0);
     }
 
-    private int getColor(int id) {
+    private int getColor(@ColorRes int id) {
         return getResources().getColor(id);
     }
 
-    private int getDimension(int id) {
+    private int getDimension(@DimenRes int id) {
         return getResources().getDimensionPixelSize(id);
     }
 
@@ -204,6 +210,10 @@ public class FloatingActionButton extends ImageButton {
         }
     }
 
+    public void setColorNormalResId(@ColorRes int colorResId) {
+        setColorNormal(getColor(colorResId));
+    }
+
     public int getColorNormal() {
         return mColorNormal;
     }
@@ -213,6 +223,10 @@ public class FloatingActionButton extends ImageButton {
             mColorPressed = color;
             updateBackground();
         }
+    }
+
+    public void setColorPressedResId(@ColorRes int colorResId) {
+        setColorPressed(getColor(colorResId));
     }
 
     public int getColorPressed() {
@@ -230,13 +244,14 @@ public class FloatingActionButton extends ImageButton {
         return mShadow;
     }
 
-    public void setType(int type) {
+    public void setType(@TYPE int type) {
         if (type != mType) {
             mType = type;
             updateBackground();
         }
     }
 
+    @TYPE
     public int getType() {
         return mType;
     }
@@ -255,7 +270,7 @@ public class FloatingActionButton extends ImageButton {
         }
     }
 
-    public void attachToListView(AbsListView listView) {
+    public void attachToListView(@NonNull AbsListView listView) {
         if (listView == null) {
             throw new NullPointerException("AbsListView cannot be null.");
         }
