@@ -10,12 +10,15 @@ import android.graphics.drawable.StateListDrawable;
 import android.graphics.drawable.shapes.OvalShape;
 import android.os.*;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Interpolator;
 import android.widget.AbsListView;
 import android.widget.ImageButton;
+import android.widget.ScrollView;
 
 /**
  * Android Google+ like floating action button which reacts on the attached list view scrolling events.
@@ -28,9 +31,11 @@ public class FloatingActionButton extends ImageButton {
     public static final int TYPE_MINI = 1;
 
     private AbsListView mListView;
+    private ScrollView mScrollView;
 
     private int mScrollY;
     private boolean mVisible;
+    private boolean mScrolling;
 
     private int mColorNormal;
     private int mColorPressed;
@@ -255,9 +260,49 @@ public class FloatingActionButton extends ImageButton {
         }
     }
 
+    public void attachToScrollView(ScrollView scrollView) {
+        if (scrollView == null) {
+            throw new NullPointerException("ScrollView cannot be null.");
+        }
+        if(mListView != null) {
+            throw new IllegalArgumentException("Already listening to a ListView (id:" +
+                mListView.getId() + ")");
+        }
+        mScrollView = scrollView;
+        mScrollView.getViewTreeObserver().addOnScrollChangedListener(
+                new ViewTreeObserver.OnScrollChangedListener() {
+
+                    @Override
+                    public void onScrollChanged() {
+                        if (!mScrolling) {
+                            mScrolling = true;
+                            int newScrollY = mScrollView.getScrollY();
+                            if (newScrollY < 0) newScrollY *= -1;
+                            Log.d("doScroll", "newScrollY: " + newScrollY + ", mScrollY: " + mScrollY);
+                            if (newScrollY == mScrollY) {
+                                return;
+                            }
+                            if (newScrollY > mScrollY) {
+                                // Scrolling up
+                                hide();
+                            } else if (newScrollY < mScrollY) {
+                                // Scrolling down
+                                show();
+                            }
+                            mScrollY = newScrollY;
+                            mScrolling = false;
+                        }
+                    }
+                });
+    }
+
     public void attachToListView(AbsListView listView) {
         if (listView == null) {
             throw new NullPointerException("AbsListView cannot be null.");
+        }
+        if(mScrollView != null) {
+            throw new IllegalArgumentException("Already listening to a ScrollView (id:" +
+                    mScrollView.getId() + ")");
         }
         mListView = listView;
         mListView.setOnScrollListener(new AbsListView.OnScrollListener() {
@@ -268,11 +313,11 @@ public class FloatingActionButton extends ImageButton {
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
                 int newScrollY = getListViewScrollY();
+                Log.d("doScroll", "newScrollY: " + newScrollY + ", mScrollY: " + mScrollY);
                 if (newScrollY == mScrollY) {
                     return;
                 }
-
-                if (newScrollY > mScrollY) {
+                if (newScrollY > mScrollY-2) {
                     // Scrolling up
                     hide();
                 } else if (newScrollY < mScrollY) {
