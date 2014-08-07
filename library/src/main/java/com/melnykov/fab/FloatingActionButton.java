@@ -313,11 +313,10 @@ public class FloatingActionButton extends ImageButton {
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
                 int newScrollY = getListViewScrollY();
-                Log.d("doScroll", "newScrollY: " + newScrollY + ", mScrollY: " + mScrollY);
                 if (newScrollY == mScrollY) {
                     return;
                 }
-                if (newScrollY > mScrollY-2) {
+                if (newScrollY > mScrollY) {
                     // Scrolling up
                     hide();
                 } else if (newScrollY < mScrollY) {
