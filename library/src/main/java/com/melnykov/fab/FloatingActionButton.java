@@ -154,7 +154,7 @@ public class FloatingActionButton extends ImageButton {
     @SuppressWarnings("deprecation")
     @SuppressLint("NewApi")
     private void setBackgroundCompat(Drawable drawable) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+        if (Build.VERSION.SDK_INT >= 16) {
             setBackground(drawable);
         } else {
             setBackgroundDrawable(drawable);
