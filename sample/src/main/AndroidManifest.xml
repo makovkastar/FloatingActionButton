@@ -16,6 +16,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name="com.melnykov.fab.sample.ListViewActivity" />
+        <activity android:name="com.melnykov.fab.sample.ScrollViewActivity" />
     </application>
 
 </manifest>
