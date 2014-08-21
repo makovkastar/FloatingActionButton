@@ -33,7 +33,7 @@ public class FloatingActionButton extends ImageButton {
     public static final int TYPE_NORMAL = 0;
     public static final int TYPE_MINI = 1;
 
-    private AbsListView mListView;
+    protected AbsListView mListView;
 
     private int mScrollY;
     private boolean mVisible;
@@ -45,6 +45,28 @@ public class FloatingActionButton extends ImageButton {
 
     private final ScrollSettleHandler mScrollSettleHandler = new ScrollSettleHandler();
     private final Interpolator mInterpolator = new AccelerateDecelerateInterpolator();
+    protected final AbsListView.OnScrollListener mScrollListener = new AbsListView.OnScrollListener() {
+        @Override
+        public void onScrollStateChanged(AbsListView view, int scrollState) {
+        }
+
+        @Override
+        public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+            int newScrollY = getListViewScrollY();
+            if (newScrollY == mScrollY) {
+                return;
+            }
+
+            if (newScrollY > mScrollY) {
+                // Scrolling up
+                hide();
+            } else if (newScrollY < mScrollY) {
+                // Scrolling down
+                show();
+            }
+            mScrollY = newScrollY;
+        }
+    };
 
     public FloatingActionButton(Context context) {
         this(context, null);
@@ -167,13 +189,13 @@ public class FloatingActionButton extends ImageButton {
         }
     }
 
-    private int getListViewScrollY() {
+    protected int getListViewScrollY() {
         View topChild = mListView.getChildAt(0);
         return topChild == null ? 0 : mListView.getFirstVisiblePosition() * topChild.getHeight() -
                 topChild.getTop();
     }
 
-    private int getMarginBottom() {
+    protected int getMarginBottom() {
         int marginBottom = 0;
         final ViewGroup.LayoutParams layoutParams = getLayoutParams();
         if (layoutParams instanceof ViewGroup.MarginLayoutParams) {
@@ -275,28 +297,7 @@ public class FloatingActionButton extends ImageButton {
             throw new NullPointerException("AbsListView cannot be null.");
         }
         mListView = listView;
-        mListView.setOnScrollListener(new AbsListView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(AbsListView view, int scrollState) {
-            }
-
-            @Override
-            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                int newScrollY = getListViewScrollY();
-                if (newScrollY == mScrollY) {
-                    return;
-                }
-
-                if (newScrollY > mScrollY) {
-                    // Scrolling up
-                    hide();
-                } else if (newScrollY < mScrollY) {
-                    // Scrolling down
-                    show();
-                }
-                mScrollY = newScrollY;
-            }
-        });
+        mListView.setOnScrollListener(mScrollListener);
     }
 
     /**
