@@ -1,6 +1,8 @@
 FloatingActionButton
 ====================
 
+[![Android Arsenal](http://img.shields.io/badge/Android%20Arsenal-makovkastar%2FFloatingActionButton-brightgreen.svg?style=flat)](http://android-arsenal.com/details/1/824)
+
 ### Description
 
 Android [Google+] like floating action button which reacts on the list view scrolling events. Becomes visible when the list view is scrolled up and invisible when scrolled down.
@@ -17,7 +19,7 @@ Android [Google+] like floating action button which reacts on the list view scro
 
 ```groovy
 dependencies {
-    compile 'com.melnykov:floatingactionbutton:1.0.0'
+    compile 'com.melnykov:floatingactionbutton:1.0.1'
 }
 ```
 
@@ -89,8 +91,15 @@ floatingActionButton.attachToListView(listView);
     ```java
     floatingActionButton.setShadow(false);
     ```
+    
++ Show/hide the button expliciltly:
+    
+    ```java
+    floatingActionButton.show();
+    floatingActionButton.hide();
+    ```
 
-**5)** Set an icon for the ``FloatingActionButton`` using ``android:src`` xml attribute. Use drawables of size **24dp** as specified by the [guidlines]. Icons of desired size can be generated with [Android Asset Studio].
+**5)** Set an icon for the ``FloatingActionButton`` using ``android:src`` xml attribute. Use drawables of size **24dp** as specified by [guidlines]. Icons of desired size can be generated with [Android Asset Studio].
 
 ### License
 
