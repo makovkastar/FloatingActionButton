@@ -45,7 +45,7 @@ public class FloatingActionButton extends ImageButton {
 
     private final ScrollSettleHandler mScrollSettleHandler = new ScrollSettleHandler();
     private final Interpolator mInterpolator = new AccelerateDecelerateInterpolator();
-    protected final AbsListView.OnScrollListener mScrollListener = new AbsListView.OnScrollListener() {
+    private final AbsListView.OnScrollListener mScrollListener = new AbsListView.OnScrollListener() {
         @Override
         public void onScrollStateChanged(AbsListView view, int scrollState) {
         }
@@ -195,7 +195,7 @@ public class FloatingActionButton extends ImageButton {
                 topChild.getTop();
     }
 
-    protected int getMarginBottom() {
+    private int getMarginBottom() {
         int marginBottom = 0;
         final ViewGroup.LayoutParams layoutParams = getLayoutParams();
         if (layoutParams instanceof ViewGroup.MarginLayoutParams) {
@@ -276,6 +276,10 @@ public class FloatingActionButton extends ImageButton {
     @TYPE
     public int getType() {
         return mType;
+    }
+
+    protected AbsListView.OnScrollListener getScrollListener() {
+        return mScrollListener;
     }
 
     public void show() {
