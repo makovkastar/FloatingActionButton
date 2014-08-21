@@ -19,7 +19,7 @@ Android [Google+] like floating action button which reacts on the list view scro
 
 ```groovy
 dependencies {
-    compile 'com.melnykov:floatingactionbutton:1.0.1'
+    compile 'com.melnykov:floatingactionbutton:1.0.2'
 }
 ```
 
