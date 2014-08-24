@@ -8,11 +8,17 @@ import android.graphics.drawable.LayerDrawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.StateListDrawable;
 import android.graphics.drawable.shapes.OvalShape;
-import android.os.*;
+import android.os.Build;
+import android.os.Handler;
+import android.os.Message;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.annotation.ColorRes;
 import android.support.annotation.DimenRes;
 import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,11 +35,14 @@ import android.widget.ImageButton;
 public class FloatingActionButton extends ImageButton {
 
     @IntDef({TYPE_NORMAL, TYPE_MINI})
-    public @interface TYPE{}
+    public @interface TYPE {
+    }
+
     public static final int TYPE_NORMAL = 0;
     public static final int TYPE_MINI = 1;
 
-    protected AbsListView mListView;
+    protected AbsListView mAbsListView;
+    protected RecyclerView mRecyclerView;
 
     private int mScrollY;
     private boolean mVisible;
@@ -45,28 +54,42 @@ public class FloatingActionButton extends ImageButton {
 
     private final ScrollSettleHandler mScrollSettleHandler = new ScrollSettleHandler();
     private final Interpolator mInterpolator = new AccelerateDecelerateInterpolator();
-    private final AbsListView.OnScrollListener mOnScrollListener = new AbsListView.OnScrollListener() {
+    private final AbsListView.OnScrollListener mAbsListViewOnScrollListener = new AbsListView.OnScrollListener() {
         @Override
         public void onScrollStateChanged(AbsListView view, int scrollState) {
         }
 
         @Override
         public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-            int newScrollY = getListViewScrollY();
-            if (newScrollY == mScrollY) {
-                return;
-            }
-
-            if (newScrollY > mScrollY) {
-                // Scrolling up
-                hide();
-            } else if (newScrollY < mScrollY) {
-                // Scrolling down
-                show();
-            }
-            mScrollY = newScrollY;
+            updateVisibility();
         }
     };
+    private final RecyclerView.OnScrollListener mRecyclerViewOnScrollListener = new RecyclerView.OnScrollListener() {
+        @Override
+        public void onScrollStateChanged(int scrollState) {
+        }
+
+        @Override
+        public void onScrolled(int dx, int dy) {
+            updateVisibility();
+        }
+    };
+
+    private void updateVisibility() {
+        int newScrollY = getListViewScrollY();
+        if (newScrollY == mScrollY) {
+            return;
+        }
+
+        if (newScrollY > mScrollY) {
+            // Scrolling up
+            hide();
+        } else if (newScrollY < mScrollY) {
+            // Scrolling down
+            show();
+        }
+        mScrollY = newScrollY;
+    }
 
     public FloatingActionButton(Context context) {
         this(context, null);
@@ -190,9 +213,17 @@ public class FloatingActionButton extends ImageButton {
     }
 
     protected int getListViewScrollY() {
-        View topChild = mListView.getChildAt(0);
-        return topChild == null ? 0 : mListView.getFirstVisiblePosition() * topChild.getHeight() -
-                topChild.getTop();
+        View topChild;
+        if (mRecyclerView == null && mAbsListView != null) {
+            topChild = mAbsListView.getChildAt(0);
+            return topChild == null ? 0 : mAbsListView.getFirstVisiblePosition() * topChild.getHeight() -
+                    topChild.getTop();
+        } else if (mRecyclerView != null) {
+            topChild = mRecyclerView.getChildAt(0);
+            return topChild == null ? 0 : ((LinearLayoutManager) mRecyclerView.getLayoutManager()).findFirstVisibleItemPosition() * topChild.getHeight() -
+                    topChild.getTop();
+        } else
+            throw new IllegalStateException("Not attached to a view.");
     }
 
     private int getMarginBottom() {
@@ -278,8 +309,12 @@ public class FloatingActionButton extends ImageButton {
         return mType;
     }
 
-    protected AbsListView.OnScrollListener getOnScrollListener() {
-        return mOnScrollListener;
+    protected AbsListView.OnScrollListener getAbsListViewOnScrollListener() {
+        return mAbsListViewOnScrollListener;
+    }
+
+    protected RecyclerView.OnScrollListener getRecyclerViewOnScrollListener() {
+        return mRecyclerViewOnScrollListener;
     }
 
     public void show() {
@@ -296,12 +331,42 @@ public class FloatingActionButton extends ImageButton {
         }
     }
 
-    public void attachToListView(@NonNull AbsListView listView) {
-        if (listView == null) {
-            throw new NullPointerException("AbsListView cannot be null.");
-        }
-        mListView = listView;
-        mListView.setOnScrollListener(mOnScrollListener);
+    /**
+     * Attaches this FloatingActionButton to a View so that it behaves depending on it.
+     * Currently the supported views are AbsListView and RecyclerView (only if it has a LinearLayoutManager.)
+     * <p/>
+     * A FloatingActionButton can only be attached to a view at a time, and therefore consequent calls to this
+     * method will replace the view this FloatingActionButton is attached to.
+     *
+     * @param view {@link android.view.ViewGroup} The view to attach this FloatingActionButton to.
+     */
+    public void attachToView(@NonNull ViewGroup view) {
+        if (view instanceof RecyclerView) {
+            RecyclerView viewAsRecyclerView = (RecyclerView) view;
+            LinearLayoutManager linearLayoutManager;
+            try {
+                linearLayoutManager = (LinearLayoutManager) viewAsRecyclerView.getLayoutManager();
+            } catch (ClassCastException ignored) {
+                throw new IllegalArgumentException("Currently a FloatingActionButton can only be attached to an AbsListView or a RecyclerView with a LinearLayoutManager.");
+            }
+            if (linearLayoutManager == null) {
+                throw new IllegalStateException("To attach a FloatingActionButton a RecyclerView it must have a supported LayoutManager.");
+            }
+            if (mAbsListView != null) {
+                mAbsListView.setOnScrollListener(null);
+                mAbsListView = null;
+            }
+            mRecyclerView = viewAsRecyclerView;
+            mRecyclerView.setOnScrollListener(mRecyclerViewOnScrollListener);
+        } else if (view instanceof AbsListView) {
+            if (mRecyclerView != null) {
+                mRecyclerView.setOnScrollListener(null);
+                mRecyclerView = null;
+            }
+            mAbsListView = (AbsListView) view;
+            mAbsListView.setOnScrollListener(mAbsListViewOnScrollListener);
+        } else
+            throw new IllegalArgumentException("Currently a FloatingActionButton can only be attached to an AbsListView or a RecyclerView with a LinearLayoutManager.");
     }
 
     /**
