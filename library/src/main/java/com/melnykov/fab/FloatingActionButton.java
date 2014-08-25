@@ -310,13 +310,13 @@ public class FloatingActionButton extends ImageButton {
     }
 
     /**
-     * @deprecated Use {@link #getOnAbsListViewOnScrollListener()} instead.
+     * @deprecated Use {@link #getAbsListViewOnScrollListener()} instead.
      */
     protected AbsListView.OnScrollListener getOnScrollListener() {
         return mAbsListViewOnScrollListener;
     }
 
-    protected AbsListView.OnScrollListener getOnAbsListViewOnScrollListener() {
+    protected AbsListView.OnScrollListener getAbsListViewOnScrollListener() {
         return mAbsListViewOnScrollListener;
     }
 
