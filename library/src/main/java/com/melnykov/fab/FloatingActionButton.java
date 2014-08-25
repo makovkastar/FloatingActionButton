@@ -309,7 +309,14 @@ public class FloatingActionButton extends ImageButton {
         return mType;
     }
 
-    protected AbsListView.OnScrollListener getAbsListViewOnScrollListener() {
+    /**
+     * @deprecated Use {@link #getOnAbsListViewOnScrollListener()} instead.
+     */
+    protected AbsListView.OnScrollListener getOnScrollListener() {
+        return mAbsListViewOnScrollListener;
+    }
+
+    protected AbsListView.OnScrollListener getOnAbsListViewOnScrollListener() {
         return mAbsListViewOnScrollListener;
     }
 
@@ -332,41 +339,46 @@ public class FloatingActionButton extends ImageButton {
     }
 
     /**
-     * Attaches this FloatingActionButton to a View so that it behaves depending on it.
-     * Currently the supported views are AbsListView and RecyclerView (only if it has a LinearLayoutManager.)
+     * Attaches this FloatingActionButton to a RecyclerView so that it behaves depending on it.
      * <p/>
-     * A FloatingActionButton can only be attached to a view at a time, and therefore consequent calls to this
-     * method will replace the view this FloatingActionButton is attached to.
+     * A FloatingActionButton can only be attached to a view at a time and therefore, once this method is called,
+     * calls to {@link com.melnykov.fab.FloatingActionButton#attachToListView(android.widget.AbsListView)} will cause an exception to be thrown.
      *
      * @param view {@link android.view.ViewGroup} The view to attach this FloatingActionButton to.
+     * @throws IllegalArgumentException If the LayoutManager of the view is not a LinearLayoutManager.
+     * @throws IllegalStateException    If the view lacks a LayoutManager or the FAB is already listening to a ListView.
      */
-    public void attachToView(@NonNull ViewGroup view) {
-        if (view instanceof RecyclerView) {
-            RecyclerView viewAsRecyclerView = (RecyclerView) view;
-            LinearLayoutManager linearLayoutManager;
-            try {
-                linearLayoutManager = (LinearLayoutManager) viewAsRecyclerView.getLayoutManager();
-            } catch (ClassCastException ignored) {
-                throw new IllegalArgumentException("Currently a FloatingActionButton can only be attached to an AbsListView or a RecyclerView with a LinearLayoutManager.");
-            }
-            if (linearLayoutManager == null) {
-                throw new IllegalStateException("To attach a FloatingActionButton a RecyclerView it must have a supported LayoutManager.");
-            }
-            if (mAbsListView != null) {
-                mAbsListView.setOnScrollListener(null);
-                mAbsListView = null;
-            }
-            mRecyclerView = viewAsRecyclerView;
-            mRecyclerView.setOnScrollListener(mRecyclerViewOnScrollListener);
-        } else if (view instanceof AbsListView) {
-            if (mRecyclerView != null) {
-                mRecyclerView.setOnScrollListener(null);
-                mRecyclerView = null;
-            }
-            mAbsListView = (AbsListView) view;
-            mAbsListView.setOnScrollListener(mAbsListViewOnScrollListener);
-        } else
-            throw new IllegalArgumentException("Currently a FloatingActionButton can only be attached to an AbsListView or a RecyclerView with a LinearLayoutManager.");
+    public void attachToRecyclerView(@NonNull RecyclerView view) {
+        LinearLayoutManager linearLayoutManager;
+        try {
+            linearLayoutManager = (LinearLayoutManager) view.getLayoutManager();
+        } catch (ClassCastException ignored) {
+            throw new IllegalArgumentException("To attach a FloatingActionButton a RecyclerView it must have a supported LayoutManager (LinearLayoutManager).");
+        }
+        if (linearLayoutManager == null) {
+            throw new IllegalStateException("The LayoutManager of the view cannot be null.");
+        }
+        if (mAbsListView != null) {
+            throw new IllegalStateException("Already listening to an AbsListView");
+        }
+        mRecyclerView = view;
+        mRecyclerView.setOnScrollListener(mRecyclerViewOnScrollListener);
+    }
+
+    /**
+     * Attaches this FloatingActionButton to an AbsListView so that it behaves depending on it.
+     * <p/>
+     * A FloatingActionButton can only be attached to a view at a time and therefore, once this method is called,
+     * calls to {@link com.melnykov.fab.FloatingActionButton#attachToRecyclerView(android.support.v7.widget.RecyclerView)} will cause an exception to be thrown.
+     *
+     * @param view {@link android.widget.AbsListView} The view to attach this FloatingActionButton to.
+     * @throws IllegalStateException If the FAB is already listening to a ListView.
+     */
+    public void attachToListView(@NonNull AbsListView view) {
+        if (mRecyclerView != null)
+            throw new IllegalStateException("Already listening to a RecyclerView");
+        mAbsListView = view;
+        mAbsListView.setOnScrollListener(mAbsListViewOnScrollListener);
     }
 
     /**
