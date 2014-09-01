@@ -45,7 +45,7 @@ public class FloatingActionButton extends ImageButton {
 
     private final ScrollSettleHandler mScrollSettleHandler = new ScrollSettleHandler();
     private final Interpolator mInterpolator = new AccelerateDecelerateInterpolator();
-    private final AbsListView.OnScrollListener mScrollListener = new AbsListView.OnScrollListener() {
+    private final AbsListView.OnScrollListener mOnScrollListener = new AbsListView.OnScrollListener() {
         @Override
         public void onScrollStateChanged(AbsListView view, int scrollState) {
         }
@@ -278,8 +278,8 @@ public class FloatingActionButton extends ImageButton {
         return mType;
     }
 
-    protected AbsListView.OnScrollListener getScrollListener() {
-        return mScrollListener;
+    protected AbsListView.OnScrollListener getOnScrollListener() {
+        return mOnScrollListener;
     }
 
     public void show() {
@@ -301,7 +301,7 @@ public class FloatingActionButton extends ImageButton {
             throw new NullPointerException("AbsListView cannot be null.");
         }
         mListView = listView;
-        mListView.setOnScrollListener(mScrollListener);
+        mListView.setOnScrollListener(mOnScrollListener);
     }
 
     /**
