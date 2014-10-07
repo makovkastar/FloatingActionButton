@@ -104,6 +104,13 @@ floatingActionButton.attachToListView(listView);
 
 **5)** Set an icon for the ``FloatingActionButton`` using ``android:src`` xml attribute. Use drawables of size **24dp** as specified by [guidlines]. Icons of desired size can be generated with [Android Asset Studio].
 
+### Applications using FloatingActionButton
+
+Please [ping](mailto:makovkastar@gmail.com) me if you would like to be added here.
+
+Icon | Application
+------------ | -------------
+
 ### License
 
 ```
