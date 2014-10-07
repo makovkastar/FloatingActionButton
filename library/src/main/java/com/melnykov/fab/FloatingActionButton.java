@@ -8,7 +8,7 @@ import android.graphics.drawable.LayerDrawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.StateListDrawable;
 import android.graphics.drawable.shapes.OvalShape;
-import android.os.*;
+import android.os.Build;
 import android.support.annotation.ColorRes;
 import android.support.annotation.DimenRes;
 import android.support.annotation.IntDef;
@@ -95,26 +95,6 @@ public class FloatingActionButton extends ImageButton {
         setMeasuredDimension(size, size);
     }
 
-    @Override
-    public Parcelable onSaveInstanceState() {
-        Parcelable superState = super.onSaveInstanceState();
-        SavedState savedState = new SavedState(superState);
-        savedState.mScrollY = mScrollY;
-
-        return savedState;
-    }
-
-    @Override
-    public void onRestoreInstanceState(Parcelable state) {
-        if (state instanceof SavedState) {
-            SavedState savedState = (SavedState) state;
-            mScrollY = savedState.mScrollY;
-            super.onRestoreInstanceState(savedState.getSuperState());
-        } else {
-            super.onRestoreInstanceState(state);
-        }
-    }
-
     private void init(Context context, AttributeSet attributeSet) {
         mVisible = true;
         mColorNormal = getColor(android.R.color.holo_blue_dark);
@@ -190,6 +170,10 @@ public class FloatingActionButton extends ImageButton {
         }
     }
 
+    /**
+     * Does not work correctly for list with rows of different heights
+     * TODO do not assume all rows are same height
+     */
     protected int getListViewScrollY() {
         View topChild = mListView.getChildAt(0);
         return topChild == null ? 0 : mListView.getFirstVisiblePosition() * topChild.getHeight() -
@@ -302,56 +286,85 @@ public class FloatingActionButton extends ImageButton {
             int translationY = visible ? 0 : height + getMarginBottom();
             if (animate) {
                 animate().setInterpolator(mInterpolator)
-                    .setDuration(TRANSLATE_DURATION_MILLIS)
-                    .translationY(translationY);
+                        .setDuration(TRANSLATE_DURATION_MILLIS)
+                        .translationY(translationY);
             } else {
                 setTranslationY(translationY);
             }
         }
     }
-
+    /**
+     * If need to use custom {@link android.widget.AbsListView.OnScrollListener},
+     * pass it to {@link #attachToListView(android.widget.AbsListView, com.melnykov.fab.FloatingActionButton.FabOnScrollListener)}
+     */
     public void attachToListView(@NonNull AbsListView listView) {
-        if (listView == null) {
-            throw new NullPointerException("AbsListView cannot be null.");
-        }
-        mListView = listView;
-        mListView.setOnScrollListener(mOnScrollListener);
+        attachToListView(listView, new FabOnScrollListener());
     }
 
-    /**
-     * A {@link android.os.Parcelable} representing the {@link com.melnykov.fab.FloatingActionButton}'s
-     * state.
-     */
-    public static class SavedState extends BaseSavedState {
+    public void attachToListView(@NonNull AbsListView listView, @NonNull FabOnScrollListener onScrollListener) {
+        mListView = listView;
+        onScrollListener.setFloatingActionButton(this);
+        onScrollListener.setListView(listView);
+        mListView.setOnScrollListener(onScrollListener);
+    }
 
-        private int mScrollY;
+    public static class FabOnScrollListener implements AbsListView.OnScrollListener {
+        public int mScrollY = 0;
+        public int mFirstVisibleItem = 0;
 
-        public SavedState(Parcelable parcel) {
-            super(parcel);
-        }
+        public int mLastChangePosition;
+        private FloatingActionButton mFloatingActionButton;
+        private AbsListView mListView;
 
-        private SavedState(Parcel in) {
-            super(in);
-            mScrollY = in.readInt();
+        @Override
+        public void onScrollStateChanged(AbsListView view, int scrollState) {
         }
 
         @Override
-        public void writeToParcel(Parcel out, int flags) {
-            super.writeToParcel(out, flags);
-            out.writeInt(mScrollY);
+        public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+            int newScrollY = getListViewScrollY();
+            int minSignificantScroll = view.getContext().getResources().getDimensionPixelOffset(R.dimen.fab_min_significant_scroll);
+
+            /**
+             * Do not try to calculate direction if rows changed,
+             *   because getListViewScrollY() estimates incorrectly,
+             *   if list can have rows of different heights
+             */
+            boolean sameRow = firstVisibleItem == mFirstVisibleItem;
+            boolean scrollUp = newScrollY > mScrollY;
+            boolean didNotScroll = newScrollY == mScrollY;
+            boolean significantChange = Math.abs(mLastChangePosition - newScrollY) > minSignificantScroll;
+
+            mScrollY = newScrollY;
+            mFirstVisibleItem = firstVisibleItem;
+
+            if (didNotScroll || !significantChange || !sameRow) {
+                return;
+            }
+
+            if (scrollUp) {
+                mFloatingActionButton.hide();
+            } else {
+                mFloatingActionButton.show();
+            }
+            mLastChangePosition = newScrollY;
         }
 
-        public static final Creator<SavedState> CREATOR = new Creator<SavedState>() {
+        public void setFloatingActionButton(FloatingActionButton floatingActionButton) {
+            mFloatingActionButton = floatingActionButton;
+        }
 
-            @Override
-            public SavedState createFromParcel(Parcel in) {
-                return new SavedState(in);
-            }
+        /**
+         * Does not work correctly for list with rows of different heights
+         */
+        protected int getListViewScrollY() {
+            View topChild = mListView == null ? null : mListView.getChildAt(0);
+            return topChild == null ? 0 : mListView.getFirstVisiblePosition() * topChild.getHeight() -
+                    topChild.getTop();
+        }
 
-            @Override
-            public SavedState[] newArray(int size) {
-                return new SavedState[size];
-            }
-        };
+        public void setListView(AbsListView listView) {
+            mListView = listView;
+        }
     }
 }
