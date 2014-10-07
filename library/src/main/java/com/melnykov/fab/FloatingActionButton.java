@@ -16,6 +16,7 @@ import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Interpolator;
 import android.widget.AbsListView;
@@ -27,6 +28,7 @@ import android.widget.ImageButton;
  * @author Oleksandr Melnykov
  */
 public class FloatingActionButton extends ImageButton {
+    private static final int TRANSLATE_DURATION_MILLIS = 200;
 
     @IntDef({TYPE_NORMAL, TYPE_MINI})
     public @interface TYPE{}
@@ -43,7 +45,6 @@ public class FloatingActionButton extends ImageButton {
     private boolean mShadow;
     private int mType;
 
-    private final ScrollSettleHandler mScrollSettleHandler = new ScrollSettleHandler();
     private final Interpolator mInterpolator = new AccelerateDecelerateInterpolator();
     private final AbsListView.OnScrollListener mOnScrollListener = new AbsListView.OnScrollListener() {
         @Override
@@ -204,27 +205,6 @@ public class FloatingActionButton extends ImageButton {
         return marginBottom;
     }
 
-    private class ScrollSettleHandler extends Handler {
-        private static final int TRANSLATE_DURATION_MILLIS = 200;
-
-        private int mSettledScrollY;
-
-        public void onScroll(int scrollY) {
-            if (mSettledScrollY != scrollY) {
-                mSettledScrollY = scrollY;
-                removeMessages(0);
-                sendEmptyMessage(0);
-            }
-        }
-
-        @Override
-        public void handleMessage(Message msg) {
-            animate().setInterpolator(mInterpolator)
-                    .setDuration(TRANSLATE_DURATION_MILLIS)
-                    .translationY(mSettledScrollY);
-        }
-    }
-
     public void setColorNormal(int color) {
         if (color != mColorNormal) {
             mColorNormal = color;
@@ -283,16 +263,50 @@ public class FloatingActionButton extends ImageButton {
     }
 
     public void show() {
-        if (!mVisible) {
-            mVisible = true;
-            mScrollSettleHandler.onScroll(0);
-        }
+        show(true);
     }
 
     public void hide() {
-        if (mVisible) {
-            mVisible = false;
-            mScrollSettleHandler.onScroll(getHeight() + getMarginBottom());
+        hide(true);
+    }
+
+    public void show(boolean animate) {
+        toggle(true, animate, false);
+    }
+
+    public void hide(boolean animate) {
+        toggle(false, animate, false);
+    }
+
+    private void toggle(final boolean visible, final boolean animate, boolean force) {
+        if (mVisible != visible || force) {
+            mVisible = visible;
+            int height = getHeight();
+            if (height == 0 && !force) {
+                ViewTreeObserver vto = getViewTreeObserver();
+                if (vto.isAlive()) {
+                    vto.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+                        @Override
+                        public boolean onPreDraw() {
+                            ViewTreeObserver currentVto = getViewTreeObserver();
+                            if (currentVto.isAlive()) {
+                                currentVto.removeOnPreDrawListener(this);
+                            }
+                            toggle(visible, animate, true);
+                            return true;
+                        }
+                    });
+                    return;
+                }
+            }
+            int translationY = visible ? 0 : height + getMarginBottom();
+            if (animate) {
+                animate().setInterpolator(mInterpolator)
+                    .setDuration(TRANSLATE_DURATION_MILLIS)
+                    .translationY(translationY);
+            } else {
+                setTranslationY(translationY);
+            }
         }
     }
 
