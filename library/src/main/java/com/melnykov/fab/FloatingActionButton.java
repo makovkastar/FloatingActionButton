@@ -31,13 +31,14 @@ public class FloatingActionButton extends ImageButton {
     private static final int TRANSLATE_DURATION_MILLIS = 200;
 
     @IntDef({TYPE_NORMAL, TYPE_MINI})
-    public @interface TYPE{}
+    public @interface TYPE {
+    }
+
     public static final int TYPE_NORMAL = 0;
     public static final int TYPE_MINI = 1;
 
     protected AbsListView mListView;
 
-    private int mScrollY;
     private boolean mVisible;
 
     private int mColorNormal;
@@ -46,28 +47,6 @@ public class FloatingActionButton extends ImageButton {
     private int mType;
 
     private final Interpolator mInterpolator = new AccelerateDecelerateInterpolator();
-    private final AbsListView.OnScrollListener mOnScrollListener = new AbsListView.OnScrollListener() {
-        @Override
-        public void onScrollStateChanged(AbsListView view, int scrollState) {
-        }
-
-        @Override
-        public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-            int newScrollY = getListViewScrollY();
-            if (newScrollY == mScrollY) {
-                return;
-            }
-
-            if (newScrollY > mScrollY) {
-                // Scrolling up
-                hide();
-            } else if (newScrollY < mScrollY) {
-                // Scrolling down
-                show();
-            }
-            mScrollY = newScrollY;
-        }
-    };
 
     public FloatingActionButton(Context context) {
         this(context, null);
@@ -170,16 +149,6 @@ public class FloatingActionButton extends ImageButton {
         }
     }
 
-    /**
-     * Does not work correctly for list with rows of different heights
-     * TODO do not assume all rows are same height
-     */
-    protected int getListViewScrollY() {
-        View topChild = mListView.getChildAt(0);
-        return topChild == null ? 0 : mListView.getFirstVisiblePosition() * topChild.getHeight() -
-                topChild.getTop();
-    }
-
     private int getMarginBottom() {
         int marginBottom = 0;
         final ViewGroup.LayoutParams layoutParams = getLayoutParams();
@@ -240,10 +209,6 @@ public class FloatingActionButton extends ImageButton {
     @TYPE
     public int getType() {
         return mType;
-    }
-
-    protected AbsListView.OnScrollListener getOnScrollListener() {
-        return mOnScrollListener;
     }
 
     public void show() {
