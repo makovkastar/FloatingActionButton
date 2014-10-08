@@ -4,7 +4,12 @@ import android.view.View;
 import android.widget.AbsListView;
 
 /**
- * Detects wge
+ * Detects which direction list view was scrolled.
+ * <p/>
+ * Set {@link ScrollDirectionListener} to get callbacks
+ * {@link ScrollDirectionListener#onScrollDown()} or
+ * {@link ScrollDirectionListener#onScrollUp()}
+ *
  * @author Vilius Kraujutis
  * @since 2014-10-09 01:20
  */
