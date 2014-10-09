@@ -29,6 +29,7 @@ import android.widget.ImageButton;
  */
 public class FloatingActionButton extends ImageButton {
     private static final int TRANSLATE_DURATION_MILLIS = 200;
+    private FabOnScrollListener mOnScrollListener;
 
     @IntDef({TYPE_NORMAL, TYPE_MINI})
     public @interface TYPE {
@@ -149,6 +150,17 @@ public class FloatingActionButton extends ImageButton {
         }
     }
 
+    /**
+     * @deprecated to be removed in next release.
+     * Now {@link com.melnykov.fab.ScrollDirectionDetector} is used to detect scrolling direction.
+     */
+    @Deprecated
+    protected int getListViewScrollY() {
+        View topChild = mListView.getChildAt(0);
+        return topChild == null ? 0 : mListView.getFirstVisiblePosition() * topChild.getHeight() -
+                topChild.getTop();
+    }
+
     private int getMarginBottom() {
         int marginBottom = 0;
         final ViewGroup.LayoutParams layoutParams = getLayoutParams();
@@ -211,6 +223,10 @@ public class FloatingActionButton extends ImageButton {
         return mType;
     }
 
+    protected AbsListView.OnScrollListener getOnScrollListener() {
+        return mOnScrollListener;
+    }
+
     public void show() {
         show(true);
     }
@@ -269,6 +285,7 @@ public class FloatingActionButton extends ImageButton {
 
     public void attachToListView(@NonNull AbsListView listView, @NonNull FabOnScrollListener onScrollListener) {
         mListView = listView;
+        mOnScrollListener = onScrollListener;
         onScrollListener.setFloatingActionButton(this);
         onScrollListener.setListView(listView);
         mListView.setOnScrollListener(onScrollListener);
