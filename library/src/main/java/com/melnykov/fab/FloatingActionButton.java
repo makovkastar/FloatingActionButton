@@ -8,7 +8,7 @@ import android.graphics.drawable.LayerDrawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.StateListDrawable;
 import android.graphics.drawable.shapes.OvalShape;
-import android.os.*;
+import android.os.Build;
 import android.support.annotation.ColorRes;
 import android.support.annotation.DimenRes;
 import android.support.annotation.IntDef;
@@ -29,15 +29,17 @@ import android.widget.ImageButton;
  */
 public class FloatingActionButton extends ImageButton {
     private static final int TRANSLATE_DURATION_MILLIS = 200;
+    private FabOnScrollListener mOnScrollListener;
 
     @IntDef({TYPE_NORMAL, TYPE_MINI})
-    public @interface TYPE{}
+    public @interface TYPE {
+    }
+
     public static final int TYPE_NORMAL = 0;
     public static final int TYPE_MINI = 1;
 
     protected AbsListView mListView;
 
-    private int mScrollY;
     private boolean mVisible;
 
     private int mColorNormal;
@@ -46,28 +48,6 @@ public class FloatingActionButton extends ImageButton {
     private int mType;
 
     private final Interpolator mInterpolator = new AccelerateDecelerateInterpolator();
-    private final AbsListView.OnScrollListener mOnScrollListener = new AbsListView.OnScrollListener() {
-        @Override
-        public void onScrollStateChanged(AbsListView view, int scrollState) {
-        }
-
-        @Override
-        public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-            int newScrollY = getListViewScrollY();
-            if (newScrollY == mScrollY) {
-                return;
-            }
-
-            if (newScrollY > mScrollY) {
-                // Scrolling up
-                hide();
-            } else if (newScrollY < mScrollY) {
-                // Scrolling down
-                show();
-            }
-            mScrollY = newScrollY;
-        }
-    };
 
     public FloatingActionButton(Context context) {
         this(context, null);
@@ -93,26 +73,6 @@ public class FloatingActionButton extends ImageButton {
             size += shadowSize * 2;
         }
         setMeasuredDimension(size, size);
-    }
-
-    @Override
-    public Parcelable onSaveInstanceState() {
-        Parcelable superState = super.onSaveInstanceState();
-        SavedState savedState = new SavedState(superState);
-        savedState.mScrollY = mScrollY;
-
-        return savedState;
-    }
-
-    @Override
-    public void onRestoreInstanceState(Parcelable state) {
-        if (state instanceof SavedState) {
-            SavedState savedState = (SavedState) state;
-            mScrollY = savedState.mScrollY;
-            super.onRestoreInstanceState(savedState.getSuperState());
-        } else {
-            super.onRestoreInstanceState(state);
-        }
     }
 
     private void init(Context context, AttributeSet attributeSet) {
@@ -190,6 +150,11 @@ public class FloatingActionButton extends ImageButton {
         }
     }
 
+    /**
+     * @deprecated to be removed in next release.
+     * Now {@link com.melnykov.fab.ScrollDirectionDetector} is used to detect scrolling direction.
+     */
+    @Deprecated
     protected int getListViewScrollY() {
         View topChild = mListView.getChildAt(0);
         return topChild == null ? 0 : mListView.getFirstVisiblePosition() * topChild.getHeight() -
@@ -302,56 +267,47 @@ public class FloatingActionButton extends ImageButton {
             int translationY = visible ? 0 : height + getMarginBottom();
             if (animate) {
                 animate().setInterpolator(mInterpolator)
-                    .setDuration(TRANSLATE_DURATION_MILLIS)
-                    .translationY(translationY);
+                        .setDuration(TRANSLATE_DURATION_MILLIS)
+                        .translationY(translationY);
             } else {
                 setTranslationY(translationY);
             }
         }
     }
 
+    /**
+     * If need to use custom {@link android.widget.AbsListView.OnScrollListener},
+     * pass it to {@link #attachToListView(android.widget.AbsListView, com.melnykov.fab.FloatingActionButton.FabOnScrollListener)}
+     */
     public void attachToListView(@NonNull AbsListView listView) {
-        if (listView == null) {
-            throw new NullPointerException("AbsListView cannot be null.");
-        }
-        mListView = listView;
-        mListView.setOnScrollListener(mOnScrollListener);
+        attachToListView(listView, new FabOnScrollListener());
     }
 
-    /**
-     * A {@link android.os.Parcelable} representing the {@link com.melnykov.fab.FloatingActionButton}'s
-     * state.
-     */
-    public static class SavedState extends BaseSavedState {
+    public void attachToListView(@NonNull AbsListView listView, @NonNull FabOnScrollListener onScrollListener) {
+        mListView = listView;
+        mOnScrollListener = onScrollListener;
+        onScrollListener.setFloatingActionButton(this);
+        onScrollListener.setListView(listView);
+        mListView.setOnScrollListener(onScrollListener);
+    }
 
-        private int mScrollY;
+    public static class FabOnScrollListener extends ScrollDirectionDetector {
+        private FloatingActionButton mFloatingActionButton;
 
-        public SavedState(Parcelable parcel) {
-            super(parcel);
+        public FabOnScrollListener() {
+            setScrollDirectionListener(new ScrollDirectionListener() {
+                @Override public void onScrollDown() {
+                    mFloatingActionButton.show();
+                }
+
+                @Override public void onScrollUp() {
+                    mFloatingActionButton.hide();
+                }
+            });
         }
 
-        private SavedState(Parcel in) {
-            super(in);
-            mScrollY = in.readInt();
+        public void setFloatingActionButton(FloatingActionButton floatingActionButton) {
+            mFloatingActionButton = floatingActionButton;
         }
-
-        @Override
-        public void writeToParcel(Parcel out, int flags) {
-            super.writeToParcel(out, flags);
-            out.writeInt(mScrollY);
-        }
-
-        public static final Creator<SavedState> CREATOR = new Creator<SavedState>() {
-
-            @Override
-            public SavedState createFromParcel(Parcel in) {
-                return new SavedState(in);
-            }
-
-            @Override
-            public SavedState[] newArray(int size) {
-                return new SavedState[size];
-            }
-        };
     }
 }
