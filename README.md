@@ -104,6 +104,18 @@ floatingActionButton.attachToListView(listView);
 
 **5)** Set an icon for the ``FloatingActionButton`` using ``android:src`` xml attribute. Use drawables of size **24dp** as specified by [guidlines]. Icons of desired size can be generated with [Android Asset Studio].
 
+### Changelog
+**Version 1.0.4:**
+
++ Allow a custom ``OnScrollListeners`` to be attached to a list view;
++ Work properly with list of different height rows;
++ Ignore tiny shakes of fingers.
+
+**Version 1.0.3:**
++ Add methods to show/hide without animation;
++ Fix show/hide when a view is not measured yet.
+
+
 ### Applications using FloatingActionButton
 
 Please [ping](mailto:makovkastar@gmail.com) me if you would like to be added here.
