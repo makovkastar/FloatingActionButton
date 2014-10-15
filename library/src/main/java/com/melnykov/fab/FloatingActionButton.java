@@ -22,6 +22,8 @@ import android.view.animation.Interpolator;
 import android.widget.AbsListView;
 import android.widget.ImageButton;
 
+import com.nineoldandroids.animation.ObjectAnimator;
+
 /**
  * Android Google+ like floating action button which reacts on the attached list view scrolling events.
  *
@@ -77,8 +79,8 @@ public class FloatingActionButton extends ImageButton {
 
     private void init(Context context, AttributeSet attributeSet) {
         mVisible = true;
-        mColorNormal = getColor(android.R.color.holo_blue_dark);
-        mColorPressed = getColor(android.R.color.holo_blue_light);
+        mColorNormal = getColor(R.color.holo_blue_dark);
+        mColorPressed = getColor(R.color.holo_blue_light);
         mType = TYPE_NORMAL;
         mShadow = true;
         if (attributeSet != null) {
@@ -92,9 +94,9 @@ public class FloatingActionButton extends ImageButton {
         if (attr != null) {
             try {
                 mColorNormal = attr.getColor(R.styleable.FloatingActionButton_fab_colorNormal,
-                        getColor(android.R.color.holo_blue_dark));
+                        getColor(R.color.holo_blue_dark));
                 mColorPressed = attr.getColor(R.styleable.FloatingActionButton_fab_colorPressed,
-                        getColor(android.R.color.holo_blue_light));
+                        getColor(R.color.holo_blue_light));
                 mShadow = attr.getBoolean(R.styleable.FloatingActionButton_fab_shadow, true);
                 mType = attr.getInt(R.styleable.FloatingActionButton_fab_type, TYPE_NORMAL);
             } finally {
@@ -265,12 +267,14 @@ public class FloatingActionButton extends ImageButton {
                 }
             }
             int translationY = visible ? 0 : height + getMarginBottom();
+            int from = visible ? height : 0;
+            ObjectAnimator animator = ObjectAnimator.ofFloat(this,
+                    "translationY", from, translationY);
+            animator.setInterpolator(mInterpolator);
             if (animate) {
-                animate().setInterpolator(mInterpolator)
-                        .setDuration(TRANSLATE_DURATION_MILLIS)
-                        .translationY(translationY);
+                animator.setDuration(TRANSLATE_DURATION_MILLIS).start();
             } else {
-                setTranslationY(translationY);
+                animator.setDuration(0).start();
             }
         }
     }
