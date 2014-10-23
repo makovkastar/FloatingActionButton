@@ -13,6 +13,7 @@ import android.support.annotation.ColorRes;
 import android.support.annotation.DimenRes;
 import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +31,7 @@ import android.widget.ImageButton;
 public class FloatingActionButton extends ImageButton {
     private static final int TRANSLATE_DURATION_MILLIS = 200;
     private FabOnScrollListener mOnScrollListener;
+    private FabRecyclerOnViewScrollListener mRecyclerViewOnScrollListener;
 
     @IntDef({TYPE_NORMAL, TYPE_MINI})
     public @interface TYPE {
@@ -39,6 +41,7 @@ public class FloatingActionButton extends ImageButton {
     public static final int TYPE_MINI = 1;
 
     protected AbsListView mListView;
+    protected RecyclerView mRecyclerView;
 
     private boolean mVisible;
 
@@ -227,6 +230,10 @@ public class FloatingActionButton extends ImageButton {
         return mOnScrollListener;
     }
 
+    protected RecyclerView.OnScrollListener getRecyclerViewOnScrollListener() {
+        return mRecyclerViewOnScrollListener;
+    }
+
     public void show() {
         show(true);
     }
@@ -283,6 +290,14 @@ public class FloatingActionButton extends ImageButton {
         attachToListView(listView, new FabOnScrollListener());
     }
 
+    /**
+     * If need to use custom {@link android.widget.AbsListView.OnScrollListener},
+     * pass it to {@link #attachToListView(android.widget.AbsListView, com.melnykov.fab.FloatingActionButton.FabOnScrollListener)}
+     */
+    public void attachToRecyclerView(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.LayoutManager layoutManager) {
+        attachToRecyclerView(recyclerView, layoutManager, new FabRecyclerOnViewScrollListener());
+    }
+
     public void attachToListView(@NonNull AbsListView listView, @NonNull FabOnScrollListener onScrollListener) {
         mListView = listView;
         mOnScrollListener = onScrollListener;
@@ -291,16 +306,48 @@ public class FloatingActionButton extends ImageButton {
         mListView.setOnScrollListener(onScrollListener);
     }
 
+    public void attachToRecyclerView(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.LayoutManager layoutManager, @NonNull FabRecyclerOnViewScrollListener onScrollListener) {
+        mRecyclerView = recyclerView;
+        mRecyclerViewOnScrollListener = onScrollListener;
+        onScrollListener.setFloatingActionButton(this);
+        onScrollListener.setRecyclerView(recyclerView, layoutManager);
+        mRecyclerView.setOnScrollListener(onScrollListener);
+    }
+
     public static class FabOnScrollListener extends ScrollDirectionDetector {
         private FloatingActionButton mFloatingActionButton;
 
         public FabOnScrollListener() {
             setScrollDirectionListener(new ScrollDirectionListener() {
-                @Override public void onScrollDown() {
+                @Override
+                public void onScrollDown() {
                     mFloatingActionButton.show();
                 }
 
-                @Override public void onScrollUp() {
+                @Override
+                public void onScrollUp() {
+                    mFloatingActionButton.hide();
+                }
+            });
+        }
+
+        public void setFloatingActionButton(FloatingActionButton floatingActionButton) {
+            mFloatingActionButton = floatingActionButton;
+        }
+    }
+
+    public static class FabRecyclerOnViewScrollListener extends ScrollDirectionRecyclerViewDetector {
+        private FloatingActionButton mFloatingActionButton;
+
+        public FabRecyclerOnViewScrollListener() {
+            setScrollDirectionListener(new ScrollDirectionListener() {
+                @Override
+                public void onScrollDown() {
+                    mFloatingActionButton.show();
+                }
+
+                @Override
+                public void onScrollUp() {
                     mFloatingActionButton.hide();
                 }
             });
