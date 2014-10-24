@@ -22,7 +22,6 @@ public abstract class ScrollDirectionRecyclerViewDetector extends RecyclerView.O
     private int mPreviousFirstVisibleItem;
     public int mLastChangeY;
     private RecyclerView mRecyclerView;
-    private RecyclerView.LayoutManager mLayoutManager;
     private int mMinSignificantScroll;
 
     @Override
@@ -108,6 +107,9 @@ public abstract class ScrollDirectionRecyclerViewDetector extends RecyclerView.O
     }
 
     private int getFirstVisibleItem() {
+        RecyclerView.LayoutManager mLayoutManager = mRecyclerView.getLayoutManager();
+        if (mLayoutManager == null)
+            throw new IllegalStateException("Your RecyclerView does not have a LayoutManager.");
         if (mLayoutManager instanceof LinearLayoutManager) {
             return ((LinearLayoutManager) mLayoutManager).findFirstVisibleItemPosition();
         } else if (mLayoutManager instanceof GridLayoutManager) {
@@ -117,8 +119,7 @@ public abstract class ScrollDirectionRecyclerViewDetector extends RecyclerView.O
         }
     }
 
-    public void setRecyclerView(RecyclerView recyclerView, RecyclerView.LayoutManager layoutManager) {
+    public void setRecyclerView(RecyclerView recyclerView) {
         mRecyclerView = recyclerView;
-        mLayoutManager = layoutManager;
     }
 }
