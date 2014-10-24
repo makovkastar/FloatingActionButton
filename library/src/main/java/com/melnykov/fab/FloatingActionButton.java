@@ -294,8 +294,8 @@ public class FloatingActionButton extends ImageButton {
      * If need to use custom {@link android.widget.AbsListView.OnScrollListener},
      * pass it to {@link #attachToListView(android.widget.AbsListView, com.melnykov.fab.FloatingActionButton.FabOnScrollListener)}
      */
-    public void attachToRecyclerView(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.LayoutManager layoutManager) {
-        attachToRecyclerView(recyclerView, layoutManager, new FabRecyclerOnViewScrollListener());
+    public void attachToRecyclerView(@NonNull RecyclerView recyclerView) {
+        attachToRecyclerView(recyclerView, new FabRecyclerOnViewScrollListener());
     }
 
     public void attachToListView(@NonNull AbsListView listView, @NonNull FabOnScrollListener onScrollListener) {
@@ -306,11 +306,11 @@ public class FloatingActionButton extends ImageButton {
         mListView.setOnScrollListener(onScrollListener);
     }
 
-    public void attachToRecyclerView(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.LayoutManager layoutManager, @NonNull FabRecyclerOnViewScrollListener onScrollListener) {
+    public void attachToRecyclerView(@NonNull RecyclerView recyclerView, @NonNull FabRecyclerOnViewScrollListener onScrollListener) {
         mRecyclerView = recyclerView;
         mRecyclerViewOnScrollListener = onScrollListener;
         onScrollListener.setFloatingActionButton(this);
-        onScrollListener.setRecyclerView(recyclerView, layoutManager);
+        onScrollListener.setRecyclerView(recyclerView);
         mRecyclerView.setOnScrollListener(onScrollListener);
     }
 
