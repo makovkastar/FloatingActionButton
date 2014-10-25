@@ -21,5 +21,5 @@ android {
 }
 
 dependencies {
-    compile 'com.melnykov:floatingactionbutton:1.0.4'
+    compile 'com.melnykov:floatingactionbutton:1.0.5'
 }
