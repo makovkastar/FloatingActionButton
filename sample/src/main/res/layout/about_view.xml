@@ -6,6 +6,6 @@
     android:fontFamily="sans-serif-light"
     android:lineSpacingMultiplier="1.6"
     android:linksClickable="true"
-    android:textIsSelectable="false"
     android:padding="22dp"
+    android:textIsSelectable="false"
     android:textSize="18sp" />
