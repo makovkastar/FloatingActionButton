@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <string name="app_name">Floating Action Button</string>
 
     <string-array name="planets">
@@ -35,5 +34,4 @@
         Floating Action Button, a library by <b>Melnykov Oleksandr</b>.<br/>
         <a href=\'https://github.com/makovkastar/FloatingActionButton\'>https://github.com/makovkastar/FloatingActionButton</a>
     ]]></string>
-
 </resources>

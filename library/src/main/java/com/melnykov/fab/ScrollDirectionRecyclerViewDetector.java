@@ -1,6 +1,5 @@
 package com.melnykov.fab;
 
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -8,15 +7,13 @@ import android.view.View;
 /**
  * Detects which direction list view was scrolled.
  * <p/>
- * Set {@link com.melnykov.fab.ScrollDirectionListener} to get callbacks
- * {@link com.melnykov.fab.ScrollDirectionListener#onScrollDown()} or
- * {@link com.melnykov.fab.ScrollDirectionListener#onScrollUp()}
+ * Set {@link ScrollDirectionListener} to get callbacks
+ * {@link ScrollDirectionListener#onScrollDown()} or
+ * {@link ScrollDirectionListener#onScrollUp()}
  *
- * @author Vilius Kraujutis
- * @since 2014-10-09 01:20
+ * @author Aidan Follestad
  */
 public abstract class ScrollDirectionRecyclerViewDetector extends RecyclerView.OnScrollListener {
-
     private ScrollDirectionListener mScrollDirectionListener;
     private int mPreviousScrollY;
     private int mPreviousFirstVisibleItem;
@@ -112,10 +109,8 @@ public abstract class ScrollDirectionRecyclerViewDetector extends RecyclerView.O
             throw new IllegalStateException("Your RecyclerView does not have a LayoutManager.");
         if (mLayoutManager instanceof LinearLayoutManager) {
             return ((LinearLayoutManager) mLayoutManager).findFirstVisibleItemPosition();
-        } else if (mLayoutManager instanceof GridLayoutManager) {
-            return ((GridLayoutManager) mLayoutManager).findFirstVisibleItemPosition();
         } else {
-            throw new RuntimeException("Unknown layout manager type for getFirstVisibleItem()!");
+            throw new RuntimeException("Currently only LinearLayoutManager is supported for the RecyclerView.");
         }
     }
 

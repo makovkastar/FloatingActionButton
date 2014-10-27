@@ -11,7 +11,6 @@ import android.widget.AbsListView;
  * {@link ScrollDirectionListener#onScrollUp()}
  *
  * @author Vilius Kraujutis
- * @since 2014-10-09 01:20
  */
 public abstract class ScrollDirectionDetector implements AbsListView.OnScrollListener {
     private ScrollDirectionListener mScrollDirectionListener;

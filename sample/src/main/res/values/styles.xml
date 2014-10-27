@@ -1,13 +1,9 @@
 <resources>
-
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-
         <item name="colorPrimary">@color/primary</item>
         <item name="colorPrimaryDark">@color/primary_pressed</item>
 
         <!-- TODO to be 'Material', this shouldn't be the same as the primary color -->
         <item name="colorAccent">@color/primary</item>
-
     </style>
-
 </resources>

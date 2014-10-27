@@ -18,5 +18,4 @@
         fab:fab_colorNormal="?colorPrimary"
         fab:fab_colorPressed="?colorPrimaryDark"
         fab:fab_colorRipple="@color/ripple" />
-
 </FrameLayout>

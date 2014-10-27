@@ -1,7 +1,6 @@
 package com.melnykov.fab;
 
 import android.annotation.SuppressLint;
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
@@ -72,16 +71,12 @@ public class FloatingActionButton extends ImageButton {
         init(context, attrs);
     }
 
-    private boolean isLollipop() {
-        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP;
-    }
-
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         int size = getDimension(
                 mType == TYPE_NORMAL ? R.dimen.fab_size_normal : R.dimen.fab_size_mini);
-        if (mShadow && !isLollipop()) {
+        if (mShadow && !hasLollipopApi()) {
             int shadowSize = getDimension(R.dimen.fab_shadow_size);
             size += shadowSize * 2;
         }
@@ -119,32 +114,11 @@ public class FloatingActionButton extends ImageButton {
         }
     }
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    private boolean updateBackgroundLollipop(Drawable content) {
-        if (isLollipop()) {
-            setElevation(mShadow ? getDimension(R.dimen.fab_elevation_lollipop) : 0.0f);
-            RippleDrawable drawable = new RippleDrawable(new ColorStateList(new int[][]{{}}, new int[]{mColorRipple}), content, null);
-            setOutlineProvider(new ViewOutlineProvider() {
-                @Override
-                public void getOutline(View view, Outline outline) {
-                    int size = getDimension(mType == TYPE_NORMAL ? R.dimen.fab_size_normal : R.dimen.fab_size_mini);
-                    outline.setOval(0, 0, size, size);
-                }
-            });
-            setClipToOutline(true);
-            setBackground(drawable);
-            return true;
-        }
-        return false;
-    }
-
     private void updateBackground() {
         StateListDrawable drawable = new StateListDrawable();
         drawable.addState(new int[]{android.R.attr.state_pressed}, createDrawable(mColorPressed));
         drawable.addState(new int[]{}, createDrawable(mColorNormal));
-        if (!updateBackgroundLollipop(drawable)) {
-            setBackgroundCompat(drawable);
-        }
+        setBackgroundCompat(drawable);
     }
 
     private Drawable createDrawable(int color) {
@@ -152,7 +126,7 @@ public class FloatingActionButton extends ImageButton {
         ShapeDrawable shapeDrawable = new ShapeDrawable(ovalShape);
         shapeDrawable.getPaint().setColor(color);
 
-        if (mShadow && !isLollipop()) {
+        if (mShadow && !hasLollipopApi()) {
             LayerDrawable layerDrawable = new LayerDrawable(
                     new Drawable[]{getResources().getDrawable(R.drawable.shadow),
                             shapeDrawable});
@@ -180,7 +154,20 @@ public class FloatingActionButton extends ImageButton {
     @SuppressWarnings("deprecation")
     @SuppressLint("NewApi")
     private void setBackgroundCompat(Drawable drawable) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+        if (hasLollipopApi()) {
+            setElevation(mShadow ? getDimension(R.dimen.fab_elevation_lollipop) : 0.0f);
+            RippleDrawable rippleDrawable = new RippleDrawable(new ColorStateList(new int[][]{{}},
+                new int[]{mColorRipple}), drawable, null);
+            setOutlineProvider(new ViewOutlineProvider() {
+                @Override
+                public void getOutline(View view, Outline outline) {
+                    int size = getDimension(mType == TYPE_NORMAL ? R.dimen.fab_size_normal : R.dimen.fab_size_mini);
+                    outline.setOval(0, 0, size, size);
+                }
+            });
+            setClipToOutline(true);
+            setBackground(rippleDrawable);
+        } else if (hasJellyBeanApi()) {
             setBackground(drawable);
         } else {
             setBackgroundDrawable(drawable);
@@ -361,6 +348,15 @@ public class FloatingActionButton extends ImageButton {
         onScrollListener.setFloatingActionButton(this);
         onScrollListener.setRecyclerView(recyclerView);
         mRecyclerView.setOnScrollListener(onScrollListener);
+    }
+
+
+    private boolean hasLollipopApi() {
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP;
+    }
+
+    private boolean hasJellyBeanApi() {
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN;
     }
 
     public static class FabOnScrollListener extends ScrollDirectionDetector {
