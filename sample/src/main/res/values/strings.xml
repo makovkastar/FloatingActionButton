@@ -29,4 +29,11 @@
         <item>Uranus</item>
         <item>Neptune</item>
     </string-array>
+
+    <string name="about">About</string>
+    <string name="about_body"><![CDATA[
+        Floating Action Button, a library by <b>Melnykov Oleksandr</b>.<br/>
+        <a href=\'https://github.com/makovkastar/FloatingActionButton\'>https://github.com/makovkastar/FloatingActionButton</a>
+    ]]></string>
+
 </resources>

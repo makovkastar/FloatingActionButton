@@ -1,10 +1,14 @@
 package com.melnykov.fab;
 
 import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
+import android.graphics.Outline;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
+import android.graphics.drawable.RippleDrawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.StateListDrawable;
 import android.graphics.drawable.shapes.OvalShape;
@@ -13,9 +17,11 @@ import android.support.annotation.ColorRes;
 import android.support.annotation.DimenRes;
 import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewOutlineProvider;
 import android.view.ViewTreeObserver;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Interpolator;
@@ -30,6 +36,7 @@ import android.widget.ImageButton;
 public class FloatingActionButton extends ImageButton {
     private static final int TRANSLATE_DURATION_MILLIS = 200;
     private FabOnScrollListener mOnScrollListener;
+    private FabRecyclerOnViewScrollListener mRecyclerViewOnScrollListener;
 
     @IntDef({TYPE_NORMAL, TYPE_MINI})
     public @interface TYPE {
@@ -39,11 +46,13 @@ public class FloatingActionButton extends ImageButton {
     public static final int TYPE_MINI = 1;
 
     protected AbsListView mListView;
+    protected RecyclerView mRecyclerView;
 
     private boolean mVisible;
 
     private int mColorNormal;
     private int mColorPressed;
+    private int mColorRipple;
     private boolean mShadow;
     private int mType;
 
@@ -63,12 +72,16 @@ public class FloatingActionButton extends ImageButton {
         init(context, attrs);
     }
 
+    private boolean isLollipop() {
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP;
+    }
+
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         int size = getDimension(
                 mType == TYPE_NORMAL ? R.dimen.fab_size_normal : R.dimen.fab_size_mini);
-        if (mShadow) {
+        if (mShadow && !isLollipop()) {
             int shadowSize = getDimension(R.dimen.fab_shadow_size);
             size += shadowSize * 2;
         }
@@ -77,8 +90,9 @@ public class FloatingActionButton extends ImageButton {
 
     private void init(Context context, AttributeSet attributeSet) {
         mVisible = true;
-        mColorNormal = getColor(android.R.color.holo_blue_dark);
-        mColorPressed = getColor(android.R.color.holo_blue_light);
+        mColorNormal = getColor(R.color.material_blue_500);
+        mColorPressed = getColor(R.color.material_blue_600);
+        mColorRipple = getColor(android.R.color.white);
         mType = TYPE_NORMAL;
         mShadow = true;
         if (attributeSet != null) {
@@ -92,9 +106,11 @@ public class FloatingActionButton extends ImageButton {
         if (attr != null) {
             try {
                 mColorNormal = attr.getColor(R.styleable.FloatingActionButton_fab_colorNormal,
-                        getColor(android.R.color.holo_blue_dark));
+                        getColor(R.color.material_blue_500));
                 mColorPressed = attr.getColor(R.styleable.FloatingActionButton_fab_colorPressed,
-                        getColor(android.R.color.holo_blue_light));
+                        getColor(R.color.material_blue_600));
+                mColorRipple = attr.getColor(R.styleable.FloatingActionButton_fab_colorRipple,
+                        getColor(android.R.color.white));
                 mShadow = attr.getBoolean(R.styleable.FloatingActionButton_fab_shadow, true);
                 mType = attr.getInt(R.styleable.FloatingActionButton_fab_type, TYPE_NORMAL);
             } finally {
@@ -103,11 +119,32 @@ public class FloatingActionButton extends ImageButton {
         }
     }
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    private boolean updateBackgroundLollipop(Drawable content) {
+        if (isLollipop()) {
+            setElevation(mShadow ? getDimension(R.dimen.fab_elevation_lollipop) : 0.0f);
+            RippleDrawable drawable = new RippleDrawable(new ColorStateList(new int[][]{{}}, new int[]{mColorRipple}), content, null);
+            setOutlineProvider(new ViewOutlineProvider() {
+                @Override
+                public void getOutline(View view, Outline outline) {
+                    int size = getDimension(mType == TYPE_NORMAL ? R.dimen.fab_size_normal : R.dimen.fab_size_mini);
+                    outline.setOval(0, 0, size, size);
+                }
+            });
+            setClipToOutline(true);
+            setBackground(drawable);
+            return true;
+        }
+        return false;
+    }
+
     private void updateBackground() {
         StateListDrawable drawable = new StateListDrawable();
         drawable.addState(new int[]{android.R.attr.state_pressed}, createDrawable(mColorPressed));
         drawable.addState(new int[]{}, createDrawable(mColorNormal));
-        setBackgroundCompat(drawable);
+        if (!updateBackgroundLollipop(drawable)) {
+            setBackgroundCompat(drawable);
+        }
     }
 
     private Drawable createDrawable(int color) {
@@ -115,7 +152,7 @@ public class FloatingActionButton extends ImageButton {
         ShapeDrawable shapeDrawable = new ShapeDrawable(ovalShape);
         shapeDrawable.getPaint().setColor(color);
 
-        if (mShadow) {
+        if (mShadow && !isLollipop()) {
             LayerDrawable layerDrawable = new LayerDrawable(
                     new Drawable[]{getResources().getDrawable(R.drawable.shadow),
                             shapeDrawable});
@@ -143,7 +180,7 @@ public class FloatingActionButton extends ImageButton {
     @SuppressWarnings("deprecation")
     @SuppressLint("NewApi")
     private void setBackgroundCompat(Drawable drawable) {
-        if (Build.VERSION.SDK_INT >= 16) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
             setBackground(drawable);
         } else {
             setBackgroundDrawable(drawable);
@@ -200,6 +237,21 @@ public class FloatingActionButton extends ImageButton {
         return mColorPressed;
     }
 
+    public void setColorRipple(int color) {
+        if (color != mColorRipple) {
+            mColorRipple = color;
+            updateBackground();
+        }
+    }
+
+    public void setColorRippleResId(@ColorRes int colorResId) {
+        setColorRipple(getColor(colorResId));
+    }
+
+    public int getColorRipple() {
+        return mColorRipple;
+    }
+
     public void setShadow(boolean shadow) {
         if (shadow != mShadow) {
             mShadow = shadow;
@@ -225,6 +277,10 @@ public class FloatingActionButton extends ImageButton {
 
     protected AbsListView.OnScrollListener getOnScrollListener() {
         return mOnScrollListener;
+    }
+
+    protected RecyclerView.OnScrollListener getRecyclerViewOnScrollListener() {
+        return mRecyclerViewOnScrollListener;
     }
 
     public void show() {
@@ -283,6 +339,14 @@ public class FloatingActionButton extends ImageButton {
         attachToListView(listView, new FabOnScrollListener());
     }
 
+    /**
+     * If need to use custom {@link android.widget.AbsListView.OnScrollListener},
+     * pass it to {@link #attachToListView(android.widget.AbsListView, com.melnykov.fab.FloatingActionButton.FabOnScrollListener)}
+     */
+    public void attachToRecyclerView(@NonNull RecyclerView recyclerView) {
+        attachToRecyclerView(recyclerView, new FabRecyclerOnViewScrollListener());
+    }
+
     public void attachToListView(@NonNull AbsListView listView, @NonNull FabOnScrollListener onScrollListener) {
         mListView = listView;
         mOnScrollListener = onScrollListener;
@@ -291,16 +355,48 @@ public class FloatingActionButton extends ImageButton {
         mListView.setOnScrollListener(onScrollListener);
     }
 
+    public void attachToRecyclerView(@NonNull RecyclerView recyclerView, @NonNull FabRecyclerOnViewScrollListener onScrollListener) {
+        mRecyclerView = recyclerView;
+        mRecyclerViewOnScrollListener = onScrollListener;
+        onScrollListener.setFloatingActionButton(this);
+        onScrollListener.setRecyclerView(recyclerView);
+        mRecyclerView.setOnScrollListener(onScrollListener);
+    }
+
     public static class FabOnScrollListener extends ScrollDirectionDetector {
         private FloatingActionButton mFloatingActionButton;
 
         public FabOnScrollListener() {
             setScrollDirectionListener(new ScrollDirectionListener() {
-                @Override public void onScrollDown() {
+                @Override
+                public void onScrollDown() {
                     mFloatingActionButton.show();
                 }
 
-                @Override public void onScrollUp() {
+                @Override
+                public void onScrollUp() {
+                    mFloatingActionButton.hide();
+                }
+            });
+        }
+
+        public void setFloatingActionButton(FloatingActionButton floatingActionButton) {
+            mFloatingActionButton = floatingActionButton;
+        }
+    }
+
+    public static class FabRecyclerOnViewScrollListener extends ScrollDirectionRecyclerViewDetector {
+        private FloatingActionButton mFloatingActionButton;
+
+        public FabRecyclerOnViewScrollListener() {
+            setScrollDirectionListener(new ScrollDirectionListener() {
+                @Override
+                public void onScrollDown() {
+                    mFloatingActionButton.show();
+                }
+
+                @Override
+                public void onScrollUp() {
                     mFloatingActionButton.hide();
                 }
             });
