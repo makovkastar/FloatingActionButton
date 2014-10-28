@@ -37,7 +37,7 @@ dependencies {
             android:layout_height="match_parent"/>
 
     <com.melnykov.fab.FloatingActionButton
-            android:id="@+id/button_floating_action"
+            android:id="@+id/fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|right"
