@@ -19,7 +19,7 @@ Android [Google+] like floating action button which reacts on the list view scro
 
 ```groovy
 dependencies {
-    compile 'com.melnykov:floatingactionbutton:1.0.5'
+    compile 'com.melnykov:floatingactionbutton:1.0.6'
 }
 ```
 
@@ -34,7 +34,7 @@ dependencies {
     <ListView
             android:id="@android:id/list"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent" />
 
     <com.melnykov.fab.FloatingActionButton
             android:id="@+id/fab"
@@ -43,13 +43,13 @@ dependencies {
             android:layout_gravity="bottom|right"
             android:layout_margin="16dp"
             android:src="@drawable/ic_action_content_new"
-            fab:fab_colorNormal="@android:color/holo_red_dark"
-            fab:fab_colorPressed="@android:color/holo_red_light"/>
+            fab:fab_colorNormal="@color/primary"
+            fab:fab_colorPressed="@color/primary_pressed"
+            fab:fab_colorRipple="@color/ripple" />
 </FrameLayout>
 ```
 
-
-**3)** Attach the ``ListView`` or the ``GridView`` to the button in the Java code:
+**3)** Attach the ``ListView``, ``GridView`` or ``RecyclerView`` to the button in the Java code:
 
 ```java
 ListView listView = (ListView) findViewById(android.R.id.list);
@@ -69,19 +69,18 @@ fab.attachToListView(listView);
     ```java
     fab.setType(FloatingActionButton.TYPE_MINI);
     ```
-
 + Set the normal and pressed colors via the xml attributes:
 
     ```xml
-    fab:fab_colorNormal="@android:color/holo_red_dark"
-    fab:fab_colorPressed="@android:color/holo_red_light"
+    fab:fab_colorNormal="@color/primary"
+    fab:fab_colorPressed="@color/primary_pressed"
     ```
     or
     ```java
-    fab.setColorNormal(getResources().getColor(android.R.color.holo_red_dark));
-    fab.setColorPressed(getResources().getColor(android.R.color.holo_red_light));
+    fab.setColorNormal(getResources().getColor(R.color.primary));
+    fab.setColorPressed(getResources().getColor(R.color.primary_pressed));
     ```
-
+    
 + Enable/disable the button shadow with the ``fab_shadow`` xml attribite (it's enabled by default):
 
     ```xml
@@ -101,10 +100,28 @@ fab.attachToListView(listView);
     fab.show(false); // Show without an animation
     fab.hide(false); // Hide without an animation
     ```
+    
++ Specify the ripple color for API 21+:
+
+    ```xml
+    fab:fab_colorRipple="@color/ripple"
+    ```
+
+    or
+   ```java
+   fab.setColorRipple(getResources().getColor(R.color.ripple));
+   ```
 
 **5)** Set an icon for the ``FloatingActionButton`` using ``android:src`` xml attribute. Use drawables of size **24dp** as specified by [guidlines]. Icons of desired size can be generated with [Android Asset Studio].
 
 ### Changelog
+
+**Version 1.0.6:**
++ Added support for the ``RecyclerView``;
++ Added ripple effect and elevation for API level 21;
+
+Thanks to [Aidan Follestad](https://github.com/afollestad)
+
 **Version 1.0.5:**
 + Updated shadow to more accurately match the material design spec;
 
