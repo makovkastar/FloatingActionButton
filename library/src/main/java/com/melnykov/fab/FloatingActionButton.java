@@ -350,7 +350,6 @@ public class FloatingActionButton extends ImageButton {
         mRecyclerView.setOnScrollListener(onScrollListener);
     }
 
-
     private boolean hasLollipopApi() {
         return Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP;
     }
