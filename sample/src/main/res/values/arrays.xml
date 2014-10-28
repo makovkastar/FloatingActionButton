@@ -1,33 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="countries">
-        <item>Australia</item>
-        <item>Austria</item>
-        <item>Brazil</item>
-        <item>Canada</item>
-        <item>Chile</item>
-        <item>China</item>
-        <item>Croatia</item>
-        <item>Czech Republic</item>
-        <item>Denmark</item>
-        <item>Estonia</item>
-        <item>Finland</item>
-        <item>France</item>
-        <item>Germany</item>
-        <item>Greece</item>
-        <item>Hungary</item>
-        <item>Iceland</item>
-        <item>India</item>
-        <item>Ireland</item>
-        <item>Italy</item>
-        <item>Latvia</item>
-        <item>Lithuania</item>
-        <item>Netherlands</item>
-        <item>New Zealand</item>
-        <item>Norway</item>
-        <item>Sweden</item>
-        <item>Switzerland</item>
-        <item>Ukraine</item>
-        <item>United States</item>
+        <item>Australia,au</item>
+        <item>Austria,at</item>
+        <item>Brazil,br</item>
+        <item>Canada,ca</item>
+        <item>Chile,cl</item>
+        <item>China,cn</item>
+        <item>Croatia,hr</item>
+        <item>Czech Republic,cz</item>
+        <item>Denmark,dk</item>
+        <item>Estonia,ee</item>
+        <item>Finland,fi</item>
+        <item>France,fr</item>
+        <item>Germany,de</item>
+        <item>Greece,gr</item>
+        <item>Hungary,hu</item>
+        <item>Iceland,is</item>
+        <item>India,in</item>
+        <item>Ireland,ie</item>
+        <item>Italy,it</item>
+        <item>Latvia,lv</item>
+        <item>Lithuania,lt</item>
+        <item>Netherlands,nl</item>
+        <item>New Zealand,nz</item>
+        <item>Norway,no</item>
+        <item>Sweden,se</item>
+        <item>Switzerland,ch</item>
+        <item>Ukraine,ua</item>
+        <item>United States,us</item>
     </string-array>
 </resources>

@@ -37,7 +37,7 @@ dependencies {
             android:layout_height="match_parent"/>
 
     <com.melnykov.fab.FloatingActionButton
-            android:id="@+id/button_floating_action"
+            android:id="@+id/fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|right"
@@ -53,8 +53,8 @@ dependencies {
 
 ```java
 ListView listView = (ListView) findViewById(android.R.id.list);
-FloatingActionButton floatingActionButton = (FloatingActionButton) findViewById(R.id.button_floating_action);
-floatingActionButton.attachToListView(listView);
+FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+fab.attachToListView(listView);
 ```
 ``FloatingActionButton`` extends ``android.widget.ImageButton`` so it has all methods the latter has.
 
@@ -67,7 +67,7 @@ floatingActionButton.attachToListView(listView);
     ```
     or
     ```java
-    floatingActionButton.setType(FloatingActionButton.TYPE_MINI);
+    fab.setType(FloatingActionButton.TYPE_MINI);
     ```
 
 + Set the normal and pressed colors via the xml attributes:
@@ -78,8 +78,8 @@ floatingActionButton.attachToListView(listView);
     ```
     or
     ```java
-    floatingActionButton.setColorNormal(getResources().getColor(android.R.color.holo_red_dark));
-    floatingActionButton.setColorPressed(getResources().getColor(android.R.color.holo_red_light));
+    fab.setColorNormal(getResources().getColor(android.R.color.holo_red_dark));
+    fab.setColorPressed(getResources().getColor(android.R.color.holo_red_light));
     ```
 
 + Enable/disable the button shadow with the ``fab_shadow`` xml attribite (it's enabled by default):
@@ -89,17 +89,17 @@ floatingActionButton.attachToListView(listView);
     ```
     or
     ```java
-    floatingActionButton.setShadow(false);
+    fab.setShadow(false);
     ```
     
 + Show/hide the button expliciltly:
     
     ```java
-    floatingActionButton.show();
-    floatingActionButton.hide();
+    fab.show();
+    fab.hide();
     
-    floatingActionButton.show(false); // Show without an animation
-    floatingActionButton.hide(false); // Hide without an animation
+    fab.show(false); // Show without an animation
+    fab.hide(false); // Hide without an animation
     ```
 
 **5)** Set an icon for the ``FloatingActionButton`` using ``android:src`` xml attribute. Use drawables of size **24dp** as specified by [guidlines]. Icons of desired size can be generated with [Android Asset Studio].
@@ -125,6 +125,10 @@ Please [ping](mailto:makovkastar@gmail.com) me if you would like to be added her
 
 Icon | Application
 ------------ | -------------
+
+### Links
+
+Country flag icons used in the sample are taken from www.icondrawer.com
 
 ### License
 

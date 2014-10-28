@@ -118,8 +118,8 @@ public class MainActivity extends ActionBarActivity implements ActionBar.OnNavig
 
             ListView list = (ListView) root.findViewById(android.R.id.list);
 
-            ListAdapter listAdapter = new ArrayAdapter<String>(getActivity(), R.layout.list_item,
-                getResources().getStringArray(R.array.countries));
+            ListViewAdapter listAdapter = new ListViewAdapter(getActivity(),
+                    getResources().getStringArray(R.array.countries));
             list.setAdapter(listAdapter);
 
             FloatingActionButton fab = (FloatingActionButton) root.findViewById(R.id.fab);
@@ -134,24 +134,18 @@ public class MainActivity extends ActionBarActivity implements ActionBar.OnNavig
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
             View root = inflater.inflate(R.layout.fragment_recyclerview, container, false);
 
-            RecyclerView recyclerView = (RecyclerView) root.findViewById(R.id.recycler_view);
+            final RecyclerView recyclerView = (RecyclerView) root.findViewById(R.id.recycler_view);
             recyclerView.setHasFixedSize(true);
             recyclerView.setItemAnimator(new DefaultItemAnimator());
             recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
             recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST));
 
-            final RecyclerViewAdapter adapter = new RecyclerViewAdapter(getResources()
+            RecyclerViewAdapter adapter = new RecyclerViewAdapter(getActivity(), getResources()
                 .getStringArray(R.array.countries));
             recyclerView.setAdapter(adapter);
 
             FloatingActionButton fab = (FloatingActionButton) root.findViewById(R.id.fab);
             fab.attachToRecyclerView(recyclerView);
-            fab.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    adapter.notifyItemInserted(2);
-                }
-            });
 
             return root;
         }
