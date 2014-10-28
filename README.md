@@ -126,6 +126,10 @@ Please [ping](mailto:makovkastar@gmail.com) me if you would like to be added her
 Icon | Application
 ------------ | -------------
 
+### Links
+
+Country flag icons used in the sample are taken from www.icondrawer.com
+
 ### License
 
 ```
