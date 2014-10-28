@@ -3,7 +3,7 @@
     <string name="app_name">Floating Action Button</string>
     <string name="about">About</string>
     <string name="about_body"><![CDATA[
-        Floating Action Button, a library by <b>Melnykov Oleksandr</b>.<br/>
+        Floating Action Button, a library by <a href="https://plus.google.com/+OleksandrMelnykov">Oleksandr Melnykov</a>.<br/>
         <a href=\'https://github.com/makovkastar/FloatingActionButton\'>https://github.com/makovkastar/FloatingActionButton</a>
     ]]></string>
 </resources>
