@@ -118,9 +118,9 @@ fab.attachToListView(listView);
 
 **Version 1.0.6:**
 + Added support for the ``RecyclerView``;
-+ Added ripple effect and elevation for API level 21;
++ Added ripple effect and elevation for API level 21.
 
-Thanks to [Aidan Follestad](https://github.com/afollestad)
+Thanks to [Aidan Follestad](https://github.com/afollestad).
 
 **Version 1.0.5:**
 + Updated shadow to more accurately match the material design spec;
