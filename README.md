@@ -49,7 +49,7 @@ dependencies {
 </FrameLayout>
 ```
 
-**3)** Attach the ``ListView``, ``GridView`` or ``RecyclerView``(Currently only the ``LinearLayoutManager`` is supported) to the button in the Java code:
+**3)** Attach the ``ListView``, ``GridView`` or ``RecyclerView``(currently only the ``LinearLayoutManager`` is supported) to the button in the Java code:
 
 ```java
 ListView listView = (ListView) findViewById(android.R.id.list);
