@@ -75,7 +75,7 @@ public class FloatingActionButton extends ImageButton {
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         int size = getDimension(
-                mType == TYPE_NORMAL ? R.dimen.fab_size_normal : R.dimen.fab_size_mini);
+            mType == TYPE_NORMAL ? R.dimen.fab_size_normal : R.dimen.fab_size_mini);
         if (mShadow && !hasLollipopApi()) {
             int shadowSize = getDimension(R.dimen.fab_shadow_size);
             size += shadowSize * 2;
@@ -101,11 +101,11 @@ public class FloatingActionButton extends ImageButton {
         if (attr != null) {
             try {
                 mColorNormal = attr.getColor(R.styleable.FloatingActionButton_fab_colorNormal,
-                        getColor(R.color.material_blue_500));
+                    getColor(R.color.material_blue_500));
                 mColorPressed = attr.getColor(R.styleable.FloatingActionButton_fab_colorPressed,
-                        getColor(R.color.material_blue_600));
+                    getColor(R.color.material_blue_600));
                 mColorRipple = attr.getColor(R.styleable.FloatingActionButton_fab_colorRipple,
-                        getColor(android.R.color.white));
+                    getColor(android.R.color.white));
                 mShadow = attr.getBoolean(R.styleable.FloatingActionButton_fab_shadow, true);
                 mType = attr.getInt(R.styleable.FloatingActionButton_fab_type, TYPE_NORMAL);
             } finally {
@@ -128,10 +128,10 @@ public class FloatingActionButton extends ImageButton {
 
         if (mShadow && !hasLollipopApi()) {
             LayerDrawable layerDrawable = new LayerDrawable(
-                    new Drawable[]{getResources().getDrawable(R.drawable.shadow),
-                            shapeDrawable});
+                new Drawable[]{getResources().getDrawable(R.drawable.shadow),
+                    shapeDrawable});
             int shadowSize = getDimension(
-                    mType == TYPE_NORMAL ? R.dimen.fab_shadow_size : R.dimen.fab_mini_shadow_size);
+                mType == TYPE_NORMAL ? R.dimen.fab_shadow_size : R.dimen.fab_mini_shadow_size);
             layerDrawable.setLayerInset(1, shadowSize, shadowSize, shadowSize, shadowSize);
             return layerDrawable;
         } else {
@@ -182,7 +182,7 @@ public class FloatingActionButton extends ImageButton {
     protected int getListViewScrollY() {
         View topChild = mListView.getChildAt(0);
         return topChild == null ? 0 : mListView.getFirstVisiblePosition() * topChild.getHeight() -
-                topChild.getTop();
+            topChild.getTop();
     }
 
     private int getMarginBottom() {
@@ -310,8 +310,8 @@ public class FloatingActionButton extends ImageButton {
             int translationY = visible ? 0 : height + getMarginBottom();
             if (animate) {
                 animate().setInterpolator(mInterpolator)
-                        .setDuration(TRANSLATE_DURATION_MILLIS)
-                        .translationY(translationY);
+                    .setDuration(TRANSLATE_DURATION_MILLIS)
+                    .translationY(translationY);
             } else {
                 setTranslationY(translationY);
             }
@@ -358,47 +358,85 @@ public class FloatingActionButton extends ImageButton {
         return Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN;
     }
 
-    public static class FabOnScrollListener extends ScrollDirectionDetector {
+    /**
+     * Shows/hides the FAB when the attached {@link AbsListView} scrolling events occur.
+     * Extend this class and override {@link FabOnScrollListener#onScrollDown()}/{@link FabOnScrollListener#onScrollUp()}
+     * if you need custom code to be executed on these events.
+     */
+    public static class FabOnScrollListener extends ScrollDirectionDetector implements ScrollDirectionListener {
         private FloatingActionButton mFloatingActionButton;
 
         public FabOnScrollListener() {
-            setScrollDirectionListener(new ScrollDirectionListener() {
-                @Override
-                public void onScrollDown() {
-                    mFloatingActionButton.show();
-                }
-
-                @Override
-                public void onScrollUp() {
-                    mFloatingActionButton.hide();
-                }
-            });
+            setScrollDirectionListener(this);
         }
 
-        public void setFloatingActionButton(FloatingActionButton floatingActionButton) {
+        private void setFloatingActionButton(@NonNull FloatingActionButton floatingActionButton) {
             mFloatingActionButton = floatingActionButton;
+        }
+
+        /**
+         * Called when the attached {@link AbsListView} is scrolled down.
+         * <br />
+         * <br />
+         * <i>Derived classes should call the super class's implementation of this method.
+         * If they do not, the FAB will not react to AbsListView's scrolling events.</i>
+         */
+        @Override
+        public void onScrollDown() {
+            mFloatingActionButton.show();
+        }
+
+        /**
+         * Called when the attached {@link AbsListView} is scrolled up.
+         * <br />
+         * <br />
+         * <i>Derived classes should call the super class's implementation of this method.
+         * If they do not, the FAB will not react to AbsListView's scrolling events.</i>
+         */
+        @Override
+        public void onScrollUp() {
+            mFloatingActionButton.hide();
         }
     }
 
-    public static class FabRecyclerOnViewScrollListener extends ScrollDirectionRecyclerViewDetector {
+    /**
+     * Shows/hides the FAB when the attached {@link RecyclerView} scrolling events occur.
+     * Extend this class and override {@link FabOnScrollListener#onScrollDown()}/{@link FabOnScrollListener#onScrollUp()}
+     * if you need custom code to be executed on these events.
+     */
+    public static class FabRecyclerOnViewScrollListener extends ScrollDirectionRecyclerViewDetector implements ScrollDirectionListener {
         private FloatingActionButton mFloatingActionButton;
 
         public FabRecyclerOnViewScrollListener() {
-            setScrollDirectionListener(new ScrollDirectionListener() {
-                @Override
-                public void onScrollDown() {
-                    mFloatingActionButton.show();
-                }
-
-                @Override
-                public void onScrollUp() {
-                    mFloatingActionButton.hide();
-                }
-            });
+            setScrollDirectionListener(this);
         }
 
-        public void setFloatingActionButton(FloatingActionButton floatingActionButton) {
+        private void setFloatingActionButton(@NonNull FloatingActionButton floatingActionButton) {
             mFloatingActionButton = floatingActionButton;
+        }
+
+        /**
+         * Called when the attached {@link RecyclerView} is scrolled down.
+         * <br />
+         * <br />
+         * <i>Derived classes should call the super class's implementation of this method.
+         * If they do not, the FAB will not react to RecyclerView's scrolling events.</i>
+         */
+        @Override
+        public void onScrollDown() {
+            mFloatingActionButton.show();
+        }
+
+        /**
+         * Called when the attached {@link RecyclerView} is scrolled up.
+         * <br />
+         * <br />
+         * <i>Derived classes should call the super class's implementation of this method.
+         * If they do not, the FAB will not react to RecyclerView's scrolling events.</i>
+         */
+        @Override
+        public void onScrollUp() {
+            mFloatingActionButton.hide();
         }
     }
 }
