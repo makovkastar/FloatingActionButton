@@ -17,8 +17,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -134,7 +132,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.OnNavig
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
             View root = inflater.inflate(R.layout.fragment_recyclerview, container, false);
 
-            final RecyclerView recyclerView = (RecyclerView) root.findViewById(R.id.recycler_view);
+            RecyclerView recyclerView = (RecyclerView) root.findViewById(R.id.recycler_view);
             recyclerView.setHasFixedSize(true);
             recyclerView.setItemAnimator(new DefaultItemAnimator());
             recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
