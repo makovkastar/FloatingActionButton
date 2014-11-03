@@ -58,6 +58,10 @@ fab.attachToListView(listView);
 ```
 ``FloatingActionButton`` extends ``android.widget.ImageButton`` so it has all methods the latter has.
 
+If you need custom code to be executed when scrolling events occur, extend ``FloatingActionButton.FabOnScrollListener`` or ``FloatingActionButton.FabRecyclerOnViewScrollListener`` and override ``FabOnScrollListener#onScrollDown()``/`` FabOnScrollListener#onScrollUp()``. Then pass an instance of a custom listener as a second argument to ``attachToListView``/``attachToRecyclerView``.
+
+**Do not forget to call ``super.onScrollDown()`` and ``super.onScrollUp()`` in overriden methods. If you do not, the FAB will not react to scrolling events.**
+
 **4)** Add the namespace ``xmlns:fab="http://schemas.android.com/apk/res-auto"`` to your layout file.
 
 + Set the button type (normal or mini) via the ``fab_type`` xml attribute (default is normal):
