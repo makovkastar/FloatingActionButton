@@ -37,6 +37,8 @@ public class FloatingActionButton extends ImageButton {
     private boolean mShadow;
     private int mType;
 
+
+    private boolean mFabScrollEnabled;
     private final ScrollSettleHandler mScrollSettleHandler = new ScrollSettleHandler();
     private final Interpolator mInterpolator = new AccelerateDecelerateInterpolator();
 
@@ -92,6 +94,8 @@ public class FloatingActionButton extends ImageButton {
         mColorPressed = getColor(android.R.color.holo_blue_light);
         mType = TYPE_NORMAL;
         mShadow = true;
+        mFabScrollEnabled = true;
+
         if (attributeSet != null) {
             initAttributes(context, attributeSet);
         }
@@ -268,7 +272,7 @@ public class FloatingActionButton extends ImageButton {
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
                 int newScrollY = getListViewScrollY();
-                if (newScrollY == mScrollY) {
+                if (newScrollY == mScrollY || !mFabScrollEnabled) {
                     return;
                 }
 
@@ -282,6 +286,10 @@ public class FloatingActionButton extends ImageButton {
                 mScrollY = newScrollY;
             }
         });
+    }
+
+    public void setFabScrollEnabled(boolean enabled){
+        mFabScrollEnabled = enabled;
     }
 
     /**
