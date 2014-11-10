@@ -146,6 +146,7 @@ Please [ping](mailto:makovkastar@gmail.com) me if you would like to be added her
 
 Icon | Application
 ------------ | -------------
+<img src="http://goo.gl/HIKRF9" width="48" height="48" /> | [Finger Gesture Launcher]
 
 ### Links
 
@@ -180,3 +181,4 @@ SOFTWARE.
 [Google+]:https://play.google.com/store/apps/details?id=com.google.android.apps.plus
 [guidlines]:http://www.google.com/design/spec/patterns/promoted-actions.html#promoted-actions-floating-action-button
 [Android Asset Studio]:http://romannurik.github.io/AndroidAssetStudio/icons-generic.html
+[Finger Gesture Launcher]:https://play.google.com/store/apps/details?id=com.carlosdelachica.finger
