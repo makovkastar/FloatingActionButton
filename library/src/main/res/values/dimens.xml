@@ -7,5 +7,5 @@
     <dimen name="fab_mini_shadow_size">6dp</dimen>
 
     <dimen name="fab_min_significant_scroll">4dp</dimen>
-    <dimen name="fab_elevation_lollipop">4dp</dimen>
+    <dimen name="fab_elevation_lollipop">8dp</dimen>
 </resources>
