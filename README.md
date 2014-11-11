@@ -120,6 +120,10 @@ If you need custom code to be executed when scrolling events occur, extend ``Flo
 
 ### Changelog
 
+**Version 1.0.7:**
++ Updated shadow assets to better match material design guidlines;
++ Make ``FabOnScrollListener`` and ``FabRecyclerOnViewScrollListener`` implement ``ScrollDirectionListener`` for easier custom listeners usage.
+
 **Version 1.0.6:**
 + Added support for the ``RecyclerView``;
 + Added ripple effect and elevation for API level 21.
