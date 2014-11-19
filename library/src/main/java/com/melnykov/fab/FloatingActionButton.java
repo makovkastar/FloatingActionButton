@@ -301,18 +301,10 @@ public class FloatingActionButton extends ImageButton {
         }
     }
 
-    /**
-     * If need to use custom {@link android.widget.AbsListView.OnScrollListener},
-     * pass it to {@link #attachToListView(android.widget.AbsListView, com.melnykov.fab.FloatingActionButton.FabOnScrollListener)}
-     */
     public void attachToListView(@NonNull AbsListView listView) {
         attachToListView(listView, new FabOnScrollListener());
     }
 
-    /**
-     * If need to use custom {@link android.widget.AbsListView.OnScrollListener},
-     * pass it to {@link #attachToListView(android.widget.AbsListView, com.melnykov.fab.FloatingActionButton.FabOnScrollListener)}
-     */
     public void attachToRecyclerView(@NonNull RecyclerView recyclerView) {
         attachToRecyclerView(recyclerView, new FabRecyclerOnViewScrollListener());
     }
