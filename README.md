@@ -19,7 +19,7 @@ Android [Google+] like floating action button which reacts on the list view scro
 
 ```groovy
 dependencies {
-    compile 'com.melnykov:floatingactionbutton:1.0.6'
+    compile 'com.melnykov:floatingactionbutton:1.0.7'
 }
 ```
 
@@ -58,7 +58,7 @@ fab.attachToListView(listView);
 ```
 ``FloatingActionButton`` extends ``android.widget.ImageButton`` so it has all methods the latter has.
 
-If you need custom code to be executed when scrolling events occur, extend ``FloatingActionButton.FabOnScrollListener`` or ``FloatingActionButton.FabRecyclerOnViewScrollListener`` and override ``FabOnScrollListener#onScrollDown()``/`` FabOnScrollListener#onScrollUp()``. Then pass an instance of a custom listener as a second argument to ``attachToListView``/``attachToRecyclerView``.
+If you need custom code to be executed when scrolling events occur, extend ``FloatingActionButton.FabOnScrollListener`` or ``FloatingActionButton.FabRecyclerOnViewScrollListener`` and override ``FabOnScrollListener.onScrollDown()``/`` FabOnScrollListener.onScrollUp()``. Then pass an instance of a custom listener as a second argument to ``attachToListView``/``attachToRecyclerView``.
 
 **Do not forget to call ``super.onScrollDown()`` and ``super.onScrollUp()`` in overriden methods. If you do not, the FAB will not react to scrolling events.**
 
@@ -120,6 +120,10 @@ If you need custom code to be executed when scrolling events occur, extend ``Flo
 
 ### Changelog
 
+**Version 1.0.7:**
++ Updated shadow assets to better match material design guidlines;
++ Make ``FabOnScrollListener`` and ``FabRecyclerOnViewScrollListener`` implement ``ScrollDirectionListener`` for easier custom listeners usage.
+
 **Version 1.0.6:**
 + Added support for the ``RecyclerView``;
 + Added ripple effect and elevation for API level 21.
@@ -146,6 +150,7 @@ Please [ping](mailto:makovkastar@gmail.com) me if you would like to be added her
 
 Icon | Application
 ------------ | -------------
+<img src="http://goo.gl/HIKRF9" width="48" height="48" /> | [Finger Gesture Launcher]
 
 ### Links
 
@@ -180,3 +185,4 @@ SOFTWARE.
 [Google+]:https://play.google.com/store/apps/details?id=com.google.android.apps.plus
 [guidlines]:http://www.google.com/design/spec/patterns/promoted-actions.html#promoted-actions-floating-action-button
 [Android Asset Studio]:http://romannurik.github.io/AndroidAssetStudio/icons-generic.html
+[Finger Gesture Launcher]:https://play.google.com/store/apps/details?id=com.carlosdelachica.finger
