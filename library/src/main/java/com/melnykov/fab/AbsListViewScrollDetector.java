@@ -4,16 +4,6 @@ import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.AbsListView;
 
-/**
- * Detects which direction list view was scrolled.
- * <p/>
- * Set {@link ScrollDirectionListener} to get callbacks
- * {@link ScrollDirectionListener#onScrollDown()} or
- * {@link ScrollDirectionListener#onScrollUp()}
- *
- * @author Vilius Kraujutis
- * @author Oleksandr Melnykov
- */
 abstract class AbsListViewScrollDetector implements AbsListView.OnScrollListener {
     private int mLastScrollY;
     private int mPreviousFirstVisibleItem;
