@@ -52,7 +52,6 @@ public abstract class ScrollDirectionDetector implements AbsListView.OnScrollLis
                 mPreviousFirstVisibleItem = firstVisibleItem;
             }
         }
-
     }
 
     public ScrollDirectionListener getScrollDirectionListener() {
