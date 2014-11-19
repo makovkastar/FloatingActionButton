@@ -251,6 +251,10 @@ public class FloatingActionButton extends ImageButton {
         return mType;
     }
 
+    public boolean isVisible() {
+        return mVisible;
+    }
+
     protected AbsListView.OnScrollListener getOnScrollListener() {
         return mOnScrollListener;
     }
