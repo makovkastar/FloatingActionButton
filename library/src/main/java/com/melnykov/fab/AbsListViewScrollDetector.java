@@ -14,12 +14,15 @@ import android.widget.AbsListView;
  * @author Vilius Kraujutis
  * @author Oleksandr Melnykov
  */
-abstract class AbsListViewScrollDirectionDetector implements AbsListView.OnScrollListener {
-    private ScrollDirectionListener mScrollDirectionListener;
+abstract class AbsListViewScrollDetector implements AbsListView.OnScrollListener {
     private int mLastScrollY;
     private int mPreviousFirstVisibleItem;
     private AbsListView mListView;
     private int mScrollThreshold;
+
+    abstract void onScrollUp();
+
+    abstract void onScrollDown();
 
     @Override
     public void onScrollStateChanged(AbsListView view, int scrollState) {
@@ -27,37 +30,31 @@ abstract class AbsListViewScrollDirectionDetector implements AbsListView.OnScrol
 
     @Override
     public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-        if (mScrollDirectionListener != null) {
-            if (isSameRow(firstVisibleItem)) {
-                int newScrollY = getTopItemScrollY();
-                boolean isSignificantDelta = Math.abs(mLastScrollY - newScrollY) > mScrollThreshold;
-                if (isSignificantDelta) {
-                    if (mLastScrollY > newScrollY) {
-                        mScrollDirectionListener.onScrollUp();
-                    } else {
-                        mScrollDirectionListener.onScrollDown();
-                    }
-                }
-                mLastScrollY = newScrollY;
-            } else {
-                if (firstVisibleItem > mPreviousFirstVisibleItem) {
-                    mScrollDirectionListener.onScrollUp();
+        if (isSameRow(firstVisibleItem)) {
+            int newScrollY = getTopItemScrollY();
+            boolean isSignificantDelta = Math.abs(mLastScrollY - newScrollY) > mScrollThreshold;
+            if (isSignificantDelta) {
+                if (mLastScrollY > newScrollY) {
+                    onScrollUp();
                 } else {
-                    mScrollDirectionListener.onScrollDown();
+                    onScrollDown();
                 }
-
-                mLastScrollY = getTopItemScrollY();
-                mPreviousFirstVisibleItem = firstVisibleItem;
             }
+            mLastScrollY = newScrollY;
+        } else {
+            if (firstVisibleItem > mPreviousFirstVisibleItem) {
+                onScrollUp();
+            } else {
+                onScrollDown();
+            }
+
+            mLastScrollY = getTopItemScrollY();
+            mPreviousFirstVisibleItem = firstVisibleItem;
         }
     }
 
     public void setScrollThreshold(int scrollThreshold) {
         mScrollThreshold = scrollThreshold;
-    }
-
-    public void setScrollDirectionListener(@NonNull ScrollDirectionListener mScrollDirectionListener) {
-        this.mScrollDirectionListener = mScrollDirectionListener;
     }
 
     public void setListView(@NonNull AbsListView listView) {

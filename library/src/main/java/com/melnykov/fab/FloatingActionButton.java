@@ -302,34 +302,37 @@ public class FloatingActionButton extends ImageButton {
     }
 
     public void attachToListView(@NonNull AbsListView listView) {
-        attachToListView(listView, new FabOnScrollListener());
+        attachToListView(listView, null);
     }
 
     public void attachToRecyclerView(@NonNull RecyclerView recyclerView) {
-        attachToRecyclerView(recyclerView, new FabRecyclerOnViewScrollListener());
+        attachToRecyclerView(recyclerView, null);
     }
 
     public void attachToScrollView(@NonNull ObservableScrollView scrollView) {
-        attachToScrollView(scrollView, new FabScrollViewOnScrollListener());
+        attachToScrollView(scrollView, null);
     }
 
-    public void attachToListView(@NonNull AbsListView listView, @NonNull FabOnScrollListener onScrollListener) {
-        onScrollListener.setFloatingActionButton(this);
-        onScrollListener.setListView(listView);
-        onScrollListener.setScrollThreshold(mScrollThreshold);
-        listView.setOnScrollListener(onScrollListener);
+    public void attachToListView(@NonNull AbsListView listView, ScrollDirectionListener listener) {
+        AbsListViewScrollDetectorImpl scrollDetector = new AbsListViewScrollDetectorImpl();
+        scrollDetector.setListener(listener);
+        scrollDetector.setListView(listView);
+        scrollDetector.setScrollThreshold(mScrollThreshold);
+        listView.setOnScrollListener(scrollDetector);
     }
 
-    public void attachToRecyclerView(@NonNull RecyclerView recyclerView, @NonNull FabRecyclerOnViewScrollListener onScrollListener) {
-        onScrollListener.setFloatingActionButton(this);
-        onScrollListener.setScrollThreshold(mScrollThreshold);
-        recyclerView.setOnScrollListener(onScrollListener);
+    public void attachToRecyclerView(@NonNull RecyclerView recyclerView, ScrollDirectionListener listener) {
+        RecyclerViewScrollDetectorImpl scrollDetector = new RecyclerViewScrollDetectorImpl();
+        scrollDetector.setListener(listener);
+        scrollDetector.setScrollThreshold(mScrollThreshold);
+        recyclerView.setOnScrollListener(scrollDetector);
     }
 
-    public void attachToScrollView(@NonNull ObservableScrollView scrollView, @NonNull FabScrollViewOnScrollListener onScrollListener) {
-        onScrollListener.setFloatingActionButton(this);
-        onScrollListener.setScrollThreshold(mScrollThreshold);
-        scrollView.setOnScrollChangedListener(onScrollListener);
+    public void attachToScrollView(@NonNull ObservableScrollView scrollView, ScrollDirectionListener listener) {
+        ScrollViewScrollDetectorImpl scrollDetector = new ScrollViewScrollDetectorImpl();
+        scrollDetector.setListener(listener);
+        scrollDetector.setScrollThreshold(mScrollThreshold);
+        scrollView.setOnScrollChangedListener(scrollDetector);
     }
 
     private boolean hasLollipopApi() {
@@ -340,107 +343,75 @@ public class FloatingActionButton extends ImageButton {
         return Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN;
     }
 
-    /**
-     * Shows/hides the FAB when the attached {@link AbsListView} scrolling events occur.
-     * Extend this class and override {@link FabOnScrollListener#onScrollDown()}/{@link FabOnScrollListener#onScrollUp()}
-     * if you need custom code to be executed on these events.
-     */
-    public static class FabOnScrollListener extends AbsListViewScrollDirectionDetector implements ScrollDirectionListener {
-        private FloatingActionButton mFloatingActionButton;
+    private class AbsListViewScrollDetectorImpl extends AbsListViewScrollDetector {
+        private ScrollDirectionListener mListener;
 
-        public FabOnScrollListener() {
-            setScrollDirectionListener(this);
+        private void setListener(ScrollDirectionListener scrollDirectionListener) {
+            mListener = scrollDirectionListener;
         }
 
-        private void setFloatingActionButton(@NonNull FloatingActionButton floatingActionButton) {
-            mFloatingActionButton = floatingActionButton;
-        }
-
-        /**
-         * Called when the attached {@link AbsListView} is scrolled down.
-         * <br />
-         * <br />
-         * <i>Derived classes should call the super class's implementation of this method.
-         * If they do not, the FAB will not react to AbsListView's scrolling events.</i>
-         */
         @Override
         public void onScrollDown() {
-            mFloatingActionButton.show();
+            show();
+            if (mListener != null) {
+                mListener.onScrollDown();
+            }
         }
 
-        /**
-         * Called when the attached {@link AbsListView} is scrolled up.
-         * <br />
-         * <br />
-         * <i>Derived classes should call the super class's implementation of this method.
-         * If they do not, the FAB will not react to AbsListView's scrolling events.</i>
-         */
         @Override
         public void onScrollUp() {
-            mFloatingActionButton.hide();
+            hide();
+            if (mListener != null) {
+                mListener.onScrollUp();
+            }
         }
     }
 
-    /**
-     * Shows/hides the FAB when the attached {@link RecyclerView} scrolling events occur.
-     * Extend this class and override {@link FabOnScrollListener#onScrollDown()}/{@link FabOnScrollListener#onScrollUp()}
-     * if you need custom code to be executed on these events.
-     */
-    public static class FabRecyclerOnViewScrollListener extends RecyclerViewScrollDirectionDetector implements ScrollDirectionListener {
-        private FloatingActionButton mFloatingActionButton;
+    private class RecyclerViewScrollDetectorImpl extends RecyclerViewScrollDetector {
+        private ScrollDirectionListener mListener;
 
-        public FabRecyclerOnViewScrollListener() {
-            setScrollDirectionListener(this);
+        private void setListener(ScrollDirectionListener scrollDirectionListener) {
+            mListener = scrollDirectionListener;
         }
 
-        private void setFloatingActionButton(@NonNull FloatingActionButton floatingActionButton) {
-            mFloatingActionButton = floatingActionButton;
-        }
-
-        /**
-         * Called when the attached {@link RecyclerView} is scrolled down.
-         * <br />
-         * <br />
-         * <i>Derived classes should call the super class's implementation of this method.
-         * If they do not, the FAB will not react to RecyclerView's scrolling events.</i>
-         */
         @Override
         public void onScrollDown() {
-            mFloatingActionButton.show();
+            show();
+            if (mListener != null) {
+                mListener.onScrollDown();
+            }
         }
 
-        /**
-         * Called when the attached {@link RecyclerView} is scrolled up.
-         * <br />
-         * <br />
-         * <i>Derived classes should call the super class's implementation of this method.
-         * If they do not, the FAB will not react to RecyclerView's scrolling events.</i>
-         */
         @Override
         public void onScrollUp() {
-            mFloatingActionButton.hide();
+            hide();
+            if (mListener != null) {
+                mListener.onScrollUp();
+            }
         }
     }
 
-    public static class FabScrollViewOnScrollListener extends ScrollViewScrollDirectionDetector implements ScrollDirectionListener {
-        private FloatingActionButton mFloatingActionButton;
+    private class ScrollViewScrollDetectorImpl extends ScrollViewScrollDetector {
+        private ScrollDirectionListener mListener;
 
-        public FabScrollViewOnScrollListener() {
-            setScrollDirectionListener(this);
-        }
-
-        private void setFloatingActionButton(@NonNull FloatingActionButton floatingActionButton) {
-            mFloatingActionButton = floatingActionButton;
+        private void setListener(ScrollDirectionListener scrollDirectionListener) {
+            mListener = scrollDirectionListener;
         }
 
         @Override
         public void onScrollDown() {
-            mFloatingActionButton.show();
+            show();
+            if (mListener != null) {
+                mListener.onScrollDown();
+            }
         }
 
         @Override
         public void onScrollUp() {
-            mFloatingActionButton.hide();
+            hide();
+            if (mListener != null) {
+                mListener.onScrollUp();
+            }
         }
     }
 }
