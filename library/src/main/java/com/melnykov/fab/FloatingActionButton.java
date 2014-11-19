@@ -317,6 +317,10 @@ public class FloatingActionButton extends ImageButton {
         attachToRecyclerView(recyclerView, new FabRecyclerOnViewScrollListener());
     }
 
+    public void attachToScrollView(@NonNull ObservableScrollView scrollView) {
+        attachToScrollView(scrollView, new FabScrollViewOnScrollListener());
+    }
+
     public void attachToListView(@NonNull AbsListView listView, @NonNull FabOnScrollListener onScrollListener) {
         onScrollListener.setFloatingActionButton(this);
         onScrollListener.setListView(listView);
@@ -328,6 +332,12 @@ public class FloatingActionButton extends ImageButton {
         onScrollListener.setFloatingActionButton(this);
         onScrollListener.setScrollThreshold(mScrollThreshold);
         recyclerView.setOnScrollListener(onScrollListener);
+    }
+
+    public void attachToScrollView(@NonNull ObservableScrollView scrollView, @NonNull FabScrollViewOnScrollListener onScrollListener) {
+        onScrollListener.setFloatingActionButton(this);
+        onScrollListener.setScrollThreshold(mScrollThreshold);
+        scrollView.setOnScrollChangedListener(onScrollListener);
     }
 
     private boolean hasLollipopApi() {
@@ -414,6 +424,28 @@ public class FloatingActionButton extends ImageButton {
          * <i>Derived classes should call the super class's implementation of this method.
          * If they do not, the FAB will not react to RecyclerView's scrolling events.</i>
          */
+        @Override
+        public void onScrollUp() {
+            mFloatingActionButton.hide();
+        }
+    }
+
+    public static class FabScrollViewOnScrollListener extends ScrollViewScrollDirectionDetector implements ScrollDirectionListener {
+        private FloatingActionButton mFloatingActionButton;
+
+        public FabScrollViewOnScrollListener() {
+            setScrollDirectionListener(this);
+        }
+
+        private void setFloatingActionButton(@NonNull FloatingActionButton floatingActionButton) {
+            mFloatingActionButton = floatingActionButton;
+        }
+
+        @Override
+        public void onScrollDown() {
+            mFloatingActionButton.show();
+        }
+
         @Override
         public void onScrollUp() {
             mFloatingActionButton.hide();

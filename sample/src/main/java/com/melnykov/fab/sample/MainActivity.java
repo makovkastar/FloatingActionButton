@@ -17,10 +17,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.melnykov.fab.FloatingActionButton;
+import com.melnykov.fab.ObservableScrollView;
 
 public class MainActivity extends ActionBarActivity implements ActionBar.OnNavigationListener {
 
@@ -55,6 +58,20 @@ public class MainActivity extends ActionBarActivity implements ActionBar.OnNavig
                     @Override
                     public void onTabSelected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
                         fragmentTransaction.replace(android.R.id.content, new RecyclerViewFragment());
+                    }
+
+                    @Override
+                    public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {}
+
+                    @Override
+                    public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {}
+                }));
+            actionBar.addTab(actionBar.newTab()
+                .setText("ScrollView")
+                .setTabListener(new ActionBar.TabListener() {
+                    @Override
+                    public void onTabSelected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
+                        fragmentTransaction.replace(android.R.id.content, new ScrollViewFragment());
                     }
 
                     @Override
@@ -144,6 +161,33 @@ public class MainActivity extends ActionBarActivity implements ActionBar.OnNavig
 
             FloatingActionButton fab = (FloatingActionButton) root.findViewById(R.id.fab);
             fab.attachToRecyclerView(recyclerView);
+
+            return root;
+        }
+    }
+
+    public static class ScrollViewFragment extends Fragment {
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+            View root = inflater.inflate(R.layout.fragment_scrollview, container, false);
+
+            ObservableScrollView scrollView = (ObservableScrollView) root.findViewById(R.id.scroll_view);
+            LinearLayout list = (LinearLayout) root.findViewById(R.id.list);
+
+            String[] countries = getResources().getStringArray(R.array.countries);
+            for (int i = 0; i < countries.length; i++) {
+                TextView textView = (TextView) inflater.inflate(R.layout.list_item, container, false);
+                String[] values = countries[i].split(",");
+                String countryName = values[0];
+                int flagResId = getResources().getIdentifier(values[1], "drawable", getActivity().getPackageName());
+                textView.setText(countryName);
+                textView.setCompoundDrawablesWithIntrinsicBounds(flagResId, 0, 0, 0);
+
+                list.addView(textView);
+            }
+
+            FloatingActionButton fab = (FloatingActionButton) root.findViewById(R.id.fab);
+            fab.attachToScrollView(scrollView);
 
             return root;
         }

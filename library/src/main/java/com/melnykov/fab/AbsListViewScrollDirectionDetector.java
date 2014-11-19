@@ -37,9 +37,8 @@ abstract class AbsListViewScrollDirectionDetector implements AbsListView.OnScrol
                     } else {
                         mScrollDirectionListener.onScrollDown();
                     }
-
-                    mLastScrollY = newScrollY;
                 }
+                mLastScrollY = newScrollY;
             } else {
                 if (firstVisibleItem > mPreviousFirstVisibleItem) {
                     mScrollDirectionListener.onScrollUp();
