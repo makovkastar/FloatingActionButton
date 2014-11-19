@@ -174,17 +174,6 @@ public class FloatingActionButton extends ImageButton {
         }
     }
 
-    /**
-     * @deprecated to be removed in next release.
-     * Now {@link com.melnykov.fab.ScrollDirectionDetector} is used to detect scrolling direction.
-     */
-    @Deprecated
-    protected int getListViewScrollY() {
-        View topChild = mListView.getChildAt(0);
-        return topChild == null ? 0 : mListView.getFirstVisiblePosition() * topChild.getHeight() -
-            topChild.getTop();
-    }
-
     private int getMarginBottom() {
         int marginBottom = 0;
         final ViewGroup.LayoutParams layoutParams = getLayoutParams();
