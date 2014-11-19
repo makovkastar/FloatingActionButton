@@ -5,7 +5,7 @@ package com.melnykov.fab;
  *
  * @author Vilius Kraujutis
  */
-public interface ScrollDirectionListener {
+interface ScrollDirectionListener {
     void onScrollDown();
 
     void onScrollUp();

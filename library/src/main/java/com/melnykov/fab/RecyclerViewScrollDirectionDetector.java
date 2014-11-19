@@ -13,19 +13,14 @@ import android.support.v7.widget.RecyclerView;
  * @author Aidan Follestad
  * @author Oleksandr Melnykov
  */
-public abstract class ScrollDirectionRecyclerViewDetector extends RecyclerView.OnScrollListener {
+abstract class RecyclerViewScrollDirectionDetector extends RecyclerView.OnScrollListener {
     private ScrollDirectionListener mScrollDirectionListener;
-    private int mMinSignificantScroll;
-
-    @Override
-    public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-        mMinSignificantScroll = recyclerView.getContext().getResources().getDimensionPixelOffset(R.dimen.fab_min_significant_scroll);
-    }
+    private int mScrollThreshold;
 
     @Override
     public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
         if (mScrollDirectionListener != null) {
-            boolean isSignificantDelta = Math.abs(dy) > mMinSignificantScroll;
+            boolean isSignificantDelta = Math.abs(dy) > mScrollThreshold;
             if (isSignificantDelta) {
                 if (dy > 0) {
                     mScrollDirectionListener.onScrollUp();
@@ -36,11 +31,11 @@ public abstract class ScrollDirectionRecyclerViewDetector extends RecyclerView.O
         }
     }
 
-    public ScrollDirectionListener getScrollDirectionListener() {
-        return mScrollDirectionListener;
-    }
-
     public void setScrollDirectionListener(@NonNull ScrollDirectionListener mScrollDirectionListener) {
         this.mScrollDirectionListener = mScrollDirectionListener;
+    }
+
+    public void setScrollThreshold(int scrollThreshold) {
+        mScrollThreshold = scrollThreshold;
     }
 }

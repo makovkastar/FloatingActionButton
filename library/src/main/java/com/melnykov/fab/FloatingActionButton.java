@@ -34,8 +34,6 @@ import android.widget.ImageButton;
  */
 public class FloatingActionButton extends ImageButton {
     private static final int TRANSLATE_DURATION_MILLIS = 200;
-    private FabOnScrollListener mOnScrollListener;
-    private FabRecyclerOnViewScrollListener mRecyclerViewOnScrollListener;
 
     @IntDef({TYPE_NORMAL, TYPE_MINI})
     public @interface TYPE {
@@ -44,9 +42,6 @@ public class FloatingActionButton extends ImageButton {
     public static final int TYPE_NORMAL = 0;
     public static final int TYPE_MINI = 1;
 
-    protected AbsListView mListView;
-    protected RecyclerView mRecyclerView;
-
     private boolean mVisible;
 
     private int mColorNormal;
@@ -54,6 +49,8 @@ public class FloatingActionButton extends ImageButton {
     private int mColorRipple;
     private boolean mShadow;
     private int mType;
+
+    private int mScrollThreshold;
 
     private final Interpolator mInterpolator = new AccelerateDecelerateInterpolator();
 
@@ -90,6 +87,7 @@ public class FloatingActionButton extends ImageButton {
         mColorRipple = getColor(android.R.color.white);
         mType = TYPE_NORMAL;
         mShadow = true;
+        mScrollThreshold = getResources().getDimensionPixelOffset(R.dimen.fab_scroll_threshold);
         if (attributeSet != null) {
             initAttributes(context, attributeSet);
         }
@@ -255,14 +253,6 @@ public class FloatingActionButton extends ImageButton {
         return mVisible;
     }
 
-    protected AbsListView.OnScrollListener getOnScrollListener() {
-        return mOnScrollListener;
-    }
-
-    protected RecyclerView.OnScrollListener getRecyclerViewOnScrollListener() {
-        return mRecyclerViewOnScrollListener;
-    }
-
     public void show() {
         show(true);
     }
@@ -328,18 +318,16 @@ public class FloatingActionButton extends ImageButton {
     }
 
     public void attachToListView(@NonNull AbsListView listView, @NonNull FabOnScrollListener onScrollListener) {
-        mListView = listView;
-        mOnScrollListener = onScrollListener;
         onScrollListener.setFloatingActionButton(this);
         onScrollListener.setListView(listView);
-        mListView.setOnScrollListener(onScrollListener);
+        onScrollListener.setScrollThreshold(mScrollThreshold);
+        listView.setOnScrollListener(onScrollListener);
     }
 
     public void attachToRecyclerView(@NonNull RecyclerView recyclerView, @NonNull FabRecyclerOnViewScrollListener onScrollListener) {
-        mRecyclerView = recyclerView;
-        mRecyclerViewOnScrollListener = onScrollListener;
         onScrollListener.setFloatingActionButton(this);
-        mRecyclerView.setOnScrollListener(onScrollListener);
+        onScrollListener.setScrollThreshold(mScrollThreshold);
+        recyclerView.setOnScrollListener(onScrollListener);
     }
 
     private boolean hasLollipopApi() {
@@ -355,7 +343,7 @@ public class FloatingActionButton extends ImageButton {
      * Extend this class and override {@link FabOnScrollListener#onScrollDown()}/{@link FabOnScrollListener#onScrollUp()}
      * if you need custom code to be executed on these events.
      */
-    public static class FabOnScrollListener extends ScrollDirectionDetector implements ScrollDirectionListener {
+    public static class FabOnScrollListener extends AbsListViewScrollDirectionDetector implements ScrollDirectionListener {
         private FloatingActionButton mFloatingActionButton;
 
         public FabOnScrollListener() {
@@ -396,7 +384,7 @@ public class FloatingActionButton extends ImageButton {
      * Extend this class and override {@link FabOnScrollListener#onScrollDown()}/{@link FabOnScrollListener#onScrollUp()}
      * if you need custom code to be executed on these events.
      */
-    public static class FabRecyclerOnViewScrollListener extends ScrollDirectionRecyclerViewDetector implements ScrollDirectionListener {
+    public static class FabRecyclerOnViewScrollListener extends RecyclerViewScrollDirectionDetector implements ScrollDirectionListener {
         private FloatingActionButton mFloatingActionButton;
 
         public FabRecyclerOnViewScrollListener() {
