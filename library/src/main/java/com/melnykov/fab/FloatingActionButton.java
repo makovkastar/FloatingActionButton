@@ -346,7 +346,6 @@ public class FloatingActionButton extends ImageButton {
         mRecyclerView = recyclerView;
         mRecyclerViewOnScrollListener = onScrollListener;
         onScrollListener.setFloatingActionButton(this);
-        onScrollListener.setRecyclerView(recyclerView);
         mRecyclerView.setOnScrollListener(onScrollListener);
     }
 
