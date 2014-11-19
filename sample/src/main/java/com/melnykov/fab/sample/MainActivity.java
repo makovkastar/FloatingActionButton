@@ -175,9 +175,9 @@ public class MainActivity extends ActionBarActivity implements ActionBar.OnNavig
             LinearLayout list = (LinearLayout) root.findViewById(R.id.list);
 
             String[] countries = getResources().getStringArray(R.array.countries);
-            for (int i = 0; i < countries.length; i++) {
+            for (String country : countries) {
                 TextView textView = (TextView) inflater.inflate(R.layout.list_item, container, false);
-                String[] values = countries[i].split(",");
+                String[] values = country.split(",");
                 String countryName = values[0];
                 int flagResId = getResources().getIdentifier(values[1], "drawable", getActivity().getPackageName());
                 textView.setText(countryName);
