@@ -152,6 +152,7 @@ Icon | Application
 ------------ | -------------
 <img src="https://lh4.ggpht.com/oA-y_Rnemgoii-kup0MHTU0MjB9YaogVfxFfd9hDgaBysVoe6VL1cg5iNVz2pZPCx6ss=w300-rw" width="48" height="48" /> | [Finger Gesture Launcher]
 <img src="https://lh3.ggpht.com/j5j1fbjO2xqDoI0C4eaVjpQ4K6kxPcSSwOQS_4xihRPKqUKtt5ud1Jd60MAuogyrUQ=w300-rw" width="48" height="48" /> | [Vocabletrainer]
+<img src="https://lh6.ggpht.com/Z40eE1-2KhlE_rSpErTkn8gjU1EOITxTCxNTDWY6EjCi0NAoAN0aUaQ5afmxC-EZqKs=w300-rw" width="48" height="48" /> | [Lanekeep GPS Mileage Tracker]
 
 ### Links
 
@@ -188,3 +189,4 @@ SOFTWARE.
 [Android Asset Studio]:http://romannurik.github.io/AndroidAssetStudio/icons-generic.html
 [Finger Gesture Launcher]:https://play.google.com/store/apps/details?id=com.carlosdelachica.finger
 [Vocabletrainer]:https://play.google.com/store/apps/details?id=com.rubengees.vocables
+[Lanekeep GPS Mileage Tracker]:https://play.google.com/store/apps/details?id=me.hanx.android.dashio&hl=en
