@@ -153,8 +153,6 @@ public class MainActivity extends ActionBarActivity implements ActionBar.OnNavig
             list.setAdapter(listAdapter);
 
             final ActionBar ab = ((ActionBarActivity)getActivity()).getSupportActionBar();
-            ab.hide();
-
             FloatingActionButton fab = (FloatingActionButton) root.findViewById(R.id.fab);
             fab.attachToListView(list, new ScrollDirectionListener() {
                 @Override
