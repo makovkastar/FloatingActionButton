@@ -19,7 +19,7 @@ Android [Google+] like floating action button which reacts on the list view scro
 
 ```groovy
 dependencies {
-    compile 'com.melnykov:floatingactionbutton:1.0.7'
+    compile 'com.melnykov:floatingactionbutton:1.0.8'
 }
 ```
 
@@ -49,18 +49,15 @@ dependencies {
 </FrameLayout>
 ```
 
-**3)** Attach the ``ListView``, ``GridView`` or ``RecyclerView``(currently only the ``LinearLayoutManager`` is supported) to the button in the Java code:
+**3)** Attach the FAB to ``AbsListView``, ``RecyclerView`` or ``ScrollView`` :
 
-```java
-ListView listView = (ListView) findViewById(android.R.id.list);
-FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-fab.attachToListView(listView);
-```
-``FloatingActionButton`` extends ``android.widget.ImageButton`` so it has all methods the latter has.
+    ```java
+    ListView listView = (ListView) findViewById(android.R.id.list);
+    FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+    fab.attachToListView(listView);
+    ```
 
-If you need custom code to be executed when scrolling events occur, extend ``FloatingActionButton.FabOnScrollListener`` or ``FloatingActionButton.FabRecyclerOnViewScrollListener`` and override ``FabOnScrollListener.onScrollDown()``/`` FabOnScrollListener.onScrollUp()``. Then pass an instance of a custom listener as a second argument to ``attachToListView``/``attachToRecyclerView``.
-
-**Do not forget to call ``super.onScrollDown()`` and ``super.onScrollUp()`` in overriden methods. If you do not, the FAB will not react to scrolling events.**
+Check the sample project to see how to use custom listeners if you need to track scroll events.
 
 **4)** Add the namespace ``xmlns:fab="http://schemas.android.com/apk/res-auto"`` to your layout file.
 
@@ -119,6 +116,14 @@ If you need custom code to be executed when scrolling events occur, extend ``Flo
 **5)** Set an icon for the ``FloatingActionButton`` using ``android:src`` xml attribute. Use drawables of size **24dp** as specified by [guidlines]. Icons of desired size can be generated with [Android Asset Studio].
 
 ### Changelog
+
+**Version 1.0.8:**
++ ATTENTION! Breaking changes for custom listeners. Check an updated sample how to use them.
++ Added support for the ``ScrollView``;
++ Significantly optimized scroll detection for the ``RecyclerView``;
++ Fixed laggy animation for a list view with items of different height;
++ Added ``isVisible`` getter;
++ Deleted deprecated methods.
 
 **Version 1.0.7:**
 + Updated shadow assets to better match material design guidlines;
