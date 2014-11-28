@@ -55,6 +55,8 @@ public class FloatingActionButton extends ImageButton {
 
     private int mScrollThreshold;
 
+    private boolean mMarginsSet;
+
     private final Interpolator mInterpolator = new AccelerateDecelerateInterpolator();
 
     public FloatingActionButton(Context context) {
@@ -81,6 +83,26 @@ public class FloatingActionButton extends ImageButton {
             size += shadowSize * 2;
         }
         setMeasuredDimension(size, size);
+    }
+
+    @Override
+    protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
+        super.onLayout(changed, left, top, right, bottom);
+        if (!hasLollipopApi() && !mMarginsSet) {
+            if (getLayoutParams() instanceof ViewGroup.MarginLayoutParams) {
+                int shadowSize = getDimension(R.dimen.fab_shadow_size);
+
+                ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) getLayoutParams();
+                int leftMargin = Math.max(layoutParams.leftMargin - shadowSize, 0);
+                int topMargin = Math.max(layoutParams.topMargin - shadowSize, 0);
+                int rightMargin = Math.max(layoutParams.rightMargin - shadowSize, 0);
+                int bottomMargin = Math.max(layoutParams.bottomMargin - shadowSize, 0);
+                layoutParams.setMargins(leftMargin, topMargin, rightMargin, bottomMargin);
+
+                setLayoutParams(layoutParams);
+                mMarginsSet = true;
+            }
+        }
     }
 
     private void init(Context context, AttributeSet attributeSet) {
