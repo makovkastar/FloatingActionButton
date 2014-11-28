@@ -53,6 +53,8 @@ public class FloatingActionButton extends ImageButton {
     private boolean mShadow;
     private int mType;
 
+    private int mShadowSize;
+
     private int mScrollThreshold;
 
     private boolean mMarginsSet;
@@ -79,8 +81,7 @@ public class FloatingActionButton extends ImageButton {
         int size = getDimension(
             mType == TYPE_NORMAL ? R.dimen.fab_size_normal : R.dimen.fab_size_mini);
         if (mShadow && !hasLollipopApi()) {
-            int shadowSize = getDimension(R.dimen.fab_shadow_size);
-            size += shadowSize * 2;
+            size += mShadowSize * 2;
         }
         setMeasuredDimension(size, size);
     }
@@ -90,13 +91,11 @@ public class FloatingActionButton extends ImageButton {
         super.onLayout(changed, left, top, right, bottom);
         if (!hasLollipopApi() && !mMarginsSet) {
             if (getLayoutParams() instanceof ViewGroup.MarginLayoutParams) {
-                int shadowSize = getDimension(R.dimen.fab_shadow_size);
-
                 ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) getLayoutParams();
-                int leftMargin = Math.max(layoutParams.leftMargin - shadowSize, 0);
-                int topMargin = Math.max(layoutParams.topMargin - shadowSize, 0);
-                int rightMargin = Math.max(layoutParams.rightMargin - shadowSize, 0);
-                int bottomMargin = Math.max(layoutParams.bottomMargin - shadowSize, 0);
+                int leftMargin = Math.max(layoutParams.leftMargin - mShadowSize, 0);
+                int topMargin = Math.max(layoutParams.topMargin - mShadowSize, 0);
+                int rightMargin = Math.max(layoutParams.rightMargin - mShadowSize, 0);
+                int bottomMargin = Math.max(layoutParams.bottomMargin - mShadowSize, 0);
                 layoutParams.setMargins(leftMargin, topMargin, rightMargin, bottomMargin);
 
                 setLayoutParams(layoutParams);
@@ -113,6 +112,7 @@ public class FloatingActionButton extends ImageButton {
         mType = TYPE_NORMAL;
         mShadow = true;
         mScrollThreshold = getResources().getDimensionPixelOffset(R.dimen.fab_scroll_threshold);
+        mShadowSize = getDimension(R.dimen.fab_shadow_size);
         if (attributeSet != null) {
             initAttributes(context, attributeSet);
         }
@@ -150,12 +150,10 @@ public class FloatingActionButton extends ImageButton {
         shapeDrawable.getPaint().setColor(color);
 
         if (mShadow && !hasLollipopApi()) {
-            LayerDrawable layerDrawable = new LayerDrawable(
-                new Drawable[]{getResources().getDrawable(R.drawable.shadow),
-                    shapeDrawable});
-            int shadowSize = getDimension(
-                mType == TYPE_NORMAL ? R.dimen.fab_shadow_size : R.dimen.fab_mini_shadow_size);
-            layerDrawable.setLayerInset(1, shadowSize, shadowSize, shadowSize, shadowSize);
+            Drawable shadowDrawable = getResources().getDrawable(mType == TYPE_NORMAL ? R.drawable.shadow
+                : R.drawable.shadow_mini);
+            LayerDrawable layerDrawable = new LayerDrawable(new Drawable[]{shadowDrawable, shapeDrawable});
+            layerDrawable.setLayerInset(1, mShadowSize, mShadowSize, mShadowSize, mShadowSize);
             return layerDrawable;
         } else {
             return shapeDrawable;
