@@ -5,7 +5,7 @@ FloatingActionButton
 
 ### Description
 
-Android [floating action button] which reacts on the scrolling events. Becomes visible when an attached target is scrolled up and invisible when scrolled down.
+Android [floating action button] which reacts on scrolling events. Becomes visible when an attached target is scrolled up and invisible when scrolled down.
 
 ![Demo](art/demo.gif)
 
@@ -51,11 +51,11 @@ dependencies {
 
 **3)** Attach the FAB to ``AbsListView``, ``RecyclerView`` or ``ScrollView`` :
 
-    ```java
-    ListView listView = (ListView) findViewById(android.R.id.list);
-    FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-    fab.attachToListView(listView);
-    ```
+```java
+ListView listView = (ListView) findViewById(android.R.id.list);
+FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+fab.attachToListView(listView);
+```
 
 Check the sample project to see how to use custom listeners if you need to track scroll events.
 
