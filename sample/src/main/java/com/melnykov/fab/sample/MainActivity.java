@@ -1,7 +1,6 @@
 package com.melnykov.fab.sample;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -15,17 +14,13 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.widget.AbsListView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.melnykov.fab.FloatingActionButton;
@@ -54,10 +49,12 @@ public class MainActivity extends ActionBarActivity implements ActionBar.OnNavig
                     }
 
                     @Override
-                    public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {}
+                    public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
+                    }
 
                     @Override
-                    public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {}
+                    public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
+                    }
                 }));
             actionBar.addTab(actionBar.newTab()
                 .setText("RecyclerView")
@@ -68,10 +65,12 @@ public class MainActivity extends ActionBarActivity implements ActionBar.OnNavig
                     }
 
                     @Override
-                    public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {}
+                    public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
+                    }
 
                     @Override
-                    public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {}
+                    public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
+                    }
                 }));
             actionBar.addTab(actionBar.newTab()
                 .setText("ScrollView")
@@ -82,10 +81,12 @@ public class MainActivity extends ActionBarActivity implements ActionBar.OnNavig
                     }
 
                     @Override
-                    public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {}
+                    public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
+                    }
 
                     @Override
-                    public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {}
+                    public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
+                    }
                 }));
         }
     }
@@ -103,14 +104,15 @@ public class MainActivity extends ActionBarActivity implements ActionBar.OnNavig
             content.setMovementMethod(LinkMovementMethod.getInstance());
             content.setText(Html.fromHtml(getString(R.string.about_body)));
             new AlertDialog.Builder(this)
-                    .setTitle(R.string.about)
-                    .setView(content)
-                    .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    }).create().show();
+                .setTitle(R.string.about)
+                .setView(content)
+                .setInverseBackgroundForced(true)
+                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                }).create().show();
         }
         return super.onOptionsItemSelected(item);
     }
@@ -141,32 +143,20 @@ public class MainActivity extends ActionBarActivity implements ActionBar.OnNavig
             View root = inflater.inflate(R.layout.fragment_listview, container, false);
 
             ListView list = (ListView) root.findViewById(android.R.id.list);
-
-            // Add a header to a ListView to prevent flickering when hiding an ActionBar
-            View header = new View(getActivity());
-            header.setLayoutParams(new AbsListView.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT,
-                Utils.getActionBarWithTabsHeight(getActivity())));
-            list.addHeaderView(header);
-
             ListViewAdapter listAdapter = new ListViewAdapter(getActivity(),
-                    getResources().getStringArray(R.array.countries));
+                getResources().getStringArray(R.array.countries));
             list.setAdapter(listAdapter);
 
-            final ActionBar ab = ((ActionBarActivity)getActivity()).getSupportActionBar();
             FloatingActionButton fab = (FloatingActionButton) root.findViewById(R.id.fab);
             fab.attachToListView(list, new ScrollDirectionListener() {
                 @Override
                 public void onScrollDown() {
-                    if (!ab.isShowing()) {
-                        ab.show();
-                    }
+                    Log.d("ListViewFragment", "onScrollDown()");
                 }
 
                 @Override
                 public void onScrollUp() {
-                    if (ab.isShowing()) {
-                        ab.hide();
-                    }
+                    Log.d("ListViewFragment", "onScrollUp()");
                 }
             });
 
@@ -184,7 +174,6 @@ public class MainActivity extends ActionBarActivity implements ActionBar.OnNavig
             recyclerView.setItemAnimator(new DefaultItemAnimator());
             recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
             recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST));
-            recyclerView.setPadding(0, Utils.getActionBarWithTabsHeight(getActivity()), 0, 0);
 
             RecyclerViewAdapter adapter = new RecyclerViewAdapter(getActivity(), getResources()
                 .getStringArray(R.array.countries));
@@ -203,7 +192,6 @@ public class MainActivity extends ActionBarActivity implements ActionBar.OnNavig
             View root = inflater.inflate(R.layout.fragment_scrollview, container, false);
 
             ObservableScrollView scrollView = (ObservableScrollView) root.findViewById(R.id.scroll_view);
-            scrollView.setPadding(0, Utils.getActionBarWithTabsHeight(getActivity()), 0, 0);
             LinearLayout list = (LinearLayout) root.findViewById(R.id.list);
 
             String[] countries = getResources().getStringArray(R.array.countries);
