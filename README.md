@@ -117,6 +117,12 @@ Check the sample project to see how to use custom listeners if you need to track
 
 ### Changelog
 
+**Version 1.0.9:**
++ Support API 7;
++ Fixed extra margins on pre-Lollipop devices;
++ Fixed mini FAB size;
++ Updated shadow assets to more accurately match 8dp elevation.
+
 **Version 1.0.8:**
 + ATTENTION! Breaking changes for custom listeners. Check an updated sample how to use them.
 + Added support for the ``ScrollView``;
