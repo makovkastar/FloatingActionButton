@@ -92,10 +92,10 @@ public class FloatingActionButton extends ImageButton {
         if (!hasLollipopApi() && !mMarginsSet) {
             if (getLayoutParams() instanceof ViewGroup.MarginLayoutParams) {
                 ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) getLayoutParams();
-                int leftMargin = Math.max(layoutParams.leftMargin - mShadowSize, 0);
-                int topMargin = Math.max(layoutParams.topMargin - mShadowSize, 0);
-                int rightMargin = Math.max(layoutParams.rightMargin - mShadowSize, 0);
-                int bottomMargin = Math.max(layoutParams.bottomMargin - mShadowSize, 0);
+                int leftMargin = layoutParams.leftMargin - mShadowSize;
+                int topMargin = layoutParams.topMargin - mShadowSize;
+                int rightMargin = layoutParams.rightMargin - mShadowSize;
+                int bottomMargin = layoutParams.bottomMargin - mShadowSize;
                 layoutParams.setMargins(leftMargin, topMargin, rightMargin, bottomMargin);
 
                 setLayoutParams(layoutParams);
