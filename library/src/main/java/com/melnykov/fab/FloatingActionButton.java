@@ -375,7 +375,7 @@ public class FloatingActionButton extends ImageButton {
     }
 
     private class AbsListViewScrollDetectorImpl extends AbsListViewScrollDetector {
-      private ScrollDirectionListener mListener;
+        private ScrollDirectionListener mListener;
 
         public AbsListViewScrollDetectorImpl(AbsListView.OnScrollListener listViewScrollListener) {
             super(listViewScrollListener);
