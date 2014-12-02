@@ -59,6 +59,10 @@ public class FloatingActionButton extends ImageButton {
 
     private boolean mMarginsSet;
 
+    private int mMovementY;
+
+    private ViewTreeObserver.OnPreDrawListener mPreDrawListener;
+
     private final Interpolator mInterpolator = new AccelerateDecelerateInterpolator();
 
     public FloatingActionButton(Context context) {
@@ -113,6 +117,8 @@ public class FloatingActionButton extends ImageButton {
         mShadow = true;
         mScrollThreshold = getResources().getDimensionPixelOffset(R.dimen.fab_scroll_threshold);
         mShadowSize = getDimension(R.dimen.fab_shadow_size);
+        mMovementY = 0;
+        mPreDrawListener = null;
         if (attributeSet != null) {
             initAttributes(context, attributeSet);
         }
@@ -285,42 +291,59 @@ public class FloatingActionButton extends ImageButton {
     }
 
     public void show(boolean animate) {
-        toggle(true, animate, false);
+        toggle(true, animate);
     }
 
     public void hide(boolean animate) {
-        toggle(false, animate, false);
+        toggle(false, animate);
     }
 
-    private void toggle(final boolean visible, final boolean animate, boolean force) {
-        if (mVisible != visible || force) {
-            mVisible = visible;
-            int height = getHeight();
-            if (height == 0 && !force) {
-                ViewTreeObserver vto = getViewTreeObserver();
-                if (vto.isAlive()) {
-                    vto.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
-                        @Override
-                        public boolean onPreDraw() {
-                            ViewTreeObserver currentVto = getViewTreeObserver();
-                            if (currentVto.isAlive()) {
-                                currentVto.removeOnPreDrawListener(this);
-                            }
-                            toggle(visible, animate, true);
-                            return true;
-                        }
-                    });
-                    return;
+    public void setMovementY(int movementY) {
+        setMovementY(movementY, true);
+    }
+
+    public void setMovementY(int movementY, boolean animate) {
+        mMovementY = movementY;
+
+        reposition(true, animate, false);
+    }
+
+    private void reposition(final boolean newPosition, final boolean animate, boolean force) {
+        ViewTreeObserver vto = null;
+
+        if (newPosition && mPreDrawListener != null) {
+            vto = getViewTreeObserver();
+            vto.removeOnPreDrawListener(mPreDrawListener);
+            mPreDrawListener = null;
+        }
+        int height = getHeight();
+        if (height == 0 && !force) {
+            if (vto == null) {
+                vto = getViewTreeObserver();
+            }
+            vto.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+                @Override
+                public boolean onPreDraw() {
+                    getViewTreeObserver().removeOnPreDrawListener(this);
+                    reposition(false, animate, true);
+                    return true;
                 }
-            }
-            int translationY = visible ? 0 : height + getMarginBottom();
-            if (animate) {
-                ViewPropertyAnimator.animate(this).setInterpolator(mInterpolator)
-                    .setDuration(TRANSLATE_DURATION_MILLIS)
-                    .translationY(translationY);
-            } else {
-                ViewHelper.setTranslationY(this, translationY);
-            }
+            });
+            return;
+        }
+        int translationY = mVisible ? mMovementY : height + getMarginBottom();
+        if (animate) {
+            ViewPropertyAnimator.animate(this).setInterpolator(mInterpolator)
+                    .setDuration(TRANSLATE_DURATION_MILLIS).translationY(translationY);
+        } else {
+            ViewHelper.setTranslationY(this, translationY);
+        }
+    }
+
+    private void toggle(final boolean visible, final boolean animate) {
+        if (mVisible != visible) {
+            mVisible = visible;
+            this.reposition(true, animate, false);
         }
     }
 
