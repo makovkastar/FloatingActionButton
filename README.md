@@ -157,7 +157,7 @@ Thanks to [Aidan Follestad](https://github.com/afollestad).
 
 ### Applications using FloatingActionButton
 
-Please [ping](mailto:makovkastar@gmail.com) me if you would like to be added here.
+Please [ping](mailto:makovkastar@gmail.com) me or send a pull request if you would like to be added here.
 
 Icon | Application
 ------------ | -------------
