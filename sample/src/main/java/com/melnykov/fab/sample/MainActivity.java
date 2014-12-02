@@ -27,7 +27,7 @@ import com.melnykov.fab.FloatingActionButton;
 import com.melnykov.fab.ObservableScrollView;
 import com.melnykov.fab.ScrollDirectionListener;
 
-public class MainActivity extends ActionBarActivity implements ActionBar.OnNavigationListener {
+public class MainActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,24 +115,6 @@ public class MainActivity extends ActionBarActivity implements ActionBar.OnNavig
                 }).create().show();
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public boolean onNavigationItemSelected(int itemPosition, long itemId) {
-        switch (itemPosition) {
-            case 0:
-                getSupportFragmentManager().beginTransaction()
-                    .replace(android.R.id.content, new ListViewFragment())
-                    .commit();
-                return true;
-            case 1:
-                getSupportFragmentManager().beginTransaction()
-                    .replace(android.R.id.content, new RecyclerViewFragment())
-                    .commit();
-                return true;
-            default:
-                return false;
-        }
     }
 
     public static class ListViewFragment extends Fragment {
