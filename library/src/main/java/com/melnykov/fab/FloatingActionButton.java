@@ -321,6 +321,11 @@ public class FloatingActionButton extends ImageButton {
             } else {
                 ViewHelper.setTranslationY(this, translationY);
             }
+
+            // On pre-Honeycomb a translated view is still clickable, so we need to disable clicks manually
+            if (!hasHoneycombApi()) {
+                setClickable(visible);
+            }
         }
     }
 
@@ -364,6 +369,10 @@ public class FloatingActionButton extends ImageButton {
 
     private boolean hasJellyBeanApi() {
         return Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN;
+    }
+
+    private boolean hasHoneycombApi() {
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB;
     }
 
     private class AbsListViewScrollDetectorImpl extends AbsListViewScrollDetector {
