@@ -167,6 +167,7 @@ Icon | Application
 <img src="https://lh6.ggpht.com/pTT1RebLeNJMH7pm9XgQtDWpm0azxOJ7dFYkZqAMT-QE1oi2OGor3qI1ZgiJze4uYvo=w300-rw" width="48" height="48" /> | [Score It]
 <img src="https://lh3.ggpht.com/M-AwKN9xIbhoAkHZWEarCasxyNYjJt2gT3HS8ScGYbJWAUi2zSQ2K_tow8lsznB4XhQ=w300-rw" width="48" height="48" /> | [Перезвони мне]
 <img src="https://lh5.ggpht.com/itn5l8TL7g7YJLi-4GlD7Sg4hI-yCZv0NX85S9l5cq8BtDHPYv60S3h3ta75Pjaerg=w300-rw" width="48" height="48" /> | [App Swap]
+<img src="https://lh6.ggpht.com/wzbvTDntUigvCBp-rZj61rhPuAIF0biycsxlOZveKA8zLKpYA9pIdqp4y0h8sYPqiA=w300-rw" width="48" height="48" /> | [QKSMS - Quick Text Messenger]
 
 ### Links
 
@@ -207,3 +208,4 @@ SOFTWARE.
 [Score It]:https://play.google.com/store/apps/details?id=com.sbgapps.scoreit
 [Перезвони мне]:https://play.google.com/store/apps/details?id=com.melnykov.callmeback
 [App Swap]:https://play.google.com/store/apps/details?id=net.ebt.appswitch
+[QKSMS - Quick Text Messenger]:https://play.google.com/store/apps/details?id=com.moez.QKSMS
