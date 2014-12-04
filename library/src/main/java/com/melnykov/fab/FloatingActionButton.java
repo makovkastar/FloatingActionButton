@@ -82,26 +82,9 @@ public class FloatingActionButton extends ImageButton {
             mType == TYPE_NORMAL ? R.dimen.fab_size_normal : R.dimen.fab_size_mini);
         if (mShadow && !hasLollipopApi()) {
             size += mShadowSize * 2;
+            setMarginsWithoutShadow();
         }
         setMeasuredDimension(size, size);
-    }
-
-    @Override
-    protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
-        super.onLayout(changed, left, top, right, bottom);
-        if (!hasLollipopApi() && !mMarginsSet) {
-            if (getLayoutParams() instanceof ViewGroup.MarginLayoutParams) {
-                ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) getLayoutParams();
-                int leftMargin = layoutParams.leftMargin - mShadowSize;
-                int topMargin = layoutParams.topMargin - mShadowSize;
-                int rightMargin = layoutParams.rightMargin - mShadowSize;
-                int bottomMargin = layoutParams.bottomMargin - mShadowSize;
-                layoutParams.setMargins(leftMargin, topMargin, rightMargin, bottomMargin);
-
-                setLayoutParams(layoutParams);
-                mMarginsSet = true;
-            }
-        }
     }
 
     private void init(Context context, AttributeSet attributeSet) {
@@ -170,6 +153,22 @@ public class FloatingActionButton extends ImageButton {
 
     private int getDimension(@DimenRes int id) {
         return getResources().getDimensionPixelSize(id);
+    }
+
+    private void setMarginsWithoutShadow() {
+        if (!mMarginsSet) {
+            if (getLayoutParams() instanceof ViewGroup.MarginLayoutParams) {
+                ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) getLayoutParams();
+                int leftMargin = layoutParams.leftMargin - mShadowSize;
+                int topMargin = layoutParams.topMargin - mShadowSize;
+                int rightMargin = layoutParams.rightMargin - mShadowSize;
+                int bottomMargin = layoutParams.bottomMargin - mShadowSize;
+                layoutParams.setMargins(leftMargin, topMargin, rightMargin, bottomMargin);
+
+                requestLayout();
+                mMarginsSet = true;
+            }
+        }
     }
 
     @SuppressWarnings("deprecation")
