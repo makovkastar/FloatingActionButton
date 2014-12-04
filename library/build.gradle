@@ -24,4 +24,4 @@ dependencies {
     compile 'com.nineoldandroids:library:2.4.0'
 }
 
-apply from: './gradle-mvn-push.gradle'
+apply from: 'https://raw.github.com/chrisbanes/gradle-mvn-push/master/gradle-mvn-push.gradle'
