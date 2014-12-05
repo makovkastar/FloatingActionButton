@@ -324,14 +324,15 @@ public class FloatingActionButton extends ImageButton {
             if (vto == null) {
                 vto = getViewTreeObserver();
             }
-            vto.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+            mPreDrawListener = new ViewTreeObserver.OnPreDrawListener() {
                 @Override
                 public boolean onPreDraw() {
                     getViewTreeObserver().removeOnPreDrawListener(this);
                     reposition(false, animate, true);
                     return true;
                 }
-            });
+            };
+            vto.addOnPreDrawListener(mPreDrawListener);
             return;
         }
         int translationY = mVisible ? mMovementY : height + getMarginBottom();
