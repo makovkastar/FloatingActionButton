@@ -175,7 +175,14 @@ public class FloatingActionButton extends ImageButton {
     @SuppressLint("NewApi")
     private void setBackgroundCompat(Drawable drawable) {
         if (hasLollipopApi()) {
-            setElevation(mShadow ? getDimension(R.dimen.fab_elevation_lollipop) : 0.0f);
+            float elevation;
+            if (mShadow) {
+                elevation = getElevation() > 0.0f ? getElevation()
+                    : getDimension(R.dimen.fab_elevation_lollipop);
+            } else {
+                elevation = 0.0f;
+            }
+            setElevation(elevation);
             RippleDrawable rippleDrawable = new RippleDrawable(new ColorStateList(new int[][]{{}},
                 new int[]{mColorRipple}), drawable, null);
             setOutlineProvider(new ViewOutlineProvider() {
