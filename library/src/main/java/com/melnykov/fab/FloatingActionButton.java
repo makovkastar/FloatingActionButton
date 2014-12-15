@@ -50,6 +50,7 @@ public class FloatingActionButton extends ImageButton {
     private int mColorNormal;
     private int mColorPressed;
     private int mColorRipple;
+    private int mColorDisabled;
     private boolean mShadow;
     private int mType;
 
@@ -92,6 +93,7 @@ public class FloatingActionButton extends ImageButton {
         mColorNormal = getColor(R.color.material_blue_500);
         mColorPressed = getColor(R.color.material_blue_600);
         mColorRipple = getColor(android.R.color.white);
+        mColorDisabled = getColor(android.R.color.white);
         mType = TYPE_NORMAL;
         mShadow = true;
         mScrollThreshold = getResources().getDimensionPixelOffset(R.dimen.fab_scroll_threshold);
@@ -112,6 +114,8 @@ public class FloatingActionButton extends ImageButton {
                     getColor(R.color.material_blue_600));
                 mColorRipple = attr.getColor(R.styleable.FloatingActionButton_fab_colorRipple,
                     getColor(android.R.color.white));
+                mColorDisabled = attr.getColor(R.styleable.FloatingActionButton_fab_colorDisabled,
+                    mColorDisabled);
                 mShadow = attr.getBoolean(R.styleable.FloatingActionButton_fab_shadow, true);
                 mType = attr.getInt(R.styleable.FloatingActionButton_fab_type, TYPE_NORMAL);
             } finally {
@@ -123,6 +127,7 @@ public class FloatingActionButton extends ImageButton {
     private void updateBackground() {
         StateListDrawable drawable = new StateListDrawable();
         drawable.addState(new int[]{android.R.attr.state_pressed}, createDrawable(mColorPressed));
+        drawable.addState(new int[]{-android.R.attr.state_enabled}, createDrawable(mColorDisabled));
         drawable.addState(new int[]{}, createDrawable(mColorNormal));
         setBackgroundCompat(drawable);
     }
