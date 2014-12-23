@@ -219,3 +219,4 @@ SOFTWARE.
 [QKSMS - Quick Text Messenger]:https://play.google.com/store/apps/details?id=com.moez.QKSMS
 [Uninstaller - Beta Version]:https://play.google.com/store/apps/details?id=com.kimcy92.uninstaller
 [Device Control]:https://play.google.com/store/apps/details?id=org.namelessrom.devicecontrol
+[Confide]:https://play.google.com/store/apps/details?id=cm.confide.android
