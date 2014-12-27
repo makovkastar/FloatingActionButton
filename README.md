@@ -177,6 +177,7 @@ Icon | Application
 <img src="https://lh3.ggpht.com/Rf4wGr902RKyQxBgaw7uBglwMw8JvjKCgDwZWXAH91GOcd1fvBAHo2nT5J-Uvszlsg=w300-rw" width="48" height="48" /> | [Device Control]
 <img src="https://lh5.ggpht.com/lXmTtP_1u48UzqLHpeMlMp12SrtUx_otPkwH917W7Z6oL7gTSMI7Xj6tr6pYC5Vv5I8=w300-rw" width="48" height="48" /> | [Confide]
 <img src="https://lh6.ggpht.com/HmBZeeZFeZ5m0AoYOK5Y2H1k8eqwa860ySNhJ_wF1AHAJlu9lxcAt8e2d8C8RWakjRY=w300-rw" width="48" height="48" /> | [Date Night]
+<img src="https://lh6.ggpht.com/3swb0k5GzAiZADacoSH14JUkWij9lj_Q78VjDEkwYRSmTY7NWV9artEoSr0Jt6Ew5gsX=w300-rw" width="48" height="48" /> | [Jair Player The Music Rainbow]
 
 ### Links
 
@@ -222,3 +223,4 @@ SOFTWARE.
 [Device Control]:https://play.google.com/store/apps/details?id=org.namelessrom.devicecontrol
 [Confide]:https://play.google.com/store/apps/details?id=cm.confide.android
 [Date Night]:https://play.google.com/store/apps/details?id=com.sababado.datenight
+[Jair Player The Music Rainbow]:https://play.google.com/store/apps/details?id=aj.jair.music
