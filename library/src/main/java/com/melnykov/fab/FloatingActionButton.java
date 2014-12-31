@@ -30,6 +30,9 @@ import android.widget.ImageButton;
 import com.nineoldandroids.view.ViewHelper;
 import com.nineoldandroids.view.ViewPropertyAnimator;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+
 /**
  * Android Google+ like floating action button which reacts on the attached list view scrolling events.
  *
@@ -38,6 +41,7 @@ import com.nineoldandroids.view.ViewPropertyAnimator;
 public class FloatingActionButton extends ImageButton {
     private static final int TRANSLATE_DURATION_MILLIS = 200;
 
+    @Retention(RetentionPolicy.SOURCE)
     @IntDef({TYPE_NORMAL, TYPE_MINI})
     public @interface TYPE {
     }
@@ -58,6 +62,10 @@ public class FloatingActionButton extends ImageButton {
     private int mScrollThreshold;
 
     private boolean mMarginsSet;
+
+    private int mMovementY;
+
+    private ViewTreeObserver.OnPreDrawListener mPreDrawListener;
 
     private final Interpolator mInterpolator = new AccelerateDecelerateInterpolator();
 
@@ -96,6 +104,8 @@ public class FloatingActionButton extends ImageButton {
         mShadow = true;
         mScrollThreshold = getResources().getDimensionPixelOffset(R.dimen.fab_scroll_threshold);
         mShadowSize = getDimension(R.dimen.fab_shadow_size);
+        mMovementY = 0;
+        mPreDrawListener = null;
         if (attributeSet != null) {
             initAttributes(context, attributeSet);
         }
@@ -291,47 +301,65 @@ public class FloatingActionButton extends ImageButton {
     }
 
     public void show(boolean animate) {
-        toggle(true, animate, false);
+        toggle(true, animate);
     }
 
     public void hide(boolean animate) {
-        toggle(false, animate, false);
+        toggle(false, animate);
     }
 
-    private void toggle(final boolean visible, final boolean animate, boolean force) {
-        if (mVisible != visible || force) {
-            mVisible = visible;
-            int height = getHeight();
-            if (height == 0 && !force) {
-                ViewTreeObserver vto = getViewTreeObserver();
-                if (vto.isAlive()) {
-                    vto.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
-                        @Override
-                        public boolean onPreDraw() {
-                            ViewTreeObserver currentVto = getViewTreeObserver();
-                            if (currentVto.isAlive()) {
-                                currentVto.removeOnPreDrawListener(this);
-                            }
-                            toggle(visible, animate, true);
-                            return true;
-                        }
-                    });
-                    return;
-                }
-            }
-            int translationY = visible ? 0 : height + getMarginBottom();
-            if (animate) {
-                ViewPropertyAnimator.animate(this).setInterpolator(mInterpolator)
-                    .setDuration(TRANSLATE_DURATION_MILLIS)
-                    .translationY(translationY);
-            } else {
-                ViewHelper.setTranslationY(this, translationY);
-            }
+    public void setMovementY(int movementY) {
+        setMovementY(movementY, true);
+    }
 
-            // On pre-Honeycomb a translated view is still clickable, so we need to disable clicks manually
-            if (!hasHoneycombApi()) {
-                setClickable(visible);
+    public void setMovementY(int movementY, boolean animate) {
+        mMovementY = movementY;
+
+        reposition(true, animate, false);
+    }
+
+    private void reposition(final boolean newPosition, final boolean animate, boolean force) {
+        ViewTreeObserver vto = null;
+
+        if (newPosition && mPreDrawListener != null) {
+            vto = getViewTreeObserver();
+            vto.removeOnPreDrawListener(mPreDrawListener);
+            mPreDrawListener = null;
+        }
+        int height = getHeight();
+        if (height == 0 && !force) {
+            if (vto == null) {
+                vto = getViewTreeObserver();
             }
+            mPreDrawListener = new ViewTreeObserver.OnPreDrawListener() {
+                @Override
+                public boolean onPreDraw() {
+                    getViewTreeObserver().removeOnPreDrawListener(this);
+                    reposition(false, animate, true);
+                    return true;
+                }
+            };
+            vto.addOnPreDrawListener(mPreDrawListener);
+            return;
+        }
+        int translationY = mVisible ? mMovementY : height + getMarginBottom();
+        if (animate) {
+            ViewPropertyAnimator.animate(this).setInterpolator(mInterpolator)
+                    .setDuration(TRANSLATE_DURATION_MILLIS).translationY(translationY);
+        } else {
+            ViewHelper.setTranslationY(this, translationY);
+        }
+
+        // On pre-Honeycomb a translated view is still clickable, so we need to disable clicks manually
+        if (!hasHoneycombApi()) {
+            setClickable(mVisible);
+        }
+    }
+
+    private void toggle(final boolean visible, final boolean animate) {
+        if (mVisible != visible) {
+            mVisible = visible;
+            this.reposition(true, animate, false);
         }
     }
 
