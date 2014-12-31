@@ -178,6 +178,7 @@ Icon | Application
 <img src="https://lh5.ggpht.com/lXmTtP_1u48UzqLHpeMlMp12SrtUx_otPkwH917W7Z6oL7gTSMI7Xj6tr6pYC5Vv5I8=w300-rw" width="48" height="48" /> | [Confide]
 <img src="https://lh6.ggpht.com/HmBZeeZFeZ5m0AoYOK5Y2H1k8eqwa860ySNhJ_wF1AHAJlu9lxcAt8e2d8C8RWakjRY=w300-rw" width="48" height="48" /> | [Date Night]
 <img src="https://lh6.ggpht.com/3swb0k5GzAiZADacoSH14JUkWij9lj_Q78VjDEkwYRSmTY7NWV9artEoSr0Jt6Ew5gsX=w300-rw" width="48" height="48" /> | [Jair Player The Music Rainbow]
+<img src="https://lh4.ggpht.com/0VAjMOZobMCMXeyynn1qUh3rOdHjIriqtNPRC7Vkm1pUKAPtIJy1ma5Y3xmGYxWwmkA=w300-rw" width="48" height="48" /> | [Taskr - Lista de Tareas]
 
 ### Links
 
@@ -224,3 +225,4 @@ SOFTWARE.
 [Confide]:https://play.google.com/store/apps/details?id=cm.confide.android
 [Date Night]:https://play.google.com/store/apps/details?id=com.sababado.datenight
 [Jair Player The Music Rainbow]:https://play.google.com/store/apps/details?id=aj.jair.music
+[Taskr - Lista de Tareas]:https://play.google.com/store/apps/details?id=es.udc.gestortareas
