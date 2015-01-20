@@ -476,6 +476,15 @@ public class FloatingActionButton extends ImageButton {
         }
 
         @Override
+        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+            if (mOnScrollListener != null) {
+                mOnScrollListener.onScrolled(recyclerView, dx, dy);
+            }
+
+            super.onScrolled(recyclerView, dx, dy);
+        }
+
+        @Override
         public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
             if (mOnScrollListener != null) {
                 mOnScrollListener.onScrollStateChanged(recyclerView, newState);
