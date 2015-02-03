@@ -30,6 +30,9 @@ import android.widget.ImageButton;
 import com.nineoldandroids.view.ViewHelper;
 import com.nineoldandroids.view.ViewPropertyAnimator;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+
 /**
  * Android Google+ like floating action button which reacts on the attached list view scrolling events.
  *
@@ -38,6 +41,7 @@ import com.nineoldandroids.view.ViewPropertyAnimator;
 public class FloatingActionButton extends ImageButton {
     private static final int TRANSLATE_DURATION_MILLIS = 200;
 
+    @Retention(RetentionPolicy.SOURCE)
     @IntDef({TYPE_NORMAL, TYPE_MINI})
     public @interface TYPE {
     }
