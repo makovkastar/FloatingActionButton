@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
+import android.graphics.Color;
 import android.graphics.Outline;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
@@ -31,6 +32,9 @@ import android.widget.ScrollView;
 import com.nineoldandroids.view.ViewHelper;
 import com.nineoldandroids.view.ViewPropertyAnimator;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+
 /**
  * Android Google+ like floating action button which reacts on the attached list view scrolling events.
  *
@@ -39,6 +43,7 @@ import com.nineoldandroids.view.ViewPropertyAnimator;
 public class FloatingActionButton extends ImageButton {
     private static final int TRANSLATE_DURATION_MILLIS = 200;
 
+    @Retention(RetentionPolicy.SOURCE)
     @IntDef({TYPE_NORMAL, TYPE_MINI})
     public @interface TYPE {
     }
@@ -80,7 +85,7 @@ public class FloatingActionButton extends ImageButton {
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         int size = getDimension(
-            mType == TYPE_NORMAL ? R.dimen.fab_size_normal : R.dimen.fab_size_mini);
+                mType == TYPE_NORMAL ? R.dimen.fab_size_normal : R.dimen.fab_size_mini);
         if (mShadow && !hasLollipopApi()) {
             size += mShadowSize * 2;
             setMarginsWithoutShadow();
@@ -91,8 +96,8 @@ public class FloatingActionButton extends ImageButton {
     private void init(Context context, AttributeSet attributeSet) {
         mVisible = true;
         mColorNormal = getColor(R.color.material_blue_500);
-        mColorPressed = getColor(R.color.material_blue_600);
-        mColorRipple = getColor(android.R.color.white);
+        mColorPressed = darkenColor(mColorNormal);
+        mColorRipple = lightenColor(mColorNormal);
         mType = TYPE_NORMAL;
         mShadow = true;
         mScrollThreshold = getResources().getDimensionPixelOffset(R.dimen.fab_scroll_threshold);
@@ -108,11 +113,11 @@ public class FloatingActionButton extends ImageButton {
         if (attr != null) {
             try {
                 mColorNormal = attr.getColor(R.styleable.FloatingActionButton_fab_colorNormal,
-                    getColor(R.color.material_blue_500));
+                        getColor(R.color.material_blue_500));
                 mColorPressed = attr.getColor(R.styleable.FloatingActionButton_fab_colorPressed,
-                    getColor(R.color.material_blue_600));
+                        darkenColor(mColorNormal));
                 mColorRipple = attr.getColor(R.styleable.FloatingActionButton_fab_colorRipple,
-                    getColor(android.R.color.white));
+                        lightenColor(mColorNormal));
                 mShadow = attr.getBoolean(R.styleable.FloatingActionButton_fab_shadow, true);
                 mType = attr.getInt(R.styleable.FloatingActionButton_fab_type, TYPE_NORMAL);
             } finally {
@@ -135,7 +140,7 @@ public class FloatingActionButton extends ImageButton {
 
         if (mShadow && !hasLollipopApi()) {
             Drawable shadowDrawable = getResources().getDrawable(mType == TYPE_NORMAL ? R.drawable.shadow
-                : R.drawable.shadow_mini);
+                    : R.drawable.shadow_mini);
             LayerDrawable layerDrawable = new LayerDrawable(new Drawable[]{shadowDrawable, shapeDrawable});
             layerDrawable.setLayerInset(1, mShadowSize, mShadowSize, mShadowSize, mShadowSize);
             return layerDrawable;
@@ -179,13 +184,13 @@ public class FloatingActionButton extends ImageButton {
             float elevation;
             if (mShadow) {
                 elevation = getElevation() > 0.0f ? getElevation()
-                    : getDimension(R.dimen.fab_elevation_lollipop);
+                        : getDimension(R.dimen.fab_elevation_lollipop);
             } else {
                 elevation = 0.0f;
             }
             setElevation(elevation);
             RippleDrawable rippleDrawable = new RippleDrawable(new ColorStateList(new int[][]{{}},
-                new int[]{mColorRipple}), drawable, null);
+                    new int[]{mColorRipple}), drawable, null);
             setOutlineProvider(new ViewOutlineProvider() {
                 @Override
                 public void getOutline(View view, Outline outline) {
@@ -324,8 +329,8 @@ public class FloatingActionButton extends ImageButton {
             int translationY = visible ? 0 : height + getMarginBottom();
             if (animate) {
                 ViewPropertyAnimator.animate(this).setInterpolator(mInterpolator)
-                    .setDuration(TRANSLATE_DURATION_MILLIS)
-                    .translationY(translationY);
+                        .setDuration(TRANSLATE_DURATION_MILLIS)
+                        .translationY(translationY);
             } else {
                 ViewHelper.setTranslationY(this, translationY);
             }
@@ -405,6 +410,20 @@ public class FloatingActionButton extends ImageButton {
 
     private boolean hasHoneycombApi() {
         return Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB;
+    }
+
+    private static int darkenColor(int color) {
+        float[] hsv = new float[3];
+        Color.colorToHSV(color, hsv);
+        hsv[2] *= 0.9f; // value component
+        return Color.HSVToColor(hsv);
+    }
+
+    private static int lightenColor(int color) {
+        float[] hsv = new float[3];
+        Color.colorToHSV(color, hsv);
+        hsv[2] *= 1.1f; // value component
+        return Color.HSVToColor(hsv);
     }
 
     private class AbsListViewScrollDetectorImpl extends AbsListViewScrollDetector {
