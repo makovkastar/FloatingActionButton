@@ -19,7 +19,7 @@ Android [floating action button] which reacts on scrolling events. Becomes visib
 
 ```groovy
 dependencies {
-    compile 'com.melnykov:floatingactionbutton:1.1.0'
+    compile 'com.melnykov:floatingactionbutton:1.2.0'
 }
 ```
 
@@ -116,6 +116,11 @@ Check the sample project to see how to use custom listeners if you need to track
 **5)** Set an icon for the ``FloatingActionButton`` using ``android:src`` xml attribute. Use drawables of size **24dp** as specified by [guidlines]. Icons of desired size can be generated with [Android Asset Studio].
 
 ### Changelog
+
+**Version 1.2.0**
++ Respect an elevation set manually for the FAB;
++ Don't emit a scroll when the listview is empty;
++ Add an ability to attach normal listeners for scroll operations (thanks to [Bill Donahue](https://github.com/bdonahue)).
 
 **Version 1.1.0:**
 + Do not ignore negative margins on pre-Lollipop;
