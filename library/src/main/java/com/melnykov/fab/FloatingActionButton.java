@@ -28,9 +28,6 @@ import android.widget.AbsListView;
 import android.widget.ImageButton;
 import android.widget.ScrollView;
 
-import com.nineoldandroids.view.ViewHelper;
-import com.nineoldandroids.view.ViewPropertyAnimator;
-
 /**
  * Android Google+ like floating action button which reacts on the attached list view scrolling events.
  *
@@ -44,14 +41,19 @@ public class FloatingActionButton extends ImageButton {
     }
 
     public static final int TYPE_NORMAL = 0;
+
     public static final int TYPE_MINI = 1;
 
     private boolean mVisible;
 
     private int mColorNormal;
+
     private int mColorPressed;
+
     private int mColorRipple;
+
     private boolean mShadow;
+
     private int mType;
 
     private int mShadowSize;
@@ -80,7 +82,7 @@ public class FloatingActionButton extends ImageButton {
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         int size = getDimension(
-            mType == TYPE_NORMAL ? R.dimen.fab_size_normal : R.dimen.fab_size_mini);
+                mType == TYPE_NORMAL ? R.dimen.fab_size_normal : R.dimen.fab_size_mini);
         if (mShadow && !hasLollipopApi()) {
             size += mShadowSize * 2;
             setMarginsWithoutShadow();
@@ -108,11 +110,11 @@ public class FloatingActionButton extends ImageButton {
         if (attr != null) {
             try {
                 mColorNormal = attr.getColor(R.styleable.FloatingActionButton_fab_colorNormal,
-                    getColor(R.color.material_blue_500));
+                        getColor(R.color.material_blue_500));
                 mColorPressed = attr.getColor(R.styleable.FloatingActionButton_fab_colorPressed,
-                    getColor(R.color.material_blue_600));
+                        getColor(R.color.material_blue_600));
                 mColorRipple = attr.getColor(R.styleable.FloatingActionButton_fab_colorRipple,
-                    getColor(android.R.color.white));
+                        getColor(android.R.color.white));
                 mShadow = attr.getBoolean(R.styleable.FloatingActionButton_fab_shadow, true);
                 mType = attr.getInt(R.styleable.FloatingActionButton_fab_type, TYPE_NORMAL);
             } finally {
@@ -135,7 +137,7 @@ public class FloatingActionButton extends ImageButton {
 
         if (mShadow && !hasLollipopApi()) {
             Drawable shadowDrawable = getResources().getDrawable(mType == TYPE_NORMAL ? R.drawable.shadow
-                : R.drawable.shadow_mini);
+                    : R.drawable.shadow_mini);
             LayerDrawable layerDrawable = new LayerDrawable(new Drawable[]{shadowDrawable, shapeDrawable});
             layerDrawable.setLayerInset(1, mShadowSize, mShadowSize, mShadowSize, mShadowSize);
             return layerDrawable;
@@ -179,18 +181,18 @@ public class FloatingActionButton extends ImageButton {
             float elevation;
             if (mShadow) {
                 elevation = getElevation() > 0.0f ? getElevation()
-                    : getDimension(R.dimen.fab_elevation_lollipop);
+                        : getDimension(R.dimen.fab_elevation_lollipop);
             } else {
                 elevation = 0.0f;
             }
             setElevation(elevation);
             RippleDrawable rippleDrawable = new RippleDrawable(new ColorStateList(new int[][]{{}},
-                new int[]{mColorRipple}), drawable, null);
+                    new int[]{mColorRipple}), drawable, null);
             setOutlineProvider(new ViewOutlineProvider() {
                 @Override
                 public void getOutline(View view, Outline outline) {
                     int size = getDimension(mType == TYPE_NORMAL ? R.dimen.fab_size_normal
-                        : R.dimen.fab_size_mini);
+                            : R.dimen.fab_size_mini);
                     outline.setOval(0, 0, size, size);
                 }
             });
@@ -323,11 +325,9 @@ public class FloatingActionButton extends ImageButton {
             }
             int translationY = visible ? 0 : height + getMarginBottom();
             if (animate) {
-                ViewPropertyAnimator.animate(this).setInterpolator(mInterpolator)
-                    .setDuration(TRANSLATE_DURATION_MILLIS)
-                    .translationY(translationY);
+                AnimationCompat.animateTranslationY(this, mInterpolator, TRANSLATE_DURATION_MILLIS, translationY);
             } else {
-                ViewHelper.setTranslationY(this, translationY);
+                AnimationCompat.setTranslationY(this, translationY);
             }
 
             // On pre-Honeycomb a translated view is still clickable, so we need to disable clicks manually
@@ -409,6 +409,7 @@ public class FloatingActionButton extends ImageButton {
 
     private class AbsListViewScrollDetectorImpl extends AbsListViewScrollDetector {
         private ScrollDirectionListener mScrollDirectionListener;
+
         private AbsListView.OnScrollListener mOnScrollListener;
 
         private void setScrollDirectionListener(ScrollDirectionListener scrollDirectionListener) {
@@ -457,6 +458,7 @@ public class FloatingActionButton extends ImageButton {
 
     private class RecyclerViewScrollDetectorImpl extends RecyclerViewScrollDetector {
         private ScrollDirectionListener mScrollDirectionListener;
+
         private RecyclerView.OnScrollListener mOnScrollListener;
 
         private void setScrollDirectionListener(ScrollDirectionListener scrollDirectionListener) {

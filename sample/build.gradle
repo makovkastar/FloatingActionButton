@@ -6,7 +6,6 @@ android {
 
     defaultConfig {
         applicationId 'com.melnykov.fab.sample'
-        minSdkVersion Integer.parseInt(project.ANDROID_BUILD_MIN_SDK_VERSION)
         targetSdkVersion Integer.parseInt(project.ANDROID_BUILD_TARGET_SDK_VERSION)
         versionName project.VERSION_NAME
         versionCode Integer.parseInt(project.VERSION_CODE)
@@ -17,10 +16,21 @@ android {
             minifyEnabled false
         }
     }
+
+    productFlavors {
+        api14 {
+            minSdkVersion Integer.parseInt(project.ANDROID_BUILD_MIN_SDK_VERSION_API_14)
+        }
+
+        api7 {
+            minSdkVersion Integer.parseInt(project.ANDROID_BUILD_MIN_SDK_VERSION_API_7)
+        }
+    }
 }
 
 dependencies {
-    compile project(':library')
+    api7Compile project(path: ':library', configuration:'api7Debug')
+    api14Compile project(path: ':library', configuration:'api14Debug')
     compile 'com.android.support:appcompat-v7:21.0.3'
     compile 'com.android.support:recyclerview-v7:21.0.2'
 }
