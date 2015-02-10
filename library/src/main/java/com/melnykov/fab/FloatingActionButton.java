@@ -189,7 +189,8 @@ public class FloatingActionButton extends ImageButton {
             setOutlineProvider(new ViewOutlineProvider() {
                 @Override
                 public void getOutline(View view, Outline outline) {
-                    int size = getDimension(mType == TYPE_NORMAL ? R.dimen.fab_size_normal : R.dimen.fab_size_mini);
+                    int size = getDimension(mType == TYPE_NORMAL ? R.dimen.fab_size_normal
+                        : R.dimen.fab_size_mini);
                     outline.setOval(0, 0, size, size);
                 }
             });
@@ -340,7 +341,8 @@ public class FloatingActionButton extends ImageButton {
         attachToListView(listView, null, null);
     }
 
-    public void attachToListView(@NonNull AbsListView listView, ScrollDirectionListener scrollDirectionListener) {
+    public void attachToListView(@NonNull AbsListView listView,
+                                 ScrollDirectionListener scrollDirectionListener) {
         attachToListView(listView, scrollDirectionListener, null);
     }
 
@@ -348,19 +350,22 @@ public class FloatingActionButton extends ImageButton {
         attachToRecyclerView(recyclerView, null, null);
     }
 
-    public void attachToRecyclerView(@NonNull RecyclerView recyclerView, ScrollDirectionListener listener) {
-        attachToRecyclerView(recyclerView, listener, null);
+    public void attachToRecyclerView(@NonNull RecyclerView recyclerView,
+                                     ScrollDirectionListener scrollDirectionListener) {
+        attachToRecyclerView(recyclerView, scrollDirectionListener, null);
     }
 
     public void attachToScrollView(@NonNull ObservableScrollView scrollView) {
         attachToScrollView(scrollView, null, null);
     }
 
-    public void attachToScrollView(@NonNull ObservableScrollView scrollView, ScrollDirectionListener scrollDirectionListener) {
+    public void attachToScrollView(@NonNull ObservableScrollView scrollView,
+                                   ScrollDirectionListener scrollDirectionListener) {
         attachToScrollView(scrollView, scrollDirectionListener, null);
     }
 
-    public void attachToListView(@NonNull AbsListView listView, ScrollDirectionListener scrollDirectionListener,
+    public void attachToListView(@NonNull AbsListView listView,
+                                 ScrollDirectionListener scrollDirectionListener,
                                  AbsListView.OnScrollListener onScrollListener) {
         AbsListViewScrollDetectorImpl scrollDetector = new AbsListViewScrollDetectorImpl();
         scrollDetector.setScrollDirectionListener(scrollDirectionListener);
@@ -370,7 +375,8 @@ public class FloatingActionButton extends ImageButton {
         listView.setOnScrollListener(scrollDetector);
     }
 
-    public void attachToRecyclerView(@NonNull RecyclerView recyclerView, ScrollDirectionListener scrollDirectionlistener,
+    public void attachToRecyclerView(@NonNull RecyclerView recyclerView,
+                                     ScrollDirectionListener scrollDirectionlistener,
                                      RecyclerView.OnScrollListener onScrollListener) {
         RecyclerViewScrollDetectorImpl scrollDetector = new RecyclerViewScrollDetectorImpl();
         scrollDetector.setScrollDirectionListener(scrollDirectionlistener);
@@ -379,7 +385,8 @@ public class FloatingActionButton extends ImageButton {
         recyclerView.setOnScrollListener(scrollDetector);
     }
 
-    public void attachToScrollView(@NonNull ObservableScrollView scrollView, ScrollDirectionListener scrollDirectionListener,
+    public void attachToScrollView(@NonNull ObservableScrollView scrollView,
+                                   ScrollDirectionListener scrollDirectionListener,
                                    ObservableScrollView.OnScrollChangedListener onScrollChangedListener) {
         ScrollViewScrollDetectorImpl scrollDetector = new ScrollViewScrollDetectorImpl();
         scrollDetector.setScrollDirectionListener(scrollDirectionListener);
@@ -429,7 +436,8 @@ public class FloatingActionButton extends ImageButton {
         }
 
         @Override
-        public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+        public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount,
+                             int totalItemCount) {
             if (mOnScrollListener != null) {
                 mOnScrollListener.onScroll(view, firstVisibleItem, visibleItemCount, totalItemCount);
             }
