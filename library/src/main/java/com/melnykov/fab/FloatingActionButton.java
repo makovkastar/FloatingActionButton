@@ -53,6 +53,7 @@ public class FloatingActionButton extends ImageButton {
     private int mColorRipple;
     private boolean mShadow;
     private int mType;
+    private int mSize;
 
     private int mShadowSize;
 
@@ -79,8 +80,7 @@ public class FloatingActionButton extends ImageButton {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        int size = getDimension(
-            mType == TYPE_NORMAL ? R.dimen.fab_size_normal : R.dimen.fab_size_mini);
+        int size = mSize;
         if (mShadow && !hasLollipopApi()) {
             size += mShadowSize * 2;
             setMarginsWithoutShadow();
@@ -97,6 +97,7 @@ public class FloatingActionButton extends ImageButton {
         mShadow = true;
         mScrollThreshold = getResources().getDimensionPixelOffset(R.dimen.fab_scroll_threshold);
         mShadowSize = getDimension(R.dimen.fab_shadow_size);
+        mSize = getDefaultSize();
         if (attributeSet != null) {
             initAttributes(context, attributeSet);
         }
@@ -115,10 +116,15 @@ public class FloatingActionButton extends ImageButton {
                     getColor(android.R.color.white));
                 mShadow = attr.getBoolean(R.styleable.FloatingActionButton_fab_shadow, true);
                 mType = attr.getInt(R.styleable.FloatingActionButton_fab_type, TYPE_NORMAL);
+                mSize = attr.getDimensionPixelSize(R.styleable.FloatingActionButton_fab_size, mSize);
             } finally {
                 attr.recycle();
             }
         }
+    }
+
+    private int getDefaultSize() {
+        return getDimension(mType == TYPE_NORMAL ? R.dimen.fab_size_normal : R.dimen.fab_size_mini);
     }
 
     private void updateBackground() {
@@ -189,9 +195,7 @@ public class FloatingActionButton extends ImageButton {
             setOutlineProvider(new ViewOutlineProvider() {
                 @Override
                 public void getOutline(View view, Outline outline) {
-                    int size = getDimension(mType == TYPE_NORMAL ? R.dimen.fab_size_normal
-                        : R.dimen.fab_size_mini);
-                    outline.setOval(0, 0, size, size);
+                    outline.setOval(0, 0, mSize, mSize);
                 }
             });
             setClipToOutline(true);
