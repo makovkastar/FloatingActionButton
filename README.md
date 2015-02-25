@@ -23,7 +23,7 @@ dependencies {
 }
 ```
 
-**2)** Add the ``com.melnykov.fab.FloatingActionButton`` to your layout XML file. The button should be placed in the bottom right corner of the screen. The size (diameter) of the floating action button is hardcoded to **56dp** for the normal and **40dp** for the mini button as specified in the [guidlines], but can be also be overridden manually via ``fab_size`` dimension attribute, if this special case is required.
+**2)** Add the ``com.melnykov.fab.FloatingActionButton`` to your layout XML file. The button should be placed in the bottom right corner of the screen. The size (diameter) of the floating action button is hardcoded to **56dp** for the normal and **40dp** for the mini button as specified in the [guidlines], but can also be overridden manually via the ``fab_size`` dimension attribute, if this special case is required.
 
 ```xml
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
