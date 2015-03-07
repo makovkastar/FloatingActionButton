@@ -1,6 +1,10 @@
 package com.melnykov.fab;
 
+import android.animation.Animator;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
@@ -24,6 +28,7 @@ import android.view.ViewOutlineProvider;
 import android.view.ViewTreeObserver;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Interpolator;
+import android.view.animation.OvershootInterpolator;
 import android.widget.AbsListView;
 import android.widget.ImageButton;
 import android.widget.ScrollView;
@@ -540,4 +545,175 @@ public class FloatingActionButton extends ImageButton {
             super.onScrollChanged(who, l, t, oldl, oldt);
         }
     }
+
+    /**
+     * Menu
+     */
+
+    private int menuItemCount;
+    private boolean isMenuShowing = false;
+    private Drawable originalDrawable, menuOpenedDrawable;
+
+    /**
+     * Use this function to add a menu to your FloatingActionButton. Use the triggerMenu function to open/close the menu
+     * This method is only supported on API 14+ because of the use of animators and other view properties
+     * The menu items are given ids based on their position(index) in the menuItemDrawables array
+     * @param menuItemDrawables These are the image resources to be used on the menu items (FABs).
+     *                          These determine the number of menu items
+     * @param menuItemStyle This determines the style of the menu item and same style is applied to all items
+     *                      This style should contain the attributes used for styling the FAB (eg fab_colorNormal)
+     * @param menuItemClickListener This is the listener for the onClick event for any menu item.
+     *                              You can find which menu item was clicked based on it's id
+     *                              which is it's position(index) in menuItemDrawables array
+     * @param menuOpenedDrawable This is the drawable set to the base FAB when the menu is opened.
+     *                           It is reset back to the original one once the menu is closed
+     */
+    @TargetApi(14)
+    @SuppressWarnings("ResourceType")
+    public void setMenuItems(int[] menuItemDrawables,
+                             int menuItemStyle,
+                             OnClickListener menuItemClickListener,
+                             Drawable menuOpenedDrawable) {
+
+        this.menuItemCount = menuItemDrawables.length;
+        this.menuOpenedDrawable = menuOpenedDrawable;
+        this.originalDrawable = getDrawable();
+
+        int[] styleValues = new int[] {
+                R.attr.fab_colorPressed,
+                R.attr.fab_colorNormal,
+                R.attr.fab_colorRipple,
+                R.attr.fab_shadow,
+                R.attr.fab_type
+        };
+
+        TypedArray array = getContext().obtainStyledAttributes(menuItemStyle, styleValues);
+
+        int colorPressed = array.getColor(0, getColorPressed());
+        int colorNormal = array.getColor(1, getColorNormal());
+        int colorRipple = array.getColor(2, getColorRipple());
+        boolean fabShadow = array.getBoolean(3, hasShadow());
+        int type = array.getInt(4, getType());
+
+        array.recycle();
+
+        for (int id=0; id < menuItemDrawables.length; id++) {
+
+            FloatingActionButton button = new FloatingActionButton(getContext());
+            button.setId(id);
+            button.setColorNormal(colorNormal);
+            button.setColorPressed(colorPressed);
+            button.setColorRipple(colorRipple);
+            button.setShadow(fabShadow);
+            button.setType(type);
+
+            button.setImageResource(menuItemDrawables[id]);
+            button.setLayoutParams(getLayoutParams());
+            button.setVisibility(GONE);
+            button.setOnClickListener(menuItemClickListener);
+            ((ViewGroup) getParent()).addView(button);
+
+        }
+
+    }
+
+    /**
+     * This is the method used to open/close the menu based on its current state. The base FAB
+     * has a rotation animation added to it.
+     * @param baseRotation The amount by which the base FAB needs to be rotated.
+     */
+    @TargetApi(14)
+    @SuppressLint("NewApi")
+    public void triggerMenu(float baseRotation) {
+        AnimatorSet menuAnimatorSet = new AnimatorSet();
+        menuAnimatorSet.setDuration(350);
+        menuAnimatorSet.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+                setClickable(false);
+                setImageDrawable(isMenuShowing ? originalDrawable : menuOpenedDrawable);
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                setClickable(true);
+                isMenuShowing = !isMenuShowing;
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+                setClickable(true);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        });
+        menuAnimatorSet.setInterpolator(new OvershootInterpolator(2.5f));
+        if (baseRotation != 0)
+            menuAnimatorSet.play(getBaseFABAnimator(baseRotation));
+
+        for (int id=0; id < menuItemCount; id++)
+            menuAnimatorSet.play(getMenuItemAnimator(id));
+
+        menuAnimatorSet.start();
+    }
+
+    @TargetApi(14)
+    public boolean isMenuShowing() {
+        return isMenuShowing;
+    }
+
+    @TargetApi(14)
+    @SuppressLint("NewApi")
+    private Animator getBaseFABAnimator(float baseRotation) {
+        return ObjectAnimator.ofFloat(this, ROTATION,
+                                      isMenuShowing ? baseRotation : 0,
+                                      isMenuShowing ? 0 : baseRotation);
+    }
+
+    @TargetApi(14)
+    @SuppressLint("NewApi")
+    private Animator getMenuItemAnimator(int id) {
+        final View menuItem = ((ViewGroup) getParent()).findViewById(id);
+        float newY = getY() - getHeight() * (id + 1) - 32 * (id + 1);
+        AnimatorSet menuItemAnimator = new AnimatorSet();
+        menuItemAnimator.playTogether(ObjectAnimator.ofFloat(menuItem, Y,
+                                                             isMenuShowing ? menuItem.getY()
+                                                                           : getY(),
+                                                             isMenuShowing ? getY() : newY),
+                                      ObjectAnimator.ofFloat(menuItem, ALPHA,
+                                                             isMenuShowing ? 1 : 0,
+                                                             isMenuShowing ? 0 : 1));
+        menuItemAnimator.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+                menuItem.setClickable(false);
+                if (!isMenuShowing)
+                    menuItem.setVisibility(VISIBLE);
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                menuItem.setClickable(true);
+                if (isMenuShowing) // Looks wrong but the main listener changes this before this function is called
+                    menuItem.setVisibility(GONE);
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+                menuItem.setClickable(true);
+                if (isMenuShowing) // Looks wrong but the main listener changes this before this function is called
+                    menuItem.setVisibility(GONE);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        });
+        return menuItemAnimator;
+    }
+
 }
