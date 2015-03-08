@@ -8,7 +8,9 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
+import android.graphics.Color;
 import android.graphics.Outline;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.graphics.drawable.RippleDrawable;
@@ -30,8 +32,10 @@ import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Interpolator;
 import android.view.animation.OvershootInterpolator;
 import android.widget.AbsListView;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ScrollView;
+import android.widget.TextView;
 
 import com.nineoldandroids.view.ViewHelper;
 import com.nineoldandroids.view.ViewPropertyAnimator;
@@ -560,6 +564,9 @@ public class FloatingActionButton extends ImageButton {
      * The menu items are given ids based on their position(index) in the menuItemDrawables array
      * @param menuItemDrawables These are the image resources to be used on the menu items (FABs).
      *                          These determine the number of menu items
+     * @param menuItemHintText These are the hints to be shown next to the menu items. This must be equal to the number of menu items
+     *                         Provide null or empty for items that don't need a hint. Each hint is given an id (100 + its position(index)
+     *                         in the menuItemHintText array)
      * @param menuItemStyle This determines the style of the menu item and same style is applied to all items
      *                      This style should contain the attributes used for styling the FAB (eg fab_colorNormal)
      * @param menuItemClickListener This is the listener for the onClick event for any menu item.
@@ -571,9 +578,14 @@ public class FloatingActionButton extends ImageButton {
     @TargetApi(14)
     @SuppressWarnings("ResourceType")
     public void setMenuItems(int[] menuItemDrawables,
+                             String[] menuItemHintText,
                              int menuItemStyle,
                              OnClickListener menuItemClickListener,
                              Drawable menuOpenedDrawable) {
+
+        if (menuItemHintText != null  &&
+               menuItemDrawables.length != menuItemHintText.length)
+            throw new IllegalArgumentException("Menu Item drawables and hint text must have the same length");
 
         this.menuItemCount = menuItemDrawables.length;
         this.menuOpenedDrawable = menuOpenedDrawable;
@@ -608,10 +620,46 @@ public class FloatingActionButton extends ImageButton {
             button.setType(type);
 
             button.setImageResource(menuItemDrawables[id]);
-            button.setLayoutParams(getLayoutParams());
+            button.setLayoutParams(copyLayoutParams((FrameLayout.LayoutParams) getLayoutParams()));
             button.setVisibility(GONE);
             button.setOnClickListener(menuItemClickListener);
+            button.measure(0, 0);
+
+            if (getWidth() == 0)
+                measure(0, 0);
+
+            if (getType() != type)
+                if (type == TYPE_MINI && getType() == TYPE_NORMAL)
+                    ((FrameLayout.LayoutParams) button.getLayoutParams())
+                            .rightMargin += (getWidth() == 0 ? getMeasuredWidth() : getWidth()) / 2.0f
+                                            - button.getMeasuredWidth() / 2.0f;
+
             ((ViewGroup) getParent()).addView(button);
+
+            if (menuItemHintText == null ||
+                menuItemHintText[id] == null ||
+                menuItemHintText[id].equals(""))
+                continue;
+
+            TextView textView = new TextView(getContext());
+            textView.setId(100 + id);
+            textView.setText(menuItemHintText[id]);
+            textView.setTextColor(Color.parseColor("#555555"));
+            textView.setTypeface(Typeface.DEFAULT_BOLD);
+            textView.setVisibility(GONE);
+            textView.measure(0, 0);
+
+            FrameLayout.LayoutParams newParams =
+                    new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
+                                                 ViewGroup.LayoutParams.WRAP_CONTENT);
+            newParams.rightMargin = ((FrameLayout.LayoutParams) getLayoutParams()).rightMargin
+                                    + (textView.getWidth() == 0 ?
+                                       textView.getMeasuredWidth() : textView.getWidth())
+                                    + (button.getWidth() == 0 ?
+                                       button.getMeasuredWidth() : button.getWidth()) / 2;
+            newParams.gravity = ((FrameLayout.LayoutParams) getLayoutParams()).gravity;
+            textView.setLayoutParams(newParams);
+            ((ViewGroup) getParent()).addView(textView);
 
         }
 
@@ -654,8 +702,12 @@ public class FloatingActionButton extends ImageButton {
         if (baseRotation != 0)
             menuAnimatorSet.play(getBaseFABAnimator(baseRotation));
 
-        for (int id=0; id < menuItemCount; id++)
+        for (int id=0; id < menuItemCount; id++) {
             menuAnimatorSet.play(getMenuItemAnimator(id));
+            Animator animator = getMenuItemHintTextAnimator(id);
+            if (animator != null)
+                menuAnimatorSet.play(animator);
+        }
 
         menuAnimatorSet.start();
     }
@@ -677,7 +729,12 @@ public class FloatingActionButton extends ImageButton {
     @SuppressLint("NewApi")
     private Animator getMenuItemAnimator(int id) {
         final View menuItem = ((ViewGroup) getParent()).findViewById(id);
-        float newY = getY() - getHeight() * (id + 1) - 32 * (id + 1);
+
+        float newY = getY()
+                     - (menuItem.getHeight() == 0 ?
+                        menuItem.getMeasuredHeight() : menuItem.getHeight()) * (id + 1)
+                     - 16 * getResources().getDisplayMetrics().density * (id + 1);
+
         AnimatorSet menuItemAnimator = new AnimatorSet();
         menuItemAnimator.playTogether(ObjectAnimator.ofFloat(menuItem, Y,
                                                              isMenuShowing ? menuItem.getY()
@@ -716,4 +773,66 @@ public class FloatingActionButton extends ImageButton {
         return menuItemAnimator;
     }
 
+    @TargetApi(14)
+    @SuppressLint("NewApi")
+    private Animator getMenuItemHintTextAnimator(int id) {
+        final View menuItemHintText = ((ViewGroup) getParent()).findViewById(id + 100);
+        final View menuItem = ((ViewGroup) getParent()).findViewById(id);
+
+        if (menuItemHintText == null)
+            return null;
+
+        float newY = getY()
+                     - (menuItem.getHeight() == 0 ?
+                        menuItem.getMeasuredHeight() : menuItem.getHeight()) * (id + 1)
+                     - 16 * getResources().getDisplayMetrics().density * (id + 1)
+                     + (menuItem.getHeight() == 0 ?
+                        menuItem.getMeasuredHeight() : menuItem.getHeight()) / 2.0f
+                     - (menuItemHintText.getHeight() == 0 ?
+                        menuItemHintText.getMeasuredHeight() : menuItemHintText.getHeight()) / 2.0f;
+
+        AnimatorSet menuItemHintTextAnimator = new AnimatorSet();
+        menuItemHintTextAnimator.playTogether(ObjectAnimator.ofFloat(menuItemHintText, Y,
+                                                             isMenuShowing ? menuItemHintText.getY()
+                                                                           : getY(),
+                                                             isMenuShowing ? getY() : newY),
+                                      ObjectAnimator.ofFloat(menuItemHintText, ALPHA,
+                                                             isMenuShowing ? 1 : 0,
+                                                             isMenuShowing ? 0 : 1));
+        menuItemHintTextAnimator.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+                if (!isMenuShowing)
+                    menuItemHintText.setVisibility(VISIBLE);
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                if (isMenuShowing) // Looks wrong but the main listener changes this before this function is called
+                    menuItemHintText.setVisibility(GONE);
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+                if (isMenuShowing) // Looks wrong but the main listener changes this before this function is called
+                    menuItemHintText.setVisibility(GONE);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        });
+        return menuItemHintTextAnimator;
+    }
+
+    private FrameLayout.LayoutParams copyLayoutParams (FrameLayout.LayoutParams source) {
+        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(source.width, source.height);
+        params.gravity = source.gravity;
+        params.bottomMargin = source.bottomMargin;
+        params.leftMargin = source.leftMargin;
+        params.rightMargin = source.rightMargin;
+        params.topMargin = source.topMargin;
+        return params;
+    }
 }
