@@ -31,11 +31,6 @@ import android.widget.ScrollView;
 import com.nineoldandroids.view.ViewHelper;
 import com.nineoldandroids.view.ViewPropertyAnimator;
 
-/**
- * Android Google+ like floating action button which reacts on the attached list view scrolling events.
- *
- * @author Oleksandr Melnykov
- */
 public class FloatingActionButton extends ImageButton {
     private static final int TRANSLATE_DURATION_MILLIS = 200;
 
