@@ -187,6 +187,12 @@ Icon | Application
 <img src="https://lh4.ggpht.com/GC2GNlCoxHzFaE3SUFTMgKfUaMN32iOrEN8NqSUnQUNlIAMceaKyuYVNNo0j_k37LkM=w300-rw" width="48" height="48" /> | [Festivos: ¡Conoce el mundo!]
 <img src="https://lh6.ggpht.com/SE4n_W1LSRHucyRLHyXwM76XlLZAsUr4awEokmQyWkCTscZJiu8rJuE1ygWp2m0zKA=w300-rw" width="48" height="48" /> | [nowPaper]
 <img src="https://lh5.ggpht.com/i6rmn-yiLY97cP9X8URrbZghNEzaVRO3Un_z7vd6PGME88ViCo99g4lKas48XzNqgw=w300-rw" width="48" height="48" /> | [Vicious chain - Don't do that!]
+<img src="https://lh5.ggpht.com/ehV6oywWQw4FkXMNL8SPWCUd73oywlHJt-3b4uOI4YkH2mJgQIQADE-2Js3yupkZUUs=w300-rw" width="48" height="48" /> | [My Football Stats]
+<img src="https://lh6.ggpht.com/qFqsjsT_olw1EHU34pdZO2sYGqyPZ-2Zney-qxs7mQovP5nPXKQrk56ygQh7QF9Shvk=w300-rw" width="48" height="48" /> | [The ScoreBoard]
+<img src="https://lh3.ggpht.com/T19LngArl__MPoTa6Q4R6mstrtHBwte_iElYbIUbZ2kkinTw53Qfhcjrqb9bggsPvpk=w300-rw" width="48" height="48" /> | [NavPoint]
+<img src="https://lh5.ggpht.com/1-XPVeLHC3Re-IIzwQGpl4I1942YUyGoetCk5ex4VteAyKVqPanWw1N1BrvSpgrNEw=w300-rw" width="48" height="48" /> | [Just Reminder]
+<img src="https://lh6.ggpht.com/vwho8dbo-Pt5zTzVN6dPlu8Ckd7YUlnLb_0H-pX3jJUPpXCIJVJ9OBtFIovPh5WWN3qO=w300-rw" width="48" height="48" /> | [Early Notes]
+<img src="https://lh4.ggpht.com/aq2DO3JI3TJNuwGQq5tsNU5REfuuFRHpLep_GYYq9wyo7kv650dRNqfPoi5H3Z7d4g=w300-rw" width="48" height="48" /> | [Ranch - Smart Tip Calculator]
 
 ### Links
 
@@ -237,3 +243,9 @@ SOFTWARE.
 [Festivos: ¡Conoce el mundo!]:https://play.google.com/store/apps/details?id=com.logicapps.holidays
 [nowPaper]:https://play.google.com/store/apps/details?id=com.dunrite.now
 [Vicious chain - Don't do that!]:https://play.google.com/store/apps/details?id=com.magratheadesign.viciouschain
+[My Football Stats]:https://play.google.com/store/apps/details?id=com.nicorz.futbol5
+[The ScoreBoard]:https://play.google.com/store/apps/details?id=it.pagano.sp
+[NavPoint]:https://play.google.com/store/apps/details?id=com.abi_khalil.remy.nav_point
+[Just Reminder]:https://play.google.com/store/apps/details?id=com.cray.software.justreminder
+[Early Notes]:https://play.google.com/store/apps/details?id=com.gmail.earlynotesapp.earlynotes
+[Ranch - Smart Tip Calculator]:https://play.google.com/store/apps/details?id=com.andreifedianov.android.ranch
