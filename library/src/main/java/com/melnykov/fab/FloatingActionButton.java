@@ -1,10 +1,6 @@
 package com.melnykov.fab;
 
-import android.animation.Animator;
-import android.animation.AnimatorSet;
-import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
@@ -37,6 +33,9 @@ import android.widget.ImageButton;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.nineoldandroids.animation.Animator;
+import com.nineoldandroids.animation.AnimatorSet;
+import com.nineoldandroids.animation.ObjectAnimator;
 import com.nineoldandroids.view.ViewHelper;
 import com.nineoldandroids.view.ViewPropertyAnimator;
 
@@ -560,7 +559,6 @@ public class FloatingActionButton extends ImageButton {
 
     /**
      * Use this function to add a menu to your FloatingActionButton. Use the triggerMenu function to open/close the menu
-     * This method is only supported on API 14+ because of the use of animators and other view properties
      * The menu items are given ids based on their position(index) in the menuItemDrawables array
      * @param menuItemDrawables These are the image resources to be used on the menu items (FABs).
      *                          These determine the number of menu items
@@ -575,7 +573,6 @@ public class FloatingActionButton extends ImageButton {
      * @param menuOpenedDrawable This is the drawable set to the base FAB when the menu is opened.
      *                           It is reset back to the original one once the menu is closed
      */
-    @TargetApi(14)
     @SuppressWarnings("ResourceType")
     public void setMenuItems(int[] menuItemDrawables,
                              String[] menuItemHintText,
@@ -609,6 +606,9 @@ public class FloatingActionButton extends ImageButton {
 
         array.recycle();
 
+        if (getWidth() == 0)
+            measure(0, 0);
+
         for (int id=0; id < menuItemDrawables.length; id++) {
 
             FloatingActionButton button = new FloatingActionButton(getContext());
@@ -624,9 +624,6 @@ public class FloatingActionButton extends ImageButton {
             button.setVisibility(GONE);
             button.setOnClickListener(menuItemClickListener);
             button.measure(0, 0);
-
-            if (getWidth() == 0)
-                measure(0, 0);
 
             if (getType() != type)
                 if (type == TYPE_MINI && getType() == TYPE_NORMAL)
@@ -670,8 +667,6 @@ public class FloatingActionButton extends ImageButton {
      * has a rotation animation added to it.
      * @param baseRotation The amount by which the base FAB needs to be rotated.
      */
-    @TargetApi(14)
-    @SuppressLint("NewApi")
     public void triggerMenu(float baseRotation) {
         AnimatorSet menuAnimatorSet = new AnimatorSet();
         menuAnimatorSet.setDuration(350);
@@ -698,7 +693,7 @@ public class FloatingActionButton extends ImageButton {
 
             }
         });
-        menuAnimatorSet.setInterpolator(new OvershootInterpolator(2.5f));
+
         if (baseRotation != 0)
             menuAnimatorSet.play(getBaseFABAnimator(baseRotation));
 
@@ -709,38 +704,34 @@ public class FloatingActionButton extends ImageButton {
                 menuAnimatorSet.play(animator);
         }
 
+        menuAnimatorSet.setInterpolator(new OvershootInterpolator(2.5f));
         menuAnimatorSet.start();
     }
 
-    @TargetApi(14)
     public boolean isMenuShowing() {
         return isMenuShowing;
     }
 
-    @TargetApi(14)
-    @SuppressLint("NewApi")
     private Animator getBaseFABAnimator(float baseRotation) {
-        return ObjectAnimator.ofFloat(this, ROTATION,
+        return ObjectAnimator.ofFloat(this, "rotation",
                                       isMenuShowing ? baseRotation : 0,
                                       isMenuShowing ? 0 : baseRotation);
     }
 
-    @TargetApi(14)
-    @SuppressLint("NewApi")
     private Animator getMenuItemAnimator(int id) {
         final View menuItem = ((ViewGroup) getParent()).findViewById(id);
 
-        float newY = getY()
+        float newY = ViewHelper.getY(this)
                      - (menuItem.getHeight() == 0 ?
                         menuItem.getMeasuredHeight() : menuItem.getHeight()) * (id + 1)
                      - 16 * getResources().getDisplayMetrics().density * (id + 1);
 
         AnimatorSet menuItemAnimator = new AnimatorSet();
-        menuItemAnimator.playTogether(ObjectAnimator.ofFloat(menuItem, Y,
-                                                             isMenuShowing ? menuItem.getY()
-                                                                           : getY(),
-                                                             isMenuShowing ? getY() : newY),
-                                      ObjectAnimator.ofFloat(menuItem, ALPHA,
+        menuItemAnimator.playTogether(ObjectAnimator.ofFloat(menuItem, "y",
+                                                             isMenuShowing ? ViewHelper.getY(menuItem)
+                                                                           : ViewHelper.getY(this),
+                                                             isMenuShowing ? ViewHelper.getY(this) : newY),
+                                      ObjectAnimator.ofFloat(menuItem, "alpha",
                                                              isMenuShowing ? 1 : 0,
                                                              isMenuShowing ? 0 : 1));
         menuItemAnimator.addListener(new Animator.AnimatorListener() {
@@ -773,8 +764,6 @@ public class FloatingActionButton extends ImageButton {
         return menuItemAnimator;
     }
 
-    @TargetApi(14)
-    @SuppressLint("NewApi")
     private Animator getMenuItemHintTextAnimator(int id) {
         final View menuItemHintText = ((ViewGroup) getParent()).findViewById(id + 100);
         final View menuItem = ((ViewGroup) getParent()).findViewById(id);
@@ -782,7 +771,7 @@ public class FloatingActionButton extends ImageButton {
         if (menuItemHintText == null)
             return null;
 
-        float newY = getY()
+        float newY = ViewHelper.getY(this)
                      - (menuItem.getHeight() == 0 ?
                         menuItem.getMeasuredHeight() : menuItem.getHeight()) * (id + 1)
                      - 16 * getResources().getDisplayMetrics().density * (id + 1)
@@ -792,11 +781,11 @@ public class FloatingActionButton extends ImageButton {
                         menuItemHintText.getMeasuredHeight() : menuItemHintText.getHeight()) / 2.0f;
 
         AnimatorSet menuItemHintTextAnimator = new AnimatorSet();
-        menuItemHintTextAnimator.playTogether(ObjectAnimator.ofFloat(menuItemHintText, Y,
-                                                             isMenuShowing ? menuItemHintText.getY()
-                                                                           : getY(),
-                                                             isMenuShowing ? getY() : newY),
-                                      ObjectAnimator.ofFloat(menuItemHintText, ALPHA,
+        menuItemHintTextAnimator.playTogether(ObjectAnimator.ofFloat(menuItemHintText, "y",
+                                                             isMenuShowing ? ViewHelper.getY(menuItemHintText)
+                                                                           : ViewHelper.getY(this),
+                                                             isMenuShowing ? ViewHelper.getY(this) : newY),
+                                      ObjectAnimator.ofFloat(menuItemHintText, "alpha",
                                                              isMenuShowing ? 1 : 0,
                                                              isMenuShowing ? 0 : 1));
         menuItemHintTextAnimator.addListener(new Animator.AnimatorListener() {
