@@ -306,6 +306,9 @@ public class FloatingActionButton extends ImageButton {
 
     public void hide(boolean animate) {
         toggle(false, animate, false);
+        // Hide menu items if showing
+        if (isMenuShowing())
+            triggerMenu(ViewHelper.getRotation(this));
     }
 
     private void toggle(final boolean visible, final boolean animate, boolean force) {
