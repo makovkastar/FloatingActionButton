@@ -23,7 +23,7 @@ dependencies {
 }
 ```
 
-**2)** Add the ``com.melnykov.fab.FloatingActionButton`` to your layout XML file. The button should be placed in the bottom right corner of the screen. The width and height of the floating action button are hardcoded to **56dp** for the normal and **40dp** for the mini button as specified in the [guidlines].
+**2)** Add the ``com.melnykov.fab.FloatingActionButton`` to your layout XML file. The button should be placed in the bottom right corner of the screen. The width and height of the floating action button are hardcoded to **56dp** for the normal and **40dp** for the mini button as specified in the [guidelines].
 
 ```xml
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -113,7 +113,7 @@ Check the sample project to see how to use custom listeners if you need to track
    fab.setColorRipple(getResources().getColor(R.color.ripple));
    ```
 
-**5)** Set an icon for the ``FloatingActionButton`` using ``android:src`` xml attribute. Use drawables of size **24dp** as specified by [guidlines]. Icons of desired size can be generated with [Android Asset Studio].
+**5)** Set an icon for the ``FloatingActionButton`` using ``android:src`` xml attribute. Use drawables of size **24dp** as specified by [guidelines]. Icons of desired size can be generated with [Android Asset Studio].
 
 ### Changelog
 
@@ -142,7 +142,7 @@ Check the sample project to see how to use custom listeners if you need to track
 + Deleted deprecated methods.
 
 **Version 1.0.7:**
-+ Updated shadow assets to better match material design guidlines;
++ Updated shadow assets to better match material design guidelines;
 + Make ``FabOnScrollListener`` and ``FabRecyclerOnViewScrollListener`` implement ``ScrollDirectionListener`` for easier custom listeners usage.
 
 **Version 1.0.6:**
@@ -225,7 +225,7 @@ SOFTWARE.
 ```
 
 [floating action button]:http://www.google.com/design/spec/components/buttons.html#buttons-floating-action-button
-[guidlines]:http://www.google.com/design/spec/patterns/promoted-actions.html#promoted-actions-floating-action-button
+[guidelines]:http://www.google.com/design/spec/patterns/promoted-actions.html#promoted-actions-floating-action-button
 [Android Asset Studio]:http://romannurik.github.io/AndroidAssetStudio/icons-generic.html
 [Finger Gesture Launcher]:https://play.google.com/store/apps/details?id=com.carlosdelachica.finger
 [Vocabletrainer]:https://play.google.com/store/apps/details?id=com.rubengees.vocables
