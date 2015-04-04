@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
+import android.graphics.Color;
 import android.graphics.Outline;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
@@ -91,8 +92,8 @@ public class FloatingActionButton extends ImageButton {
     private void init(Context context, AttributeSet attributeSet) {
         mVisible = true;
         mColorNormal = getColor(R.color.material_blue_500);
-        mColorPressed = getColor(R.color.material_blue_600);
-        mColorRipple = getColor(android.R.color.white);
+        mColorPressed = darkenColor(mColorNormal);
+        mColorRipple = lightenColor(mColorNormal);
         mColorDisabled = getColor(android.R.color.darker_gray);
         mType = TYPE_NORMAL;
         mShadow = true;
@@ -111,9 +112,9 @@ public class FloatingActionButton extends ImageButton {
                 mColorNormal = attr.getColor(R.styleable.FloatingActionButton_fab_colorNormal,
                     getColor(R.color.material_blue_500));
                 mColorPressed = attr.getColor(R.styleable.FloatingActionButton_fab_colorPressed,
-                    getColor(R.color.material_blue_600));
+                    darkenColor(mColorNormal));
                 mColorRipple = attr.getColor(R.styleable.FloatingActionButton_fab_colorRipple,
-                    getColor(android.R.color.white));
+                    lightenColor(mColorNormal));
                 mColorDisabled = attr.getColor(R.styleable.FloatingActionButton_fab_colorDisabled,
                     mColorDisabled);
                 mShadow = attr.getBoolean(R.styleable.FloatingActionButton_fab_shadow, true);
@@ -409,6 +410,20 @@ public class FloatingActionButton extends ImageButton {
 
     private boolean hasHoneycombApi() {
         return Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB;
+    }
+
+    private static int darkenColor(int color) {
+        float[] hsv = new float[3];
+        Color.colorToHSV(color, hsv);
+        hsv[2] *= 0.9f;
+        return Color.HSVToColor(hsv);
+    }
+
+    private static int lightenColor(int color) {
+        float[] hsv = new float[3];
+        Color.colorToHSV(color, hsv);
+        hsv[2] *= 1.1f;
+        return Color.HSVToColor(hsv);
     }
 
     private class AbsListViewScrollDetectorImpl extends AbsListViewScrollDetector {
