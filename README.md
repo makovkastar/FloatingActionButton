@@ -193,6 +193,8 @@ Icon | Application
 <img src="https://lh5.ggpht.com/1-XPVeLHC3Re-IIzwQGpl4I1942YUyGoetCk5ex4VteAyKVqPanWw1N1BrvSpgrNEw=w300-rw" width="48" height="48" /> | [Just Reminder]
 <img src="https://lh6.ggpht.com/vwho8dbo-Pt5zTzVN6dPlu8Ckd7YUlnLb_0H-pX3jJUPpXCIJVJ9OBtFIovPh5WWN3qO=w300-rw" width="48" height="48" /> | [Early Notes]
 <img src="https://lh4.ggpht.com/aq2DO3JI3TJNuwGQq5tsNU5REfuuFRHpLep_GYYq9wyo7kv650dRNqfPoi5H3Z7d4g=w300-rw" width="48" height="48" /> | [Ranch - Smart Tip Calculator]
+<img src="https://lh4.ggpht.com/Ed_Bg9DLCUX-wzqOk9TC5iABpvyOvf206kSpaUY4k8RjioiFqEnp2XjazWOW1vr0vewp=w300-rw" width="48" height="48" /> | [Thiengo Calopsita]
+<img src="https://lh4.ggpht.com/VUqcWsh2BCZy45GOVo-RJSCb6rRp7xgIOOSBrgW5nARN19yrahw6cxl51wUt-Z2h7PM=w300-rw" width="48" height="48" /> | [Tinycore - CPU, RAM monitor]
 
 ### Links
 
@@ -249,3 +251,5 @@ SOFTWARE.
 [Just Reminder]:https://play.google.com/store/apps/details?id=com.cray.software.justreminder
 [Early Notes]:https://play.google.com/store/apps/details?id=com.gmail.earlynotesapp.earlynotes
 [Ranch - Smart Tip Calculator]:https://play.google.com/store/apps/details?id=com.andreifedianov.android.ranch
+[Thiengo Calopsita]:https://play.google.com/store/apps/details?id=br.thiengocalopsita
+[Tinycore - CPU, RAM monitor]:https://play.google.com/store/apps/details?id=org.neotech.app.tinycore
