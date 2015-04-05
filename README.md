@@ -169,30 +169,20 @@ Thanks to [Aidan Follestad](https://github.com/afollestad).
 
 Please [ping](mailto:makovkastar@gmail.com) me or send a pull request if you would like to be added here.
 
-Icon | Application
------------- | -------------
-<img src="https://lh4.ggpht.com/oA-y_Rnemgoii-kup0MHTU0MjB9YaogVfxFfd9hDgaBysVoe6VL1cg5iNVz2pZPCx6ss=w300-rw" width="48" height="48" /> | [Finger Gesture Launcher]
-<img src="https://lh3.ggpht.com/j5j1fbjO2xqDoI0C4eaVjpQ4K6kxPcSSwOQS_4xihRPKqUKtt5ud1Jd60MAuogyrUQ=w300-rw" width="48" height="48" /> | [Vocabletrainer]
-<img src="https://lh6.ggpht.com/Z40eE1-2KhlE_rSpErTkn8gjU1EOITxTCxNTDWY6EjCi0NAoAN0aUaQ5afmxC-EZqKs=w300-rw" width="48" height="48" /> | [Lanekeep GPS Mileage Tracker]
-<img src="https://lh6.ggpht.com/pTT1RebLeNJMH7pm9XgQtDWpm0azxOJ7dFYkZqAMT-QE1oi2OGor3qI1ZgiJze4uYvo=w300-rw" width="48" height="48" /> | [Score It]
-<img src="https://lh3.ggpht.com/M-AwKN9xIbhoAkHZWEarCasxyNYjJt2gT3HS8ScGYbJWAUi2zSQ2K_tow8lsznB4XhQ=w300-rw" width="48" height="48" /> | [Перезвони мне]
-<img src="https://lh5.ggpht.com/itn5l8TL7g7YJLi-4GlD7Sg4hI-yCZv0NX85S9l5cq8BtDHPYv60S3h3ta75Pjaerg=w300-rw" width="48" height="48" /> | [App Swap]
-<img src="https://lh6.ggpht.com/wzbvTDntUigvCBp-rZj61rhPuAIF0biycsxlOZveKA8zLKpYA9pIdqp4y0h8sYPqiA=w300-rw" width="48" height="48" /> | [QKSMS - Quick Text Messenger]
-<img src="https://lh3.ggpht.com/wWyXUUfu1Ryl0mpLGZC66XZjg5SuKppPSM4rLEMV94aLcQy_3HsxsylAyxadEPOM11c8=w300-rw" width="48" height="48" /> | [Uninstaller - Beta Version]
-<img src="https://lh3.ggpht.com/Rf4wGr902RKyQxBgaw7uBglwMw8JvjKCgDwZWXAH91GOcd1fvBAHo2nT5J-Uvszlsg=w300-rw" width="48" height="48" /> | [Device Control]
-<img src="https://lh5.ggpht.com/lXmTtP_1u48UzqLHpeMlMp12SrtUx_otPkwH917W7Z6oL7gTSMI7Xj6tr6pYC5Vv5I8=w300-rw" width="48" height="48" /> | [Confide]
-<img src="https://lh6.ggpht.com/HmBZeeZFeZ5m0AoYOK5Y2H1k8eqwa860ySNhJ_wF1AHAJlu9lxcAt8e2d8C8RWakjRY=w300-rw" width="48" height="48" /> | [Date Night]
-<img src="https://lh6.ggpht.com/3swb0k5GzAiZADacoSH14JUkWij9lj_Q78VjDEkwYRSmTY7NWV9artEoSr0Jt6Ew5gsX=w300-rw" width="48" height="48" /> | [Jair Player The Music Rainbow]
-<img src="https://lh4.ggpht.com/0VAjMOZobMCMXeyynn1qUh3rOdHjIriqtNPRC7Vkm1pUKAPtIJy1ma5Y3xmGYxWwmkA=w300-rw" width="48" height="48" /> | [Taskr - Lista de Tareas]
-<img src="https://lh4.ggpht.com/GC2GNlCoxHzFaE3SUFTMgKfUaMN32iOrEN8NqSUnQUNlIAMceaKyuYVNNo0j_k37LkM=w300-rw" width="48" height="48" /> | [Festivos: ¡Conoce el mundo!]
-<img src="https://lh6.ggpht.com/SE4n_W1LSRHucyRLHyXwM76XlLZAsUr4awEokmQyWkCTscZJiu8rJuE1ygWp2m0zKA=w300-rw" width="48" height="48" /> | [nowPaper]
-<img src="https://lh5.ggpht.com/i6rmn-yiLY97cP9X8URrbZghNEzaVRO3Un_z7vd6PGME88ViCo99g4lKas48XzNqgw=w300-rw" width="48" height="48" /> | [Vicious chain - Don't do that!]
-<img src="https://lh5.ggpht.com/ehV6oywWQw4FkXMNL8SPWCUd73oywlHJt-3b4uOI4YkH2mJgQIQADE-2Js3yupkZUUs=w300-rw" width="48" height="48" /> | [My Football Stats]
-<img src="https://lh6.ggpht.com/qFqsjsT_olw1EHU34pdZO2sYGqyPZ-2Zney-qxs7mQovP5nPXKQrk56ygQh7QF9Shvk=w300-rw" width="48" height="48" /> | [The ScoreBoard]
-<img src="https://lh3.ggpht.com/T19LngArl__MPoTa6Q4R6mstrtHBwte_iElYbIUbZ2kkinTw53Qfhcjrqb9bggsPvpk=w300-rw" width="48" height="48" /> | [NavPoint]
-<img src="https://lh5.ggpht.com/1-XPVeLHC3Re-IIzwQGpl4I1942YUyGoetCk5ex4VteAyKVqPanWw1N1BrvSpgrNEw=w300-rw" width="48" height="48" /> | [Just Reminder]
-<img src="https://lh6.ggpht.com/vwho8dbo-Pt5zTzVN6dPlu8Ckd7YUlnLb_0H-pX3jJUPpXCIJVJ9OBtFIovPh5WWN3qO=w300-rw" width="48" height="48" /> | [Early Notes]
-<img src="https://lh4.ggpht.com/aq2DO3JI3TJNuwGQq5tsNU5REfuuFRHpLep_GYYq9wyo7kv650dRNqfPoi5H3Z7d4g=w300-rw" width="48" height="48" /> | [Ranch - Smart Tip Calculator]
+Icon | Application | Icon | Application
+------------ | ------------- | ------------- | -------------
+<img src="https://lh4.ggpht.com/oA-y_Rnemgoii-kup0MHTU0MjB9YaogVfxFfd9hDgaBysVoe6VL1cg5iNVz2pZPCx6ss=w300-rw" width="48" height="48" /> | [Finger Gesture Launcher] | <img src="https://lh3.ggpht.com/j5j1fbjO2xqDoI0C4eaVjpQ4K6kxPcSSwOQS_4xihRPKqUKtt5ud1Jd60MAuogyrUQ=w300-rw" width="48" height="48" /> | [Vocabletrainer] 
+<img src="https://lh6.ggpht.com/Z40eE1-2KhlE_rSpErTkn8gjU1EOITxTCxNTDWY6EjCi0NAoAN0aUaQ5afmxC-EZqKs=w300-rw" width="48" height="48" /> | [Lanekeep GPS Mileage Tracker] | <img src="https://lh6.ggpht.com/pTT1RebLeNJMH7pm9XgQtDWpm0azxOJ7dFYkZqAMT-QE1oi2OGor3qI1ZgiJze4uYvo=w300-rw" width="48" height="48" /> | [Score It]
+<img src="https://lh3.ggpht.com/M-AwKN9xIbhoAkHZWEarCasxyNYjJt2gT3HS8ScGYbJWAUi2zSQ2K_tow8lsznB4XhQ=w300-rw" width="48" height="48" /> | [Перезвони мне] | <img src="https://lh5.ggpht.com/itn5l8TL7g7YJLi-4GlD7Sg4hI-yCZv0NX85S9l5cq8BtDHPYv60S3h3ta75Pjaerg=w300-rw" width="48" height="48" /> | [App Swap] 
+<img src="https://lh6.ggpht.com/wzbvTDntUigvCBp-rZj61rhPuAIF0biycsxlOZveKA8zLKpYA9pIdqp4y0h8sYPqiA=w300-rw" width="48" height="48" /> | [QKSMS - Quick Text Messenger] | <img src="https://lh3.ggpht.com/wWyXUUfu1Ryl0mpLGZC66XZjg5SuKppPSM4rLEMV94aLcQy_3HsxsylAyxadEPOM11c8=w300-rw" width="48" height="48" /> | [Uninstaller - Beta Version] 
+<img src="https://lh3.ggpht.com/Rf4wGr902RKyQxBgaw7uBglwMw8JvjKCgDwZWXAH91GOcd1fvBAHo2nT5J-Uvszlsg=w300-rw" width="48" height="48" /> | [Device Control] | <img src="https://lh5.ggpht.com/lXmTtP_1u48UzqLHpeMlMp12SrtUx_otPkwH917W7Z6oL7gTSMI7Xj6tr6pYC5Vv5I8=w300-rw" width="48" height="48" /> | [Confide]
+<img src="https://lh6.ggpht.com/HmBZeeZFeZ5m0AoYOK5Y2H1k8eqwa860ySNhJ_wF1AHAJlu9lxcAt8e2d8C8RWakjRY=w300-rw" width="48" height="48" /> | [Date Night] | <img src="https://lh6.ggpht.com/3swb0k5GzAiZADacoSH14JUkWij9lj_Q78VjDEkwYRSmTY7NWV9artEoSr0Jt6Ew5gsX=w300-rw" width="48" height="48" /> | [Jair Player The Music Rainbow] 
+<img src="https://lh4.ggpht.com/0VAjMOZobMCMXeyynn1qUh3rOdHjIriqtNPRC7Vkm1pUKAPtIJy1ma5Y3xmGYxWwmkA=w300-rw" width="48" height="48" /> | [Taskr - Lista de Tareas] | <img src="https://lh4.ggpht.com/GC2GNlCoxHzFaE3SUFTMgKfUaMN32iOrEN8NqSUnQUNlIAMceaKyuYVNNo0j_k37LkM=w300-rw" width="48" height="48" /> | [Festivos: ¡Conoce el mundo!] 
+<img src="https://lh6.ggpht.com/SE4n_W1LSRHucyRLHyXwM76XlLZAsUr4awEokmQyWkCTscZJiu8rJuE1ygWp2m0zKA=w300-rw" width="48" height="48" /> | [nowPaper] | <img src="https://lh5.ggpht.com/i6rmn-yiLY97cP9X8URrbZghNEzaVRO3Un_z7vd6PGME88ViCo99g4lKas48XzNqgw=w300-rw" width="48" height="48" /> | [Vicious chain - Don't do that!]
+<img src="https://lh5.ggpht.com/ehV6oywWQw4FkXMNL8SPWCUd73oywlHJt-3b4uOI4YkH2mJgQIQADE-2Js3yupkZUUs=w300-rw" width="48" height="48" /> | [My Football Stats] | <img src="https://lh6.ggpht.com/qFqsjsT_olw1EHU34pdZO2sYGqyPZ-2Zney-qxs7mQovP5nPXKQrk56ygQh7QF9Shvk=w300-rw" width="48" height="48" /> | [The ScoreBoard]
+<img src="https://lh3.ggpht.com/T19LngArl__MPoTa6Q4R6mstrtHBwte_iElYbIUbZ2kkinTw53Qfhcjrqb9bggsPvpk=w300-rw" width="48" height="48" /> | [NavPoint] | <img src="https://lh5.ggpht.com/1-XPVeLHC3Re-IIzwQGpl4I1942YUyGoetCk5ex4VteAyKVqPanWw1N1BrvSpgrNEw=w300-rw" width="48" height="48" /> | [Just Reminder] 
+<img src="https://lh6.ggpht.com/vwho8dbo-Pt5zTzVN6dPlu8Ckd7YUlnLb_0H-pX3jJUPpXCIJVJ9OBtFIovPh5WWN3qO=w300-rw" width="48" height="48" /> | [Early Notes] | <img src="https://lh4.ggpht.com/aq2DO3JI3TJNuwGQq5tsNU5REfuuFRHpLep_GYYq9wyo7kv650dRNqfPoi5H3Z7d4g=w300-rw" width="48" height="48" /> | [Ranch - Smart Tip Calculator]
+<img src="https://lh4.ggpht.com/Ed_Bg9DLCUX-wzqOk9TC5iABpvyOvf206kSpaUY4k8RjioiFqEnp2XjazWOW1vr0vewp=w300-rw" width="48" height="48" /> | [Thiengo Calopsita] | <img src="https://lh4.ggpht.com/VUqcWsh2BCZy45GOVo-RJSCb6rRp7xgIOOSBrgW5nARN19yrahw6cxl51wUt-Z2h7PM=w300-rw" width="48" height="48" /> | [Tinycore - CPU, RAM monitor] |
 
 ### Links
 
@@ -249,3 +239,5 @@ SOFTWARE.
 [Just Reminder]:https://play.google.com/store/apps/details?id=com.cray.software.justreminder
 [Early Notes]:https://play.google.com/store/apps/details?id=com.gmail.earlynotesapp.earlynotes
 [Ranch - Smart Tip Calculator]:https://play.google.com/store/apps/details?id=com.andreifedianov.android.ranch
+[Thiengo Calopsita]:https://play.google.com/store/apps/details?id=br.thiengocalopsita
+[Tinycore - CPU, RAM monitor]:https://play.google.com/store/apps/details?id=org.neotech.app.tinycore
