@@ -19,7 +19,7 @@ Android [floating action button] which reacts on scrolling events. Becomes visib
 
 ```groovy
 dependencies {
-    compile 'com.melnykov:floatingactionbutton:1.2.0'
+    compile 'com.melnykov:floatingactionbutton:1.3.0'
 }
 ```
 
@@ -116,6 +116,11 @@ Check the sample project to see how to use custom listeners if you need to track
 **5)** Set an icon for the ``FloatingActionButton`` using ``android:src`` xml attribute. Use drawables of size **24dp** as specified by [guidelines]. Icons of desired size can be generated with [Android Asset Studio].
 
 ### Changelog
+
+**Version 1.3.0**
++ Add the disabled state for the FAB (thanks to [Aleksey Malevaniy](https://github.com/almozavr));
++ Fix shadow assets. Rename shadow drawables with a prefix;
++ Generate default pressed and ripple colors (thanks to [Aidan Follestad](https://github.com/afollestad)).
 
 **Version 1.2.0**
 + Respect an elevation set manually for the FAB;
