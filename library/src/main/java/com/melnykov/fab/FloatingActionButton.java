@@ -37,6 +37,7 @@ import java.lang.annotation.RetentionPolicy;
 
 public class FloatingActionButton extends ImageButton {
     private static final int TRANSLATE_DURATION_MILLIS = 200;
+    private static final float SHADOW_SIZE_RELATIVE = 0.2f; // shadow padding relative to width / height, based on fab_shadow & fab_shadow_mini drawables.
 
     @Retention(RetentionPolicy.SOURCE)
     @IntDef({TYPE_NORMAL, TYPE_MINI})
@@ -97,12 +98,15 @@ public class FloatingActionButton extends ImageButton {
         mColorDisabled = getColor(android.R.color.darker_gray);
         mType = TYPE_NORMAL;
         mShadow = true;
+        mSize = -1;
         mScrollThreshold = getResources().getDimensionPixelOffset(R.dimen.fab_scroll_threshold);
-        mShadowSize = getDimension(R.dimen.fab_shadow_size);
-        mSize = getDefaultSize();
+
         if (attributeSet != null) {
             initAttributes(context, attributeSet);
         }
+
+        calculateSize();
+        calculateShadowSize();
         updateBackground();
     }
 
@@ -120,15 +124,28 @@ public class FloatingActionButton extends ImageButton {
                     mColorDisabled);
                 mShadow = attr.getBoolean(R.styleable.FloatingActionButton_fab_shadow, true);
                 mType = attr.getInt(R.styleable.FloatingActionButton_fab_type, TYPE_NORMAL);
-                mSize = attr.getDimensionPixelSize(R.styleable.FloatingActionButton_fab_size, mSize);
+
+                // TYPE_MINI overrides any custom size
+                if(mType == TYPE_NORMAL) {
+                    mSize = attr.getDimensionPixelSize(R.styleable.FloatingActionButton_fab_size, mSize);
+                }
             } finally {
                 attr.recycle();
             }
         }
     }
 
+    private void calculateSize() {
+        mSize = mSize == -1 ? getDefaultSize() : mSize;
+    }
+
     private int getDefaultSize() {
         return getDimension(mType == TYPE_NORMAL ? R.dimen.fab_size_normal : R.dimen.fab_size_mini);
+    }
+
+    private void calculateShadowSize() {
+        // custom shadow size for TYPE_NORMAL only, TYPE_MINI gets default shadow size
+        mShadowSize =  (mType == TYPE_NORMAL) ? (int)(SHADOW_SIZE_RELATIVE * mSize) : getDimension(R.dimen.fab_shadow_size);
     }
 
     private void updateBackground() {
