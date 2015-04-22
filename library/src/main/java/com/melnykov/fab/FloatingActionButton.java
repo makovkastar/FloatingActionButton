@@ -81,7 +81,7 @@ public class FloatingActionButton extends ImageButton {
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         int size = getDimension(
-            mType == TYPE_NORMAL ? R.dimen.fab_size_normal : R.dimen.fab_size_mini);
+                mType == TYPE_NORMAL ? R.dimen.fab_size_normal : R.dimen.fab_size_mini);
         if (mShadow && !hasLollipopApi()) {
             size += mShadowSize * 2;
             setMarginsWithoutShadow();
@@ -110,13 +110,13 @@ public class FloatingActionButton extends ImageButton {
         if (attr != null) {
             try {
                 mColorNormal = attr.getColor(R.styleable.FloatingActionButton_fab_colorNormal,
-                    getColor(R.color.material_blue_500));
+                        getColor(R.color.material_blue_500));
                 mColorPressed = attr.getColor(R.styleable.FloatingActionButton_fab_colorPressed,
-                    darkenColor(mColorNormal));
+                        darkenColor(mColorNormal));
                 mColorRipple = attr.getColor(R.styleable.FloatingActionButton_fab_colorRipple,
-                    lightenColor(mColorNormal));
+                        lightenColor(mColorNormal));
                 mColorDisabled = attr.getColor(R.styleable.FloatingActionButton_fab_colorDisabled,
-                    mColorDisabled);
+                        mColorDisabled);
                 mShadow = attr.getBoolean(R.styleable.FloatingActionButton_fab_shadow, true);
                 mType = attr.getInt(R.styleable.FloatingActionButton_fab_type, TYPE_NORMAL);
             } finally {
@@ -140,7 +140,7 @@ public class FloatingActionButton extends ImageButton {
 
         if (mShadow && !hasLollipopApi()) {
             Drawable shadowDrawable = getResources().getDrawable(mType == TYPE_NORMAL ? R.drawable.fab_shadow
-                : R.drawable.fab_shadow_mini);
+                    : R.drawable.fab_shadow_mini);
             LayerDrawable layerDrawable = new LayerDrawable(new Drawable[]{shadowDrawable, shapeDrawable});
             layerDrawable.setLayerInset(1, mShadowSize, mShadowSize, mShadowSize, mShadowSize);
             return layerDrawable;
@@ -184,18 +184,18 @@ public class FloatingActionButton extends ImageButton {
             float elevation;
             if (mShadow) {
                 elevation = getElevation() > 0.0f ? getElevation()
-                    : getDimension(R.dimen.fab_elevation_lollipop);
+                        : getDimension(R.dimen.fab_elevation_lollipop);
             } else {
                 elevation = 0.0f;
             }
             setElevation(elevation);
             RippleDrawable rippleDrawable = new RippleDrawable(new ColorStateList(new int[][]{{}},
-                new int[]{mColorRipple}), drawable, null);
+                    new int[]{mColorRipple}), drawable, null);
             setOutlineProvider(new ViewOutlineProvider() {
                 @Override
                 public void getOutline(View view, Outline outline) {
                     int size = getDimension(mType == TYPE_NORMAL ? R.dimen.fab_size_normal
-                        : R.dimen.fab_size_mini);
+                            : R.dimen.fab_size_mini);
                     outline.setOval(0, 0, size, size);
                 }
             });
@@ -329,8 +329,8 @@ public class FloatingActionButton extends ImageButton {
             int translationY = visible ? 0 : height + getMarginBottom();
             if (animate) {
                 ViewPropertyAnimator.animate(this).setInterpolator(mInterpolator)
-                    .setDuration(TRANSLATE_DURATION_MILLIS)
-                    .translationY(translationY);
+                        .setDuration(TRANSLATE_DURATION_MILLIS)
+                        .translationY(translationY);
             } else {
                 ViewHelper.setTranslationY(this, translationY);
             }
@@ -387,7 +387,7 @@ public class FloatingActionButton extends ImageButton {
         scrollDetector.setScrollDirectionListener(scrollDirectionlistener);
         scrollDetector.setOnScrollListener(onScrollListener);
         scrollDetector.setScrollThreshold(mScrollThreshold);
-        recyclerView.setOnScrollListener(scrollDetector);
+        recyclerView.addOnScrollListener(scrollDetector);
     }
 
     public void attachToScrollView(@NonNull ObservableScrollView scrollView,
