@@ -221,7 +221,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ```
 
-[floating action button]:http://www.google.com/design/spec/components/buttons.html#buttons-floating-action-button
+[floating action button]:http://www.google.com/design/spec/components/buttons-floating-action-button.html
 [guidelines]:http://www.google.com/design/spec/patterns/promoted-actions.html#promoted-actions-floating-action-button
 [Android Asset Studio]:http://romannurik.github.io/AndroidAssetStudio/icons-generic.html
 [Finger Gesture Launcher]:https://play.google.com/store/apps/details?id=com.carlosdelachica.finger
