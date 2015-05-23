@@ -189,7 +189,8 @@ Icon | Application | Icon | Application
 <img src="https://lh6.ggpht.com/vwho8dbo-Pt5zTzVN6dPlu8Ckd7YUlnLb_0H-pX3jJUPpXCIJVJ9OBtFIovPh5WWN3qO=w300-rw" width="48" height="48" /> | [Early Notes] | <img src="https://lh4.ggpht.com/aq2DO3JI3TJNuwGQq5tsNU5REfuuFRHpLep_GYYq9wyo7kv650dRNqfPoi5H3Z7d4g=w300-rw" width="48" height="48" /> | [Ranch - Smart Tip Calculator]
 <img src="https://lh4.ggpht.com/Ed_Bg9DLCUX-wzqOk9TC5iABpvyOvf206kSpaUY4k8RjioiFqEnp2XjazWOW1vr0vewp=w300-rw" width="48" height="48" /> | [Thiengo Calopsita] | <img src="https://lh4.ggpht.com/VUqcWsh2BCZy45GOVo-RJSCb6rRp7xgIOOSBrgW5nARN19yrahw6cxl51wUt-Z2h7PM=w300-rw" width="48" height="48" /> | [Tinycore - CPU, RAM monitor] |
 <img src="https://lh3.ggpht.com/TGCTXOfDdpjM9pVqRI83vIx3Tr0fGBPNC1_LdM5lUJPfwEyPvi9vwIAN5R2CasYmDvpT=w300-rw" width="48" height="48" /> | [Battery Aid Saver & Manager] | <img src="https://lh4.ggpht.com/WQQE2mgVTOVQv665IUaTmh2-kTHjsopCo9t-CAp-fTRO2qzn5odBtS7lHbXnIoQlzh8=w300-rw" width="48" height="48" /> | [GameRaven]
-<img src="https://lh5.ggpht.com/qMug_DQikDqd8nJE_sQ8wz6Ez3FjgGd_TvAtoY7cBRaPewIadf7VG1nSEqIek03Oaw=w300-rw" width="48" height="48" /> | [Polaris Office]
+<img src="https://lh5.ggpht.com/qMug_DQikDqd8nJE_sQ8wz6Ez3FjgGd_TvAtoY7cBRaPewIadf7VG1nSEqIek03Oaw=w300-rw" width="48" height="48" /> | [Polaris Office] | <img src="https://lh4.ggpht.com/8ls_IEGuhiXx-qbjGz3E2RXAbKWSOKoCReVvymWkg6cDjq3bS7Ib1fT-pdvk1lPUug=w300" width="48" height="48" /> | [Call Utils]
+<img src="https://lh3.googleusercontent.com/fqT88s0Yirnz5zBFaUfXLNUm-7FfAnCtUhSGeOSIAzb5wis6OJZq1AHQyXKO43uz8XY=w300-rw" width="48" height="48" /> | [Colorful Note]
 
 ### Links
 
@@ -251,3 +252,5 @@ SOFTWARE.
 [Battery Aid Saver & Manager]:https://play.google.com/store/apps/details?id=com.battery.plusfree
 [GameRaven]:https://play.google.com/store/apps/details?id=com.ioabsoftware.gameraven
 [Polaris Office]:https://play.google.com/store/apps/details?id=com.infraware.office.link
+[Call Utils]:https://play.google.com/store/apps/details?id=callutils.com.scimet.admin.callutils&hl=en
+[Colorful Note]:https://play.google.com/store/apps/details?id=notes.colorful
