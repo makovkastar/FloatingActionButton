@@ -26,7 +26,7 @@ dependencies {
     compile 'com.android.support:support-annotations:22.1.0'
     compile 'com.android.support:recyclerview-v7:22.1.0@aar'
     compile 'com.nineoldandroids:library:2.4.0'
-    compile 'com.android.support:support-v4:22.1.0@aar'
+    compile 'com.android.support:support-v4:22.1.1@aar'
 }
 
 apply from: 'https://raw.github.com/chrisbanes/gradle-mvn-push/master/gradle-mvn-push.gradle'
