@@ -1,5 +1,7 @@
 package com.melnykov.fab;
 
+import android.animation.AnimatorInflater;
+import android.animation.StateListAnimator;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.ColorStateList;
@@ -99,6 +101,11 @@ public class FloatingActionButton extends ImageButton {
         mShadow = true;
         mScrollThreshold = getResources().getDimensionPixelOffset(R.dimen.fab_scroll_threshold);
         mShadowSize = getDimension(R.dimen.fab_shadow_size);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            StateListAnimator stateListAnimator = AnimatorInflater.loadStateListAnimator(context,
+                    R.anim.lift_up);
+            setStateListAnimator(stateListAnimator);
+        }
         if (attributeSet != null) {
             initAttributes(context, attributeSet);
         }
