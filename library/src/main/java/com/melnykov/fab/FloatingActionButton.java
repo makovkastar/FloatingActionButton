@@ -326,13 +326,15 @@ public class FloatingActionButton extends ImageButton {
                     return;
                 }
             }
-            int translationY = visible ? 0 : height + getMarginBottom();
+
+            int scale = visible ? 0 : 1;
             if (animate) {
                 ViewPropertyAnimator.animate(this).setInterpolator(mInterpolator)
                     .setDuration(TRANSLATE_DURATION_MILLIS)
-                    .translationY(translationY);
+                    .scaleY(scale).scaleX(scale);
             } else {
-                ViewHelper.setTranslationY(this, translationY);
+                ViewHelper.setScaleX(this, scale);
+                ViewHelper.setScaleY(this, scale);
             }
 
             // On pre-Honeycomb a translated view is still clickable, so we need to disable clicks manually
