@@ -395,7 +395,7 @@ public class FloatingActionButton extends ImageButton {
         scrollDetector.setScrollDirectionListener(scrollDirectionlistener);
         scrollDetector.setOnScrollListener(onScrollListener);
         scrollDetector.setScrollThreshold(mScrollThreshold);
-        recyclerView.addOnScrollListener(scrollDetector);
+        recyclerView.setOnScrollListener(scrollDetector);
     }
 
     public void attachToScrollView(@NonNull ObservableScrollView scrollView,
