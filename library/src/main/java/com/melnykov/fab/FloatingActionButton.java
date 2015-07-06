@@ -19,6 +19,7 @@ import android.support.annotation.ColorRes;
 import android.support.annotation.DimenRes;
 import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.View;
@@ -37,6 +38,7 @@ import com.nineoldandroids.view.ViewPropertyAnimator;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
+@CoordinatorLayout.DefaultBehavior(android.support.design.widget.FabBehavior.class)
 public class FloatingActionButton extends ImageButton {
     private static final int TRANSLATE_DURATION_MILLIS = 200;
 
