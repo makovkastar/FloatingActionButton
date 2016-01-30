@@ -3,6 +3,8 @@ FloatingActionButton
 
 [![Android Arsenal](http://img.shields.io/badge/Android%20Arsenal-makovkastar%2FFloatingActionButton-brightgreen.svg?style=flat)](http://android-arsenal.com/details/1/824)
 
+[![Badge](http://www.libtastic.com/static/osbadges/20.png)](http://www.libtastic.com/technology/20/)
+
 ### Description
 
 Android [floating action button] which reacts on scrolling events. Becomes visible when an attached target is scrolled up and invisible when scrolled down.
