@@ -1,3 +1,8 @@
+DEPRECATED
+====================
+
+Use the [FloatingActionButton](https://developer.android.com/reference/android/support/design/widget/FloatingActionButton.html) from the support library instead.
+
 FloatingActionButton
 ====================
 
