@@ -24,3 +24,7 @@ local.properties
 # Gradle
 .gradle
 build/
+
+# OS Files
+.DS_Store
+.directory
