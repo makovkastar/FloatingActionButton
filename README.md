@@ -196,6 +196,7 @@ Icon | Application | Icon | Application
 <img src="https://lh3.ggpht.com/TGCTXOfDdpjM9pVqRI83vIx3Tr0fGBPNC1_LdM5lUJPfwEyPvi9vwIAN5R2CasYmDvpT=w300-rw" width="48" height="48" /> | [Battery Aid Saver & Manager] | <img src="https://lh4.ggpht.com/WQQE2mgVTOVQv665IUaTmh2-kTHjsopCo9t-CAp-fTRO2qzn5odBtS7lHbXnIoQlzh8=w300-rw" width="48" height="48" /> | [GameRaven]
 <img src="https://lh5.ggpht.com/qMug_DQikDqd8nJE_sQ8wz6Ez3FjgGd_TvAtoY7cBRaPewIadf7VG1nSEqIek03Oaw=w300-rw" width="48" height="48" /> | [Polaris Office] | <img src="https://lh4.ggpht.com/8ls_IEGuhiXx-qbjGz3E2RXAbKWSOKoCReVvymWkg6cDjq3bS7Ib1fT-pdvk1lPUug=w300" width="48" height="48" /> | [Call Utils]
 <img src="https://lh3.googleusercontent.com/fqT88s0Yirnz5zBFaUfXLNUm-7FfAnCtUhSGeOSIAzb5wis6OJZq1AHQyXKO43uz8XY=w300-rw" width="48" height="48" /> | [Colorful Note] | <img src="https://lh3.googleusercontent.com/Otw0zMoqG5GoxyrNTX2GmOArZB4_IvNfzSL0EuCjhf7lXWMi5TDlKCUOlt4Hl6QMZxtL=w300-rw" width="48" height="48" /> | [CallSticker - заметки звонка]
+<img src="https://lh3.googleusercontent.com/oGf7pFtEvi6OwLRiR75EI28bY3_AgUfS0Ci7DzuwjCla4jn5d_EIzsESRF5zJnUDXYqX=w48-rw" /> | [JustFood]
 
 ### Links
 
@@ -260,3 +261,4 @@ SOFTWARE.
 [Call Utils]:https://play.google.com/store/apps/details?id=callutils.com.scimet.admin.callutils&hl=en
 [Colorful Note]:https://play.google.com/store/apps/details?id=notes.colorful
 [CallSticker - заметки звонка]:https://play.google.com/store/apps/details?id=ru.vpsoft.callnotesticker
+[JustFood]:	    https://play.google.com/store/apps/details?id=scientist.jobless.foodmana
