@@ -24,7 +24,7 @@ Android [floating action button] which reacts on scrolling events. Becomes visib
 
 ```groovy
 dependencies {
-    compile 'com.melnykov:floatingactionbutton:1.3.0'
+    implementation 'com.melnykov:floatingactionbutton:1.3.0'
 }
 ```
 
