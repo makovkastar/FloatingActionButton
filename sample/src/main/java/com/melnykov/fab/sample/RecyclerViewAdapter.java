@@ -7,7 +7,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
+
     private final Context mContext;
+
     private final String[] mDataset;
 
     public RecyclerViewAdapter(Context context, String[] dataset) {
@@ -36,6 +38,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
+
         public TextView mTextView;
 
         public ViewHolder(TextView v) {

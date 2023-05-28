@@ -5,9 +5,13 @@ import android.view.View;
 import android.widget.AbsListView;
 
 abstract class AbsListViewScrollDetector implements AbsListView.OnScrollListener {
+
     private int mLastScrollY;
+
     private int mPreviousFirstVisibleItem;
+
     private AbsListView mListView;
+
     private int mScrollThreshold;
 
     abstract void onScrollUp();
@@ -20,7 +24,8 @@ abstract class AbsListViewScrollDetector implements AbsListView.OnScrollListener
 
     @Override
     public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-        if(totalItemCount == 0) return;
+        if (totalItemCount == 0)
+            return;
         if (isSameRow(firstVisibleItem)) {
             int newScrollY = getTopItemScrollY();
             boolean isSignificantDelta = Math.abs(mLastScrollY - newScrollY) > mScrollThreshold;
@@ -38,7 +43,6 @@ abstract class AbsListViewScrollDetector implements AbsListView.OnScrollListener
             } else {
                 onScrollDown();
             }
-
             mLastScrollY = getTopItemScrollY();
             mPreviousFirstVisibleItem = firstVisibleItem;
         }
@@ -57,7 +61,8 @@ abstract class AbsListViewScrollDetector implements AbsListView.OnScrollListener
     }
 
     private int getTopItemScrollY() {
-        if (mListView == null || mListView.getChildAt(0) == null) return 0;
+        if (mListView == null || mListView.getChildAt(0) == null)
+            return 0;
         View topChild = mListView.getChildAt(0);
         return topChild.getTop();
     }

@@ -3,6 +3,7 @@ package com.melnykov.fab;
 import android.support.v7.widget.RecyclerView;
 
 abstract class RecyclerViewScrollDetector extends RecyclerView.OnScrollListener {
+
     private int mScrollThreshold;
 
     abstract void onScrollUp();

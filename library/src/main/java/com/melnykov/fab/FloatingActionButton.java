@@ -30,31 +30,36 @@ import android.view.animation.Interpolator;
 import android.widget.AbsListView;
 import android.widget.ImageButton;
 import android.widget.ScrollView;
-
 import com.nineoldandroids.view.ViewHelper;
 import com.nineoldandroids.view.ViewPropertyAnimator;
-
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 public class FloatingActionButton extends ImageButton {
+
     private static final int TRANSLATE_DURATION_MILLIS = 200;
 
     @Retention(RetentionPolicy.SOURCE)
-    @IntDef({TYPE_NORMAL, TYPE_MINI})
+    @IntDef({ TYPE_NORMAL, TYPE_MINI })
     public @interface TYPE {
     }
 
     public static final int TYPE_NORMAL = 0;
+
     public static final int TYPE_MINI = 1;
 
     private boolean mVisible;
 
     private int mColorNormal;
+
     private int mColorPressed;
+
     private int mColorRipple;
+
     private int mColorDisabled;
+
     private boolean mShadow;
+
     private int mType;
 
     private int mShadowSize;
@@ -82,8 +87,7 @@ public class FloatingActionButton extends ImageButton {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        int size = getDimension(
-                mType == TYPE_NORMAL ? R.dimen.fab_size_normal : R.dimen.fab_size_mini);
+        int size = getDimension(mType == TYPE_NORMAL ? R.dimen.fab_size_normal : R.dimen.fab_size_mini);
         if (mShadow && !hasLollipopApi()) {
             size += mShadowSize * 2;
             setMarginsWithoutShadow();
@@ -103,8 +107,7 @@ public class FloatingActionButton extends ImageButton {
         mScrollThreshold = getResources().getDimensionPixelOffset(R.dimen.fab_scroll_threshold);
         mShadowSize = getDimension(R.dimen.fab_shadow_size);
         if (hasLollipopApi()) {
-            StateListAnimator stateListAnimator = AnimatorInflater.loadStateListAnimator(context,
-                    R.anim.fab_press_elevation);
+            StateListAnimator stateListAnimator = AnimatorInflater.loadStateListAnimator(context, R.anim.fab_press_elevation);
             setStateListAnimator(stateListAnimator);
         }
         if (attributeSet != null) {
@@ -117,14 +120,10 @@ public class FloatingActionButton extends ImageButton {
         TypedArray attr = getTypedArray(context, attributeSet, R.styleable.FloatingActionButton);
         if (attr != null) {
             try {
-                mColorNormal = attr.getColor(R.styleable.FloatingActionButton_fab_colorNormal,
-                        getColor(R.color.material_blue_500));
-                mColorPressed = attr.getColor(R.styleable.FloatingActionButton_fab_colorPressed,
-                        darkenColor(mColorNormal));
-                mColorRipple = attr.getColor(R.styleable.FloatingActionButton_fab_colorRipple,
-                        lightenColor(mColorNormal));
-                mColorDisabled = attr.getColor(R.styleable.FloatingActionButton_fab_colorDisabled,
-                        mColorDisabled);
+                mColorNormal = attr.getColor(R.styleable.FloatingActionButton_fab_colorNormal, getColor(R.color.material_blue_500));
+                mColorPressed = attr.getColor(R.styleable.FloatingActionButton_fab_colorPressed, darkenColor(mColorNormal));
+                mColorRipple = attr.getColor(R.styleable.FloatingActionButton_fab_colorRipple, lightenColor(mColorNormal));
+                mColorDisabled = attr.getColor(R.styleable.FloatingActionButton_fab_colorDisabled, mColorDisabled);
                 mShadow = attr.getBoolean(R.styleable.FloatingActionButton_fab_shadow, true);
                 mType = attr.getInt(R.styleable.FloatingActionButton_fab_type, TYPE_NORMAL);
             } finally {
@@ -135,9 +134,9 @@ public class FloatingActionButton extends ImageButton {
 
     private void updateBackground() {
         StateListDrawable drawable = new StateListDrawable();
-        drawable.addState(new int[]{android.R.attr.state_pressed}, createDrawable(mColorPressed));
-        drawable.addState(new int[]{-android.R.attr.state_enabled}, createDrawable(mColorDisabled));
-        drawable.addState(new int[]{}, createDrawable(mColorNormal));
+        drawable.addState(new int[] { android.R.attr.state_pressed }, createDrawable(mColorPressed));
+        drawable.addState(new int[] { -android.R.attr.state_enabled }, createDrawable(mColorDisabled));
+        drawable.addState(new int[] {}, createDrawable(mColorNormal));
         setBackgroundCompat(drawable);
     }
 
@@ -145,11 +144,9 @@ public class FloatingActionButton extends ImageButton {
         OvalShape ovalShape = new OvalShape();
         ShapeDrawable shapeDrawable = new ShapeDrawable(ovalShape);
         shapeDrawable.getPaint().setColor(color);
-
         if (mShadow && !hasLollipopApi()) {
-            Drawable shadowDrawable = getResources().getDrawable(mType == TYPE_NORMAL ? R.drawable.fab_shadow
-                    : R.drawable.fab_shadow_mini);
-            LayerDrawable layerDrawable = new LayerDrawable(new Drawable[]{shadowDrawable, shapeDrawable});
+            Drawable shadowDrawable = getResources().getDrawable(mType == TYPE_NORMAL ? R.drawable.fab_shadow : R.drawable.fab_shadow_mini);
+            LayerDrawable layerDrawable = new LayerDrawable(new Drawable[] { shadowDrawable, shapeDrawable });
             layerDrawable.setLayerInset(1, mShadowSize, mShadowSize, mShadowSize, mShadowSize);
             return layerDrawable;
         } else {
@@ -170,18 +167,15 @@ public class FloatingActionButton extends ImageButton {
     }
 
     private void setMarginsWithoutShadow() {
-        if (!mMarginsSet) {
-            if (getLayoutParams() instanceof ViewGroup.MarginLayoutParams) {
-                ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) getLayoutParams();
-                int leftMargin = layoutParams.leftMargin - mShadowSize;
-                int topMargin = layoutParams.topMargin - mShadowSize;
-                int rightMargin = layoutParams.rightMargin - mShadowSize;
-                int bottomMargin = layoutParams.bottomMargin - mShadowSize;
-                layoutParams.setMargins(leftMargin, topMargin, rightMargin, bottomMargin);
-
-                requestLayout();
-                mMarginsSet = true;
-            }
+        if (!mMarginsSet && getLayoutParams() instanceof ViewGroup.MarginLayoutParams) {
+            ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) getLayoutParams();
+            int leftMargin = layoutParams.leftMargin - mShadowSize;
+            int topMargin = layoutParams.topMargin - mShadowSize;
+            int rightMargin = layoutParams.rightMargin - mShadowSize;
+            int bottomMargin = layoutParams.bottomMargin - mShadowSize;
+            layoutParams.setMargins(leftMargin, topMargin, rightMargin, bottomMargin);
+            requestLayout();
+            mMarginsSet = true;
         }
     }
 
@@ -191,19 +185,17 @@ public class FloatingActionButton extends ImageButton {
         if (hasLollipopApi()) {
             float elevation;
             if (mShadow) {
-                elevation = getElevation() > 0.0f ? getElevation()
-                        : getDimension(R.dimen.fab_elevation_lollipop);
+                elevation = getElevation() > 0.0f ? getElevation() : getDimension(R.dimen.fab_elevation_lollipop);
             } else {
                 elevation = 0.0f;
             }
             setElevation(elevation);
-            RippleDrawable rippleDrawable = new RippleDrawable(new ColorStateList(new int[][]{{}},
-                    new int[]{mColorRipple}), drawable, null);
+            RippleDrawable rippleDrawable = new RippleDrawable(new ColorStateList(new int[][] { {} }, new int[] { mColorRipple }), drawable, null);
             setOutlineProvider(new ViewOutlineProvider() {
+
                 @Override
                 public void getOutline(View view, Outline outline) {
-                    int size = getDimension(mType == TYPE_NORMAL ? R.dimen.fab_size_normal
-                            : R.dimen.fab_size_mini);
+                    int size = getDimension(mType == TYPE_NORMAL ? R.dimen.fab_size_normal : R.dimen.fab_size_mini);
                     outline.setOval(0, 0, size, size);
                 }
             });
@@ -321,6 +313,7 @@ public class FloatingActionButton extends ImageButton {
                 ViewTreeObserver vto = getViewTreeObserver();
                 if (vto.isAlive()) {
                     vto.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+
                         @Override
                         public boolean onPreDraw() {
                             ViewTreeObserver currentVto = getViewTreeObserver();
@@ -336,13 +329,10 @@ public class FloatingActionButton extends ImageButton {
             }
             int translationY = visible ? 0 : height + getMarginBottom();
             if (animate) {
-                ViewPropertyAnimator.animate(this).setInterpolator(mInterpolator)
-                        .setDuration(TRANSLATE_DURATION_MILLIS)
-                        .translationY(translationY);
+                ViewPropertyAnimator.animate(this).setInterpolator(mInterpolator).setDuration(TRANSLATE_DURATION_MILLIS).translationY(translationY);
             } else {
                 ViewHelper.setTranslationY(this, translationY);
             }
-
             // On pre-Honeycomb a translated view is still clickable, so we need to disable clicks manually
             if (!hasHoneycombApi()) {
                 setClickable(visible);
@@ -354,8 +344,7 @@ public class FloatingActionButton extends ImageButton {
         attachToListView(listView, null, null);
     }
 
-    public void attachToListView(@NonNull AbsListView listView,
-                                 ScrollDirectionListener scrollDirectionListener) {
+    public void attachToListView(@NonNull AbsListView listView, ScrollDirectionListener scrollDirectionListener) {
         attachToListView(listView, scrollDirectionListener, null);
     }
 
@@ -363,8 +352,7 @@ public class FloatingActionButton extends ImageButton {
         attachToRecyclerView(recyclerView, null, null);
     }
 
-    public void attachToRecyclerView(@NonNull RecyclerView recyclerView,
-                                     ScrollDirectionListener scrollDirectionListener) {
+    public void attachToRecyclerView(@NonNull RecyclerView recyclerView, ScrollDirectionListener scrollDirectionListener) {
         attachToRecyclerView(recyclerView, scrollDirectionListener, null);
     }
 
@@ -372,14 +360,11 @@ public class FloatingActionButton extends ImageButton {
         attachToScrollView(scrollView, null, null);
     }
 
-    public void attachToScrollView(@NonNull ObservableScrollView scrollView,
-                                   ScrollDirectionListener scrollDirectionListener) {
+    public void attachToScrollView(@NonNull ObservableScrollView scrollView, ScrollDirectionListener scrollDirectionListener) {
         attachToScrollView(scrollView, scrollDirectionListener, null);
     }
 
-    public void attachToListView(@NonNull AbsListView listView,
-                                 ScrollDirectionListener scrollDirectionListener,
-                                 AbsListView.OnScrollListener onScrollListener) {
+    public void attachToListView(@NonNull AbsListView listView, ScrollDirectionListener scrollDirectionListener, AbsListView.OnScrollListener onScrollListener) {
         AbsListViewScrollDetectorImpl scrollDetector = new AbsListViewScrollDetectorImpl();
         scrollDetector.setScrollDirectionListener(scrollDirectionListener);
         scrollDetector.setOnScrollListener(onScrollListener);
@@ -388,9 +373,7 @@ public class FloatingActionButton extends ImageButton {
         listView.setOnScrollListener(scrollDetector);
     }
 
-    public void attachToRecyclerView(@NonNull RecyclerView recyclerView,
-                                     ScrollDirectionListener scrollDirectionlistener,
-                                     RecyclerView.OnScrollListener onScrollListener) {
+    public void attachToRecyclerView(@NonNull RecyclerView recyclerView, ScrollDirectionListener scrollDirectionlistener, RecyclerView.OnScrollListener onScrollListener) {
         RecyclerViewScrollDetectorImpl scrollDetector = new RecyclerViewScrollDetectorImpl();
         scrollDetector.setScrollDirectionListener(scrollDirectionlistener);
         scrollDetector.setOnScrollListener(onScrollListener);
@@ -398,9 +381,7 @@ public class FloatingActionButton extends ImageButton {
         recyclerView.addOnScrollListener(scrollDetector);
     }
 
-    public void attachToScrollView(@NonNull ObservableScrollView scrollView,
-                                   ScrollDirectionListener scrollDirectionListener,
-                                   ObservableScrollView.OnScrollChangedListener onScrollChangedListener) {
+    public void attachToScrollView(@NonNull ObservableScrollView scrollView, ScrollDirectionListener scrollDirectionListener, ObservableScrollView.OnScrollChangedListener onScrollChangedListener) {
         ScrollViewScrollDetectorImpl scrollDetector = new ScrollViewScrollDetectorImpl();
         scrollDetector.setScrollDirectionListener(scrollDirectionListener);
         scrollDetector.setOnScrollChangedListener(onScrollChangedListener);
@@ -435,7 +416,9 @@ public class FloatingActionButton extends ImageButton {
     }
 
     private class AbsListViewScrollDetectorImpl extends AbsListViewScrollDetector {
+
         private ScrollDirectionListener mScrollDirectionListener;
+
         private AbsListView.OnScrollListener mOnScrollListener;
 
         private void setScrollDirectionListener(ScrollDirectionListener scrollDirectionListener) {
@@ -463,12 +446,10 @@ public class FloatingActionButton extends ImageButton {
         }
 
         @Override
-        public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount,
-                             int totalItemCount) {
+        public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
             if (mOnScrollListener != null) {
                 mOnScrollListener.onScroll(view, firstVisibleItem, visibleItemCount, totalItemCount);
             }
-
             super.onScroll(view, firstVisibleItem, visibleItemCount, totalItemCount);
         }
 
@@ -477,13 +458,14 @@ public class FloatingActionButton extends ImageButton {
             if (mOnScrollListener != null) {
                 mOnScrollListener.onScrollStateChanged(view, scrollState);
             }
-
             super.onScrollStateChanged(view, scrollState);
         }
     }
 
     private class RecyclerViewScrollDetectorImpl extends RecyclerViewScrollDetector {
+
         private ScrollDirectionListener mScrollDirectionListener;
+
         private RecyclerView.OnScrollListener mOnScrollListener;
 
         private void setScrollDirectionListener(ScrollDirectionListener scrollDirectionListener) {
@@ -515,7 +497,6 @@ public class FloatingActionButton extends ImageButton {
             if (mOnScrollListener != null) {
                 mOnScrollListener.onScrolled(recyclerView, dx, dy);
             }
-
             super.onScrolled(recyclerView, dx, dy);
         }
 
@@ -524,12 +505,12 @@ public class FloatingActionButton extends ImageButton {
             if (mOnScrollListener != null) {
                 mOnScrollListener.onScrollStateChanged(recyclerView, newState);
             }
-
             super.onScrollStateChanged(recyclerView, newState);
         }
     }
 
     private class ScrollViewScrollDetectorImpl extends ScrollViewScrollDetector {
+
         private ScrollDirectionListener mScrollDirectionListener;
 
         private ObservableScrollView.OnScrollChangedListener mOnScrollChangedListener;
@@ -563,7 +544,6 @@ public class FloatingActionButton extends ImageButton {
             if (mOnScrollChangedListener != null) {
                 mOnScrollChangedListener.onScrollChanged(who, l, t, oldl, oldt);
             }
-
             super.onScrollChanged(who, l, t, oldl, oldt);
         }
     }
