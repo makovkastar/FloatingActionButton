@@ -3,7 +3,9 @@ package com.melnykov.fab;
 import android.widget.ScrollView;
 
 abstract class ScrollViewScrollDetector implements ObservableScrollView.OnScrollChangedListener {
+
     private int mLastScrollY;
+
     private int mScrollThreshold;
 
     abstract void onScrollUp();

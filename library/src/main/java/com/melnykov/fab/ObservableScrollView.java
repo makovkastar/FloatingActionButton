@@ -1,6 +1,5 @@
 package com.melnykov.fab;
 
-
 import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.ScrollView;
@@ -8,6 +7,7 @@ import android.widget.ScrollView;
 public class ObservableScrollView extends ScrollView {
 
     public interface OnScrollChangedListener {
+
         void onScrollChanged(ScrollView who, int l, int t, int oldl, int oldt);
     }
 

@@ -8,7 +8,9 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 public class ListViewAdapter extends BaseAdapter {
+
     private final Context mContext;
+
     private final String[] mDataset;
 
     public ListViewAdapter(Context context, String[] dataset) {
@@ -42,17 +44,16 @@ public class ListViewAdapter extends BaseAdapter {
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-
         String[] values = mDataset[position].split(",");
         String countryName = values[0];
         int flagResId = mContext.getResources().getIdentifier(values[1], "drawable", mContext.getPackageName());
         viewHolder.mTextView.setText(countryName);
         viewHolder.mTextView.setCompoundDrawablesWithIntrinsicBounds(flagResId, 0, 0, 0);
-
         return convertView;
     }
 
     private static class ViewHolder {
+
         public TextView mTextView;
     }
 }
